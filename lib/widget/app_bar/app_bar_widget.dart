@@ -19,7 +19,7 @@ class AppBarWidget extends PreferredSize {
                 children: [
                   Text.rich(TextSpan(
                     text: "Olá, ",
-                    style: AppTextStyles.title,
+                    style: AppTextStyles.titleHomeApp,
                   )
                   )
                 ],
