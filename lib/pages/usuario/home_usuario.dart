@@ -8,7 +8,7 @@ class HomeUsuario extends StatefulWidget  {
 }
 
 class _HomeUsuarioState extends State<HomeUsuario> {
-  List<String> _locations = ['Masculino', 'Feminino'];
+  List<String> _locations = ['Masculino', 'Feminino',"Não informado"];
   String _selectedLocation = '';
 
   //instancias das classes
@@ -62,8 +62,6 @@ class _HomeUsuarioState extends State<HomeUsuario> {
                                           height: 60,
                                           child:TextField(
                                             decoration: InputDecoration(
-
-                                                icon: Icon(Icons.person,color:  Color(0xFFB87333),),
                                                 hintText: 'Nickname'),style:GoogleFonts.quantico(fontSize: 17) ,
                                           )),
                                     ),
@@ -75,26 +73,24 @@ class _HomeUsuarioState extends State<HomeUsuario> {
                                         child:TextField(
                                           style:GoogleFonts.quantico(fontSize: 17),
                                           decoration: InputDecoration(
-
-                                              icon: Icon(Icons.date_range,color:  Color(0xFFB87333),),
                                               hintText: 'Idade'),
                                         ),
                                       ),),
                                     Padding(
-                                        padding: EdgeInsets.only(top: 35,left:10),
+                                        padding: EdgeInsets.only(top: 40,left:0),
                                         child: DropdownButton<String>(
                                             items: _locations.map((String val) {
                                               return DropdownMenuItem<String>(
                                                   value: val,
                                                   child:Container(
-                                                    width:268,child: Padding(padding: EdgeInsets.only(),
+                                                    width:261,child: Padding(padding: EdgeInsets.only(),
                                                     child:Text(val,style:GoogleFonts.quantico(fontSize: 15,color: Colors.black54)),),
                                                   ));
                                             }).toList(),
                                             hint: Row(
                                                 children: [
-                                                  Icon(Icons.male,color:  Color(0xFFB87333),),
-                                                  Padding(padding: EdgeInsets.only(left: 13),child:Text("Gênero")),
+
+                                                  Padding(padding: EdgeInsets.only(),child:Text("Gênero")),
                                                 ]),
                                             style:GoogleFonts.quantico(fontSize: 16),
                                             onChanged: (newValue) {
