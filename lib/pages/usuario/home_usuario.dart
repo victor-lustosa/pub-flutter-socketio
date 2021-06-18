@@ -18,24 +18,13 @@ class _HomeUsuarioState extends State<HomeUsuario> {
   // Voo voo = new Voo();
   // String valorEstado ='';
   // String valorCidade ='';
-  void carregaDados(){
 
-    // if( infra.getAeroportosPorCidadeEstado.isEmpty == true){
-    //   infra.getAeroportoPorCidadeEEstado("Palmas","Tocantins");
-    //   infra.estadoInfra = 'Tocantins';
-    //   infra.cidadeInfra = 'Palmas';
-    // }
-  }
 
   void avancar(BuildContext context){
     // Navigator.push(context, MaterialPageRoute(builder: (context) => ListaAeroportos(aeroporto: infra.vetAeroportosCidadeEstado)));
   }
   @override
   Widget build (BuildContext context) {
-    // if(infra.getAeroportos.isEmpty == true){
-    //   carregaDados();
-    // }
-
     return Material(
         child:SingleChildScrollView(
             child:Container(
@@ -115,6 +104,5 @@ class _HomeUsuarioState extends State<HomeUsuario> {
                             ],
                           )
                       )]))));
-
   }
 }
