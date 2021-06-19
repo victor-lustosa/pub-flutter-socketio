@@ -3,7 +3,8 @@ import 'dart:io';
 import 'package:pub/models/estabelecimento.dart';
 import 'package:pub/models/estabelecimento.dart';
 import 'package:flutter/material.dart';
-import 'package:pub/services/estabelecimento_service.dart';
+import 'package:pub/models/sala.dart';
+import 'package:pub/services/crud_service.dart';
 
 class ListaEstabelecimentos extends StatefulWidget {
 
@@ -12,17 +13,20 @@ class ListaEstabelecimentos extends StatefulWidget {
 }
 
 class _ListaEstabelecimentosState extends State<ListaEstabelecimentos> {
+  CrudService crud = CrudService();
   List<Estabelecimento> listaEstabelecimentos = [];
+  Sala sala = Sala();
+
 
   void _getEstabelecimentos() async{
-    new HttpClient().get('10.0.2.2', 8000, '/pubapi/estabelecimentos/-10.181149910630188/-48.3375692306857').then((HttpClientRequest request) => request.close())
-        .then((HttpClientResponse response) {
-      response.transform(utf8.decoder).listen(
-              (response){
-            setState(() {
-              List<dynamic>  lista = json.decode(response);
-              listaEstabelecimentos = lista.map((model) => Estabelecimento.with_JSON(model)).toList();
-            });});});}
+    this.crud.getAll('/pubapi/estabelecimentos/-10.181149910630188/-48.3375692306857').then((request) => request.close()).then((response) {
+      response.transform(utf8.decoder).listen((response){
+        setState(() {
+          List<dynamic>  lista = json.decode(response);
+          listaEstabelecimentos = lista.map((model) => Estabelecimento.with_JSON(model)).toList();
+        });});}
+    );
+  }
   _ListaEstabelecimentosState(){
     _getEstabelecimentos();
   }

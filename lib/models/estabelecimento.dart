@@ -11,6 +11,7 @@ class Estabelecimento {
       _latitude = json['latit'],
      _longitude = json['longit'];
 
+
   //GETTERS
   get getNome => _nome;
   get getLatitude => _latitude;
