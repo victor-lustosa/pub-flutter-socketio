@@ -1,9 +1,10 @@
 import 'dart:convert';
-import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:pub/models/estabelecimento.dart';
 import 'package:pub/models/estabelecimento.dart';
 import 'package:flutter/material.dart';
 import 'package:pub/models/sala.dart';
+import 'package:pub/services/crud_interface.dart';
 import 'package:pub/services/crud_service.dart';
 
 class ListaEstabelecimentos extends StatefulWidget {
@@ -13,20 +14,18 @@ class ListaEstabelecimentos extends StatefulWidget {
 }
 
 class _ListaEstabelecimentosState extends State<ListaEstabelecimentos> {
-  CrudService crud = CrudService();
+ CrudService crud = CrudService();
   List<Estabelecimento> listaEstabelecimentos = [];
   Sala sala = Sala();
 
 
   void _getEstabelecimentos() async{
-    this.crud.getAll('/pubapi/estabelecimentos/-10.181149910630188/-48.3375692306857').then((request) => request.close()).then((response) {
-      response.transform(utf8.decoder).listen((response){
+   this.crud.getAll('/pubapi/estabelecimentos/-10.181149910630188/-48.3375692306857').then((response){
         setState(() {
-          List<dynamic>  lista = json.decode(response);
+          List lista = response.data;
           listaEstabelecimentos = lista.map((model) => Estabelecimento.with_JSON(model)).toList();
         });});}
-    );
-  }
+
   _ListaEstabelecimentosState(){
     _getEstabelecimentos();
   }

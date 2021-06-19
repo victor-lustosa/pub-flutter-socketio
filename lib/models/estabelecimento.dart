@@ -6,11 +6,11 @@ class Estabelecimento {
   late Sala _sala;
 
   Estabelecimento();
+
   Estabelecimento.with_JSON (Map json) :
       _nome = json['nome'],
       _latitude = json['latit'],
      _longitude = json['longit'];
-
 
   //GETTERS
   get getNome => _nome;
