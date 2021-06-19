@@ -1,14 +1,17 @@
 import 'package:pub/models/sala.dart';
 class Estabelecimento {
   late String _nome;
-  late String _latitude;
-  late String _longitude;
+  late double _latitude;
+  late double _longitude;
   late Sala _sala;
 
   Estabelecimento();
-  Estabelecimento.with_parameters (this._nome, this._latitude, this._longitude, this._sala);
+  Estabelecimento.with_JSON (Map json) :
+      _nome = json['nome'],
+      _latitude = json['latit'],
+     _longitude = json['longit'];
 
-//GETTERS
+  //GETTERS
   get getNome => _nome;
   get getLatitude => _latitude;
   get getLongitude => _longitude;
@@ -16,8 +19,8 @@ class Estabelecimento {
 
 //SETTERS
   setNome(String nome) => _nome = nome;
-  setLatitude(String latitude) => _latitude = latitude;
-  setLongitude(String longitude) => _longitude = longitude;
+  setLatitude(double latitude) => _latitude = latitude;
+  setLongitude(double longitude) => _longitude = longitude;
   setSala(Sala sala) => _sala = sala;
 }
 

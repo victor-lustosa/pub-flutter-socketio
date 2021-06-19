@@ -1,34 +1,34 @@
 import 'dart:convert';
-
+import 'dart:io';
+import 'package:pub/models/estabelecimento.dart';
 import 'package:pub/models/estabelecimento.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:pub/services/estabelecimento_service.dart';
+
 class ListaEstabelecimentos extends StatefulWidget {
-  List<Estabelecimento> listaEstabelecimento;
-
-  ListaEstabelecimentos({required this.listaEstabelecimento});
-
 
   @override
   _ListaEstabelecimentosState createState() => _ListaEstabelecimentosState();
 }
 
 class _ListaEstabelecimentosState extends State<ListaEstabelecimentos> {
-  List<Estabelecimento>? get returno => null;
-  
-  void buscaLista() async{
-    http.Response response =
-    await http.get(Uri.parse('http://127.0.0.1:8000/pubapi/estabelecimentos/-10.181149910630188/-48.3375692306857'));
+  List<Estabelecimento> listaEstabelecimentos = [];
 
-    print(response.statusCode);
-    List<String>? retorno = json.decode(response.body);
-    setState(() {
-      widget.listaEstabelecimento = this.returno!;
-    });
+  void _getEstabelecimentos() async{
+    new HttpClient().get('10.0.2.2', 8000, '/pubapi/estabelecimentos/-10.181149910630188/-48.3375692306857').then((HttpClientRequest request) => request.close())
+        .then((HttpClientResponse response) {
+      response.transform(utf8.decoder).listen(
+              (response){
+            setState(() {
+              List<dynamic>  lista = json.decode(response);
+              listaEstabelecimentos = lista.map((model) => Estabelecimento.with_JSON(model)).toList();
+            });});});}
+  _ListaEstabelecimentosState(){
+    _getEstabelecimentos();
   }
   void avancar(BuildContext context, int index) {
-  // Navigator.push(context, MaterialPageRoute(builder: (context) => ListaVoos(aeroporto:aeroporto[index]),),);
-}
+    // Navigator.push(context, MaterialPageRoute(builder: (context) => ListaVoos(aeroporto:aeroporto[index]),),);
+  }
   @override
   Widget build (BuildContext context) {
     return Scaffold(
@@ -43,7 +43,7 @@ class _ListaEstabelecimentosState extends State<ListaEstabelecimentos> {
                     Row(
                       children:<Widget>[
                         Padding(padding: EdgeInsets.only(top: 22),
-                            child:Text("Aeroportos"))],
+                            child:Text("Estabelecimentos"))],
                       mainAxisAlignment: MainAxisAlignment.center,)
                     ,],))),
         body: SafeArea(
@@ -58,9 +58,9 @@ class _ListaEstabelecimentosState extends State<ListaEstabelecimentos> {
                             Expanded(
                                 child: SizedBox(
                                     child: ListView.builder(
-                                        itemCount: widget.listaEstabelecimento.length , itemBuilder: (context,index) {
+                                        itemCount: listaEstabelecimentos.length , itemBuilder: (context,index) {
                                       return ListTile(
-                                          title: widget.listaEstabelecimento[index].getNome,
+                                          title:Text(listaEstabelecimentos[index].getNome),
                                           onTap: () {
                                             avancar(context,index);
                                           });})))]))
