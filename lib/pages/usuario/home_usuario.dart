@@ -17,7 +17,7 @@ class _HomeUsuarioState extends State<HomeUsuario> {
   List<String> _generos = ['Não informado','Masculino', 'Feminino'];
   String _selectedGenero = '';
   bool selected =  false;
-
+  String _dropdownError = '';
   void avancar(BuildContext context, Usuario usuario){
     Navigator.push(context, MaterialPageRoute(builder: (context) => ListaEstabelecimentos(usuario: usuario)));
   }
@@ -132,12 +132,12 @@ class _HomeUsuarioState extends State<HomeUsuario> {
                                               autovalidateMode: AutovalidateMode.always,
                                               child: campoIdade,),),),
                                         Padding(
-                                            padding: EdgeInsets.only(top: 45),
+                                            padding: EdgeInsets.only(top: 40),
                                             child: Form(
                                               autovalidateMode: AutovalidateMode.always,
                                               child: dropdownGenero,)),
                                         Padding(
-                                          padding: EdgeInsets.only(top: 70),
+                                          padding: EdgeInsets.only(top: 75),
                                           child: Row( children: <Widget> [
                                             Padding(
                                                 padding: EdgeInsets.only(bottom: 40),child: ElevatedButton(
@@ -151,9 +151,8 @@ class _HomeUsuarioState extends State<HomeUsuario> {
                                                   }else{
                                                     this.usuario.setGenero(this._selectedGenero);
                                                   }
-                                                  if(this.usuario != null) {
                                                     avancar(context, this.usuario);
-                                                  }},
+                                                  },
                                                 child: Text("Avançar",style:GoogleFonts.quantico(fontSize: 15,color: Colors.white)),
                                                 style: ButtonStyle(
                                                   backgroundColor: MaterialStateProperty.all(Color(0xFFB87333)),
