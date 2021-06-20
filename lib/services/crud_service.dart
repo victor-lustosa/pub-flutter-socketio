@@ -9,7 +9,7 @@ class CrudService implements CrudInterface{
   CrudService();
   Dio dio = Dio();
   late Response response;
-  List<Estabelecimento> estabelecimentos = [];
+
   @override
   Future create(Object T) {
     throw UnimplementedError();

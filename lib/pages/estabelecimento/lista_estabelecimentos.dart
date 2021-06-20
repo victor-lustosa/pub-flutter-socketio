@@ -1,14 +1,12 @@
-import 'dart:convert';
-import 'package:dio/dio.dart';
-import 'package:pub/models/estabelecimento.dart';
 import 'package:pub/models/estabelecimento.dart';
 import 'package:flutter/material.dart';
 import 'package:pub/models/sala.dart';
-import 'package:pub/services/crud_interface.dart';
+import 'package:pub/models/usuario.dart';
 import 'package:pub/services/crud_service.dart';
 
 class ListaEstabelecimentos extends StatefulWidget {
-
+   Usuario usuario;
+  ListaEstabelecimentos({required this.usuario});
   @override
   _ListaEstabelecimentosState createState() => _ListaEstabelecimentosState();
 }
@@ -17,12 +15,15 @@ class _ListaEstabelecimentosState extends State<ListaEstabelecimentos> {
  CrudService crud = CrudService();
   List<Estabelecimento> listaEstabelecimentos = [];
   Sala sala = Sala();
-
+  String latitude = '-10.181149910630188';
+  String longitude = '-48.3375692306857';
+ // String latitude = '-10.2572061731958';
+ // String longitude = '-48.3252833750664';
 
   void _getEstabelecimentos() async{
-   this.crud.getAll('/pubapi/estabelecimentos/-10.181149910630188/-48.3375692306857').then((response){
-        setState(() {
+   this.crud.getAll('/pubapi/estabelecimentos/${latitude}/${longitude}').then((response){
           List lista = response.data;
+          setState(() {
           listaEstabelecimentos = lista.map((model) => Estabelecimento.with_JSON(model)).toList();
         });});}
 
@@ -30,7 +31,7 @@ class _ListaEstabelecimentosState extends State<ListaEstabelecimentos> {
     _getEstabelecimentos();
   }
   void avancar(BuildContext context, int index) {
-    // Navigator.push(context, MaterialPageRoute(builder: (context) => ListaVoos(aeroporto:aeroporto[index]),),);
+    // Navigator.push(context, MaterialPageRoute(builder: (context) => Sala(estabelecimento:estabelecimentos[index]),),);
   }
   @override
   Widget build (BuildContext context) {
