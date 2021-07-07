@@ -4,37 +4,75 @@ import 'package:pub/models/sala.dart';
 import 'package:pub/models/usuario.dart';
 import 'package:pub/services/crud_service.dart';
 
+import 'package:dio/dio.dart';
 class ListaEstabelecimentos extends StatefulWidget {
-   Usuario usuario;
-  ListaEstabelecimentos({required this.usuario});
+  Usuario usuario;
+  String latitude;
+  String longitude;
+  ListaEstabelecimentos({required this.usuario, required this.latitude, required this.longitude });
   @override
   _ListaEstabelecimentosState createState() => _ListaEstabelecimentosState();
 }
 
 class _ListaEstabelecimentosState extends State<ListaEstabelecimentos> {
- CrudService crud = CrudService();
+  CrudService crud = CrudService();
   List<Estabelecimento> listaEstabelecimentos = [];
   Sala sala = Sala();
-  String latitude = '-10.181149910630188';
-  String longitude = '-48.3375692306857';
- // String latitude = '-10.2572061731958';
- // String longitude = '-48.3252833750664';
+  Dio dio = Dio();
+  late String latitude;
+  late String longitude;
+  late Response response;
 
-  void _getEstabelecimentos() async{
-   this.crud.getAll('/pubapi/estabelecimentos/${latitude}/${longitude}').then((response){
-          List lista = response.data;
-          setState(() {
-          listaEstabelecimentos = lista.map((model) => Estabelecimento.with_JSON(model)).toList();
-        });});}
+  Future<List<Estabelecimento>> buscaAllDados() async {
+    latitude = this.widget.latitude;
+    longitude = this.widget.longitude;
+    dio.options.headers['content-Type'] = 'application/json, charset=utf-8';
+    var response = await dio.get('/pubapi/estabelecimentos/${latitude}/${longitude}');
+    List lista = response.data;
+    listaEstabelecimentos = lista.map((model) => Estabelecimento.with_JSON(model)).toList();
+    return listaEstabelecimentos;
+  }
 
-  _ListaEstabelecimentosState(){
-    _getEstabelecimentos();
-  }
-  void avancar(BuildContext context, int index) {
-    // Navigator.push(context, MaterialPageRoute(builder: (context) => Sala(estabelecimento:estabelecimentos[index]),),);
-  }
   @override
   Widget build (BuildContext context) {
+   var lista = FutureBuilder<List<Estabelecimento>>(
+        future:buscaAllDados(),
+        initialData: [],
+        builder: (context, AsyncSnapshot<List<Estabelecimento>> snapshot){
+          final List<Estabelecimento>? estabelecimentos = snapshot.data;
+
+          switch(snapshot.connectionState) {
+            case ConnectionState.none:
+              break;
+            case ConnectionState.waiting:
+              return Container(
+                  child: Center(
+                    child: CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFF422600)),),
+                  ));
+              break;
+            case ConnectionState.active:
+              break;
+            case ConnectionState.done:
+              if (!snapshot.hasData) {
+                return Container(
+                  child: Center(
+                    child: CircularProgressIndicator(  valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFF422600)),),
+                  ),
+                );
+              }
+              return ListView.builder(
+                  itemCount:  snapshot.data!.length , itemBuilder: (context,index) {
+                return ListTile(
+                    title:Text(estabelecimentos![index].getNome),
+                    onTap: () {
+                      // Navigator.push(context, MaterialPageRoute(builder: (context) => Sala(estabelecimento:estabelecimentos![index]),),);
+                    });}
+              );
+              break;
+          }
+          return Text('Unkown error');
+        });
+
     return Scaffold(
         appBar:
         PreferredSize(
@@ -61,16 +99,10 @@ class _ListaEstabelecimentosState extends State<ListaEstabelecimentos> {
                             Padding(padding: EdgeInsets.only(top: 30),),
                             Expanded(
                                 child: SizedBox(
-                                    child: ListView.builder(
-                                        itemCount: listaEstabelecimentos.length , itemBuilder: (context,index) {
-                                      return ListTile(
-                                          title:Text(listaEstabelecimentos[index].getNome),
-                                          onTap: () {
-                                            avancar(context,index);
-                                          });})))]))
+                                    child: lista))]))
                 ]
-            )
-        )
-    );
+
+    )));
+
   }
-}
+  }
