@@ -4,9 +4,9 @@ class HomeEstabelecimentosBarWidget extends PreferredSize {
 
   HomeEstabelecimentosBarWidget(String nome)
       : super(
-    preferredSize: Size.fromHeight(200),
+    preferredSize: Size.fromHeight(100),
       child:Container(
-      height: 120,
+      height: 115,
       width: double.maxFinite,
       child: Stack(
         children: <Widget> [

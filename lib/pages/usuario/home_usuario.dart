@@ -133,7 +133,7 @@ class _HomeUsuarioState extends State<HomeUsuario> {
                                 children: <Widget> [
                                   Container(
                                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                                    height: 600,
+                                    height: 500,
                                     width: double.maxFinite,
                                     child: Column(
                                       children: <Widget> [
@@ -159,7 +159,7 @@ class _HomeUsuarioState extends State<HomeUsuario> {
                                               autovalidateMode: AutovalidateMode.always,
                                               child: dropdownGenero,)),
                                         Padding(
-                                          padding: EdgeInsets.only(top: 75),
+                                          padding: EdgeInsets.only(top: 85),
                                           child: Row( children: <Widget> [
                                             Padding(
                                                 padding: EdgeInsets.only(bottom: 40),child: ElevatedButton(
