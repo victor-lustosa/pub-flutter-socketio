@@ -25,10 +25,25 @@ class AppTextStyles {
     fontSize: 25,
     // fontWeight: FontWeight.w600,
   );
+  static final TextStyle titleHomeEstabelecimentoBar = GoogleFonts.quantico(
+    color: AppColors.white,
+    fontSize: 23,
+    fontWeight: FontWeight.w500,
+  );
+  static final TextStyle titleUsuarioEstabelecimento = GoogleFonts.quantico(
+    color: AppColors.white,
+    fontSize: 15,
+    // fontWeight: FontWeight.w600,
+  );
   static final TextStyle subtitleHomeUsuarioBar = GoogleFonts.quantico(
     color: AppColors.white,
     fontSize: 17,
-    // fontWeight: FontWeight.w600,
+
+  );
+  static final TextStyle fonteLista = GoogleFonts.quantico(
+    color: Color(0xFF964B00),
+    fontSize: 18,
+
   );
 
   static final TextStyle button = GoogleFonts.quantico(
