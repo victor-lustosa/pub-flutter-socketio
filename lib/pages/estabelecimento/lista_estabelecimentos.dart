@@ -13,12 +13,14 @@ class ListaEstabelecimentos extends StatefulWidget {
   Usuario usuario;
   String latitude;
   String longitude;
+
   ListaEstabelecimentos({required this.usuario, required this.latitude, required this.longitude });
   @override
   _ListaEstabelecimentosState createState() => _ListaEstabelecimentosState();
 }
 
-class _ListaEstabelecimentosState extends State<ListaEstabelecimentos> with PortraitStatefulModeMixin<ListaEstabelecimentos> {
+class _ListaEstabelecimentosState extends State<ListaEstabelecimentos> with SingleTickerProviderStateMixin {
+  late TabController _tabController;
   CrudService crud = CrudService();
   List<Estabelecimento> listaEstabelecimentos = [];
   Sala sala = Sala();
@@ -27,8 +29,12 @@ class _ListaEstabelecimentosState extends State<ListaEstabelecimentos> with Port
   late String longitude;
   late Response response;
   @override
-  void dispose() {
-    super.dispose();
+  void initState() {
+    super.initState();
+    _tabController = TabController(
+        length: 2,
+        vsync: this
+    );
   }
   Future<List<Estabelecimento>> buscaAllDados() async {
     latitude = this.widget.latitude;
@@ -59,8 +65,23 @@ class _ListaEstabelecimentosState extends State<ListaEstabelecimentos> with Port
                           width: double.maxFinite,
                           child: Stack(
                               children: <Widget> [
+                                 TabBar(
+
+                                  indicatorWeight: 4,
+                                   labelStyle: AppTextStyles.tabsSelecionadas,  //For Selected tab
+                                   unselectedLabelStyle: AppTextStyles.tabsNaoSelecionadas,
+                                  controller: _tabController,
+                                  indicatorColor: Colors.white,
+                                   labelColor: Color(0xFF422600),
+                                   unselectedLabelColor: Colors.grey,
+                                  tabs: <Widget>[
+                                    Tab(text: "Salas disponíveis", ),
+                                    Tab(text: "Salas privadas",)
+                                  ],
+                                ),
                                 Column(
                                     children: <Widget> [
+                                      Padding( padding: EdgeInsets.only(bottom: 20)),
                                       Expanded(
                                           child: SizedBox( child:  FutureBuilder<List<Estabelecimento>>(
                                               future:buscaAllDados(),

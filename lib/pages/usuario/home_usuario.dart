@@ -133,7 +133,7 @@ class _HomeUsuarioState extends State<HomeUsuario> {
                                 children: <Widget> [
                                   Container(
                                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                                    height: 500,
+                                    height: 445,
                                     width: double.maxFinite,
                                     child: Column(
                                       children: <Widget> [
@@ -159,10 +159,10 @@ class _HomeUsuarioState extends State<HomeUsuario> {
                                               autovalidateMode: AutovalidateMode.always,
                                               child: dropdownGenero,)),
                                         Padding(
-                                          padding: EdgeInsets.only(top: 85),
+                                          padding: EdgeInsets.only(top: 95),
                                           child: Row( children: <Widget> [
                                             Padding(
-                                                padding: EdgeInsets.only(bottom: 40),child: ElevatedButton(
+                                                padding: EdgeInsets.only(bottom: 30),child: ElevatedButton(
                                                 onPressed: (){
                                                   this.usuario.setNickname(_controllerNickName.text);
                                                   idade = int.tryParse(_controllerIdade.text)!;
@@ -179,8 +179,12 @@ class _HomeUsuarioState extends State<HomeUsuario> {
                                                 },
                                                 child: Text("Avançar",style:GoogleFonts.quantico(fontSize: 15,color: Colors.white)),
                                                 style: ButtonStyle(
+                                                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                                      RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(18.0),
+                                                      )),
                                                   backgroundColor: MaterialStateProperty.all(Color(0xFFB87333)),
-                                                  padding:MaterialStateProperty.all( EdgeInsets.symmetric(horizontal: 50)),
+                                                  padding:MaterialStateProperty.all( EdgeInsets.symmetric(horizontal: 60)),
                                                 ))),],
                                             mainAxisAlignment: MainAxisAlignment.center, ),),
                                       ],

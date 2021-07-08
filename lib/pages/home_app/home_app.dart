@@ -23,7 +23,7 @@ class HomeApp extends StatelessWidget {
                   // Center ( child: Image.asset(AppImages.logo_infraero, width:250,height:250)),
                   Padding(padding: EdgeInsets.only(top: 200),
                   child: Text("Bem vindo!", style: AppTextStyles.fonte,)),
-                  Padding(padding: EdgeInsets.only(top: 260, bottom: 70),
+                  Padding(padding: EdgeInsets.only(top: 285, bottom:35),
                     child: Row(children: <Widget> [
                       ElevatedButton(
                           onPressed: (){
@@ -31,8 +31,12 @@ class HomeApp extends StatelessWidget {
                           },
                           child: Text("Vamos lá", style: AppTextStyles.button),
                           style: ButtonStyle(
+                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                )),
                             backgroundColor: MaterialStateProperty.all(Colors.white),
-                            padding:MaterialStateProperty.all( EdgeInsets.symmetric(horizontal: 50)),
+                            padding:MaterialStateProperty.all( EdgeInsets.symmetric(horizontal: 60)),
                           )),],
                       mainAxisAlignment: MainAxisAlignment.center, ),
                   )]
