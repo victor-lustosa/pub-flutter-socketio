@@ -61,17 +61,20 @@ class _ListaEstabelecimentosState extends State<ListaEstabelecimentos> with Sing
                       Container(
                           alignment: Alignment.center,
                           decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.only(topRight:Radius.circular(17),topLeft:Radius.circular(17))),
-                          height: 728,
+                          height: 725,
                           width: double.maxFinite,
                           child: Stack(
                               children: <Widget> [
                                  TabBar(
+                                   indicator: UnderlineTabIndicator(
+                                       borderSide: BorderSide(width: 1.0),
 
+                                   ),
                                   indicatorWeight: 4,
                                    labelStyle: AppTextStyles.tabsSelecionadas,  //For Selected tab
                                    unselectedLabelStyle: AppTextStyles.tabsNaoSelecionadas,
                                   controller: _tabController,
-                                  indicatorColor: Colors.white,
+                                  indicatorColor: Color(0xFF422600),
                                    labelColor: Color(0xFF422600),
                                    unselectedLabelColor: Colors.grey,
                                   tabs: <Widget>[
@@ -81,7 +84,7 @@ class _ListaEstabelecimentosState extends State<ListaEstabelecimentos> with Sing
                                 ),
                                 Column(
                                     children: <Widget> [
-                                      Padding( padding: EdgeInsets.only(bottom: 20)),
+                                      Padding( padding: EdgeInsets.only(bottom: 30)),
                                       Expanded(
                                           child: SizedBox( child:  FutureBuilder<List<Estabelecimento>>(
                                               future:buscaAllDados(),
@@ -112,7 +115,7 @@ class _ListaEstabelecimentosState extends State<ListaEstabelecimentos> with Sing
                                                         shrinkWrap: true,
                                                         itemCount:  snapshot.data!.length , itemBuilder: (context,index) {
                                                       return ListTile(
-                                                          leading: Padding(padding: EdgeInsets.only(left: 25,) ,child: Icon(Icons.location_on,size: 31, color: Color(0xFFDE6B6B))),
+                                                          leading: Padding(padding: EdgeInsets.only(left: 25,) ,child: Icon(Icons.location_on,size: 29, color: Color(0xFFDE6B6B))),
                                                           title: Padding(padding: EdgeInsets.only(left: 5,) ,child:Text(estabelecimentos![index].getNome,style: AppTextStyles.fonteLista,)),
                                                           onTap: () {
                                                             // Navigator.push(context, MaterialPageRoute(builder: (context) => Sala(estabelecimento:estabelecimentos![index]),),);
