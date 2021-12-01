@@ -16,8 +16,13 @@ class CrudService implements CrudInterface{
   }
 
   @override
-  Future getAll(dynamic obj) async {
-    dio.options.headers['content-Type'] = 'application/json, charset=utf-8';
-    return response = await dio.get(baseUrl + obj);
+  Future<List> getAll() async {
+    throw UnimplementedError();
   }
+
+  // @override
+  // Future<List<Object T>> getAll(dynamic obj) async {
+  //   dio.options.headers['content-Type'] = 'application/json, charset=utf-8';
+  //   return response = await dio.get(baseUrl + obj);
+  // }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pub/config/app_colors.dart';
 import 'package:pub/config/app_text_styles.dart';
+import 'package:google_fonts/google_fonts.dart';
 class AppBarWidget extends PreferredSize {
 
   AppBarWidget()
@@ -19,14 +21,9 @@ class AppBarWidget extends PreferredSize {
                 children: [
                   Text.rich(TextSpan(
                     text: "Olá, ",
-                    style: AppTextStyles.titleHomeApp,
-                  )
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
-     )
-  );
+                    style: GoogleFonts.inter(
+                      color: AppColors.white,
+                      fontSize: 25,
+                      // fontWeight: FontWeight.w600,
+                    )))],),),],),));
 }

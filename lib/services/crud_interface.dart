@@ -1,4 +1,4 @@
 abstract class CrudInterface<T>{
-  Future getAll(Object T);
+  Future<List<T>> getAll();
   Future create(Object T);
 }
