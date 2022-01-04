@@ -34,10 +34,13 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   google_fonts: ^2.1.0
-  dio: ^4.0.0
-  rxdart: ^0.22.1+1
+  dio: ^4.0.4
+  rxdart: 0.27.3
   location: ^4.2.0
-
+  socket_io_client: 1.0.2
+  #  dartz: 0.9.1
+#  geolocator: 6.1.1
+#  google_maps_flutter: 2.1.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

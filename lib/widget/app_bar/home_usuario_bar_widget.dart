@@ -11,7 +11,7 @@ class HomeUsuarioBarWidget extends PreferredSize {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         height: 325,
         width: double.maxFinite,
-        decoration: BoxDecoration(color: AppColors.marromEscuro ),
+        decoration: BoxDecoration(color: AppColors.marromEscuro),
         child:Column(
             children: <Widget> [
               Padding(padding: EdgeInsets.only(top: 85),

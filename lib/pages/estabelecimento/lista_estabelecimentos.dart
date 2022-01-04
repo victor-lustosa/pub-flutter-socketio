@@ -5,7 +5,6 @@ import 'package:pub/models/sala.dart';
 import 'package:pub/models/usuario.dart';
 import 'package:pub/pages/room_screen/room_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:dio/dio.dart';
 import 'package:pub/services/estabelecimento_service.dart';
 import 'package:pub/widget/app_bar/home_estabelecimentos_bar_widget.dart';
 
@@ -22,10 +21,7 @@ class ListaEstabelecimentos extends StatefulWidget {
 class _ListaEstabelecimentosState extends State<ListaEstabelecimentos> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   EstabelecimentoService service = EstabelecimentoService();
-  Sala sala = Sala();
-  Dio dio = Dio();
-  late String latitude;
-  late String longitude;
+
 
   @override
   void initState() {
@@ -38,22 +34,21 @@ class _ListaEstabelecimentosState extends State<ListaEstabelecimentos> with Sing
 
   @override
   Widget build (BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
         appBar: HomeEstabelecimentosBarWidget(
-            this.widget.usuario.getNome,
+            this.widget.usuario.getNickname,
             this._tabController
         ),
-        body:SingleChildScrollView(
-            child:Container(
+        body: SingleChildScrollView(
+            child: Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                    color:  AppColors.white
+                    color: AppColors.white
                 ),
                 child: Column(
                     children: [
-
                       SizedBox(
                           child: FutureBuilder<List<dynamic>>(
                               future: service.getAll(),
@@ -66,7 +61,7 @@ class _ListaEstabelecimentosState extends State<ListaEstabelecimentos> with Sing
                                   case ConnectionState.waiting:
                                     return Padding(
                                         padding: EdgeInsets.only(top: 30),
-                                        child:Container(
+                                        child: Container(
                                             child: Center(
                                                 child: CircularProgressIndicator(
                                                     valueColor: new AlwaysStoppedAnimation<Color>(
@@ -77,7 +72,7 @@ class _ListaEstabelecimentosState extends State<ListaEstabelecimentos> with Sing
                                     if (!snapshot.hasData) {
                                       return Padding(
                                           padding: EdgeInsets.only(top: 30),
-                                          child:Container(
+                                          child: Container(
                                               child: Center(
                                                   child: CircularProgressIndicator(
                                                       valueColor: new AlwaysStoppedAnimation<Color>(
@@ -86,8 +81,8 @@ class _ListaEstabelecimentosState extends State<ListaEstabelecimentos> with Sing
                                     return   ListView.builder(
                                         scrollDirection: Axis.vertical,
                                         shrinkWrap: true,
-                                        itemCount:  snapshot.data!.length ,
-                                        itemBuilder: (context,index) {
+                                        itemCount: snapshot.data!.length ,
+                                        itemBuilder: (context, index) {
                                           return ListTile(
                                               leading: Padding(
                                                   padding: EdgeInsets.only(left: 25) ,
@@ -96,31 +91,31 @@ class _ListaEstabelecimentosState extends State<ListaEstabelecimentos> with Sing
                                                       color: AppColors.corIconeEstabelecimento)),
                                               title: Padding(
                                                   padding: EdgeInsets.only(left: 5,) ,
-                                                  child:Text(
+                                                  child: Text(
                                                       estabelecimentos![index].getNome,
                                                       style: AppTextStyles.fonteLista)),
                                               onTap: () {
-                                                Navigator.push(context,
-                                                    MaterialPageRoute(builder:
+
+                                                Navigator.push( context,
+                                                    MaterialPageRoute( builder:
                                                         (context) => RoomScreen(
-                                                        estabelecimento:estabelecimentos[index])));});});
+                                                        estabelecimento: estabelecimentos[index],
+                                                        usuario: this.widget.usuario)
+                                                    ));});});
                                 }
                                 return Text('Unkown error');
-                              })),
-                    ]
-                )
-            )),
+                              }))]))),
         floatingActionButton: SizedBox(
-          height: 32,
-          width: 136,
-          child: FloatingActionButton.extended(
-              onPressed: () {},
-              label: Text("Visão em mapa",
-                  style:GoogleFonts.inter(
-                      fontSize: 10.5,color: Colors.white)),
-              backgroundColor: AppColors.marromClaro,
-              icon: Icon(
-                  Icons.map,size: 15,
-                  color: Colors.white))));
+            height: 32,
+            width: 136,
+            child: FloatingActionButton.extended(
+                onPressed: () {},
+                label: Text("Visão em mapa",
+                    style:GoogleFonts.inter(
+                        fontSize: 10.5,color: Colors.white)),
+                backgroundColor: AppColors.marromClaro,
+                icon: Icon(
+                    Icons.map,size: 15,
+                    color: Colors.white))));
   }
 }

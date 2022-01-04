@@ -1,4 +1,5 @@
 class Usuario {
+  late int _idUsuario;
   late String _nickname;
   late int _idade;
   late String _genero;
@@ -6,7 +7,7 @@ class Usuario {
   Usuario();
 
   //GETTERS
-  get getNome => _nickname;
+  get getNickname => _nickname;
   get getIdade => _idade;
   get getGenero => _genero;
 
