@@ -1,4 +1,4 @@
-import 'package:pub/models/usuario.dart';
+import 'package:pub/models/usuario_model.dart';
 
 class Mensagem {
   late int _idMensagem;

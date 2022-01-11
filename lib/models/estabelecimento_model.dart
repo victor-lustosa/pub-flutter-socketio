@@ -1,4 +1,4 @@
-import 'package:pub/models/sala.dart';
+import 'package:pub/models/sala_model.dart';
 class Estabelecimento {
   late String _nome;
   late double _latitude;

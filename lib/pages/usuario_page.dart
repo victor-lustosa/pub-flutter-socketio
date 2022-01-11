@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pub/config/app_colors.dart';
-import 'package:pub/models/usuario.dart';
-import 'package:pub/pages/estabelecimento/lista_estabelecimentos.dart';
+import 'package:pub/models/usuario_model.dart';
+import 'package:pub/pages/estabelecimento_page.dart';
 import 'package:pub/widget/app_bar/home_usuario_bar_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:location/location.dart';

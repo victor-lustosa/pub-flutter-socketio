@@ -2,10 +2,10 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:pub/models/estabelecimento.dart';
-import 'package:pub/models/mensagem.dart';
-import 'package:pub/models/sala.dart';
-import 'package:pub/models/usuario.dart';
+import 'package:pub/models/estabelecimento_model.dart';
+import 'package:pub/models/mensagem_model.dart';
+import 'package:pub/models/sala_model.dart';
+import 'package:pub/models/usuario_model.dart';
 
 class RoomScreen extends StatefulWidget {
   Estabelecimento estabelecimento;

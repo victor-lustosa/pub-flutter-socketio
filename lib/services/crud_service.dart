@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:pub/config/app_routes.dart';
-import 'package:pub/models/estabelecimento.dart';
+import 'package:pub/models/estabelecimento_model.dart';
 import 'package:pub/services/crud_interface.dart';
 import 'package:dio/dio.dart';
 

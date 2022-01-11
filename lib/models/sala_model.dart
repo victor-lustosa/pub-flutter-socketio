@@ -1,6 +1,6 @@
-import 'package:pub/models/usuario.dart';
+import 'package:pub/models/usuario_model.dart';
 
-import 'mensagem.dart';
+import 'mensagem_model.dart';
 class Sala {
   late int _idSala;
   late String _nome;

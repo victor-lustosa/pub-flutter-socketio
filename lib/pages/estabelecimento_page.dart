@@ -1,11 +1,12 @@
 import 'package:pub/config/app_colors.dart';
 import 'package:pub/config/app_text_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:pub/models/sala.dart';
-import 'package:pub/models/usuario.dart';
-import 'package:pub/pages/room_screen/room_screen.dart';
+
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pub/models/usuario_model.dart';
+import 'package:pub/pages/room_screen_page.dart';
 import 'package:pub/services/estabelecimento_service.dart';
+import 'package:pub/view_models/estabelecimento_view_model.dart';
 import 'package:pub/widget/app_bar/home_estabelecimentos_bar_widget.dart';
 
 class ListaEstabelecimentos extends StatefulWidget {
@@ -16,11 +17,12 @@ class ListaEstabelecimentos extends StatefulWidget {
   ListaEstabelecimentos({required this.usuario, required this.latitude, required this.longitude });
   @override
   _ListaEstabelecimentosState createState() => _ListaEstabelecimentosState();
+
 }
 
 class _ListaEstabelecimentosState extends State<ListaEstabelecimentos> with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  EstabelecimentoService service = EstabelecimentoService();
+   EstabelecimentoViewModel estabelecimentoViewModel = EstabelecimentoViewModel();
 
 
   @override
@@ -51,7 +53,7 @@ class _ListaEstabelecimentosState extends State<ListaEstabelecimentos> with Sing
                     children: [
                       SizedBox(
                           child: FutureBuilder<List<dynamic>>(
-                              future: service.getAll(),
+                              future: estabelecimentoViewModel.listaEstabelecimentos(),
                               initialData: [],
                               builder: (context, AsyncSnapshot<List<dynamic>> snapshot){
                                 final List<dynamic>? estabelecimentos = snapshot.data;
