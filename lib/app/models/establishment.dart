@@ -1,13 +1,13 @@
-import 'package:pub/models/sala_model.dart';
-class Estabelecimento {
+import 'package:pub/app/models/room.dart';
+class Establishment {
   late String _nome;
   late double _latitude;
   late double _longitude;
   late Sala _sala;
 
-  Estabelecimento();
+  Establishment();
 
-  Estabelecimento.with_JSON (Map json) :
+  Establishment.with_JSON (Map json) :
       _nome = json['nome'],
       _latitude = json['latit'],
      _longitude = json['longit'];

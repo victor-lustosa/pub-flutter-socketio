@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:pub/config/app_colors.dart';
-import 'package:pub/models/estabelecimento_model.dart';
-import 'package:pub/models/mensagem_model.dart';
-import 'package:pub/models/sala_model.dart';
-import 'package:pub/models/usuario_model.dart';
-import 'package:pub/view_models/sala_view_model.dart';
-import 'package:pub/widgets/caixa_mensagem_widget.dart';
+import 'package:pub/app/models/establishment.dart';
+import 'package:pub/app/models/user.dart';
+import 'package:pub/app/widgets/message_box_widget.dart';
 
-class SalaPage extends StatefulWidget {
-  Estabelecimento estabelecimento;
-  Usuario usuario;
-  SalaPage({required this.estabelecimento, required this.usuario });
+class RoomPage extends StatefulWidget {
+  Establishment establishment;
+  User usuario;
+  RoomPage({required this.establishment, required this.usuario });
   @override
-  _SalaPageState createState() => _SalaPageState();
+  _RoomPageState createState() => _RoomPageState();
 }
-class _SalaPageState extends State<SalaPage>  {
-
+class _RoomPageState extends State<RoomPage>  {
 
   // ScrollController _scrollController = ScrollController();
   // QuerySnapshot querySnapshot = snapshot.data;
@@ -106,7 +101,7 @@ class _SalaPageState extends State<SalaPage>  {
             //         : null),
             Padding(
               padding: EdgeInsets.only(left: 8),
-              child: Text(widget.estabelecimento.getNome,
+              child: Text(widget.establishment.getNome,
             ))
           ],
         ),
@@ -122,7 +117,7 @@ class _SalaPageState extends State<SalaPage>  {
               child: Column(
                 children: <Widget>[
                   // stream,
-                  CaixaMensagemWidget(estabelecimento: this.widget.estabelecimento, usuario: this.widget.usuario),
+                  MessageBoxWidget(establishment: this.widget.establishment, usuario: this.widget.usuario),
                 ],
               ),
             )),

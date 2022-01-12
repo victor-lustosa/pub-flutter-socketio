@@ -1,16 +1,15 @@
-import 'package:pub/config/app_colors.dart';
-import 'package:pub/config/app_text_styles.dart';
+import 'package:pub/app/config/app_colors.dart';
+import 'package:pub/app/config/app_text_styles.dart';
 import 'package:flutter/material.dart';
-
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pub/models/usuario_model.dart';
-import 'package:pub/pages/sala_page.dart';
-import 'package:pub/services/estabelecimento_service.dart';
-import 'package:pub/view_models/estabelecimento_view_model.dart';
-import '../widgets/bar_widgets/estabelecimento_bar_widget.dart';
-
+import 'package:pub/app/models/user.dart';
+import 'package:pub/app/pages/room_page.dart';
+import 'package:pub/app/repositories/establishment_repository.dart';
+import 'package:pub/app/view_models/establishment_view_model.dart';
+import '../widgets/bar_widgets/establishment_bar_widget.dart';
+import 'package:dio/dio.dart';
 class EstabelecimentoPage extends StatefulWidget {
-  Usuario usuario;
+  User usuario;
   String latitude;
   String longitude;
 
@@ -22,8 +21,8 @@ class EstabelecimentoPage extends StatefulWidget {
 
 class _EstabelecimentoPageState extends State<EstabelecimentoPage> with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  EstabelecimentoViewModel estabelecimentoViewModel = EstabelecimentoViewModel();
-  late List<dynamic> estabelecimentos;
+  EstablishmentViewModel _estabelecimentoViewModel = EstablishmentViewModel(DioEstablishmentRepository(Dio()));
+  late List<dynamic> _estabelecimentos;
 
   @override
   void initState() {
@@ -37,7 +36,7 @@ class _EstabelecimentoPageState extends State<EstabelecimentoPage> with SingleTi
   @override
   Widget build (BuildContext context) {
     return Scaffold(
-        appBar: HomeEstabelecimentosBarWidget(
+        appBar: EstablishmentBarWidget(
             this.widget.usuario.getNickname,
             this._tabController
         ),
@@ -53,8 +52,7 @@ class _EstabelecimentoPageState extends State<EstabelecimentoPage> with SingleTi
                     children: [
                       SizedBox(
                           child: FutureBuilder<List<dynamic>>(
-                              future: estabelecimentoViewModel.listaEstabelecimentos(
-                                  EstabelecimentoService(),'-10.257615194551102','-48.325213882543736'),
+                              future: _estabelecimentoViewModel.listaEstabelecimentos('-10.257615194551102','-48.325213882543736'),
                               initialData: [],
                               builder: (context, AsyncSnapshot<List<dynamic>> snapshot){
                                 switch(snapshot.connectionState) {
@@ -88,7 +86,7 @@ class _EstabelecimentoPageState extends State<EstabelecimentoPage> with SingleTi
                                           )
                                       );
                                     }
-                                    estabelecimentos = snapshot.data!;
+                                    _estabelecimentos = snapshot.data!;
                                     return   ListView.builder(
                                         scrollDirection: Axis.vertical,
                                         shrinkWrap: true,
@@ -104,15 +102,15 @@ class _EstabelecimentoPageState extends State<EstabelecimentoPage> with SingleTi
                                               title: Padding(
                                                   padding: EdgeInsets.only(left: 5,) ,
                                                   child: Text(
-                                                      estabelecimentos[index].getNome,
+                                                      _estabelecimentos[index].getNome,
                                                       style: AppTextStyles.fonteLista)
                                               ),
                                               onTap: () {
 
                                                 Navigator.push( context,
                                                     MaterialPageRoute( builder:
-                                                        (context) => SalaPage(
-                                                        estabelecimento: estabelecimentos[index],
+                                                        (context) => RoomPage(
+                                                        establishment: _estabelecimentos[index],
                                                         usuario: this.widget.usuario)
                                                     )
                                                 );

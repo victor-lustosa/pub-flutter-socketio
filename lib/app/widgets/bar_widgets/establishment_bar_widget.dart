@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:pub/config/app_colors.dart';
+import 'package:pub/app/config/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pub/config/app_text_styles.dart';
-class HomeEstabelecimentosBarWidget extends PreferredSize {
+import 'package:pub/app/config/app_text_styles.dart';
+class EstablishmentBarWidget extends PreferredSize {
 
-  HomeEstabelecimentosBarWidget(String nome, TabController _tabController)
+  EstablishmentBarWidget(String nome, TabController _tabController)
       : super(
     preferredSize: Size.fromHeight(115),
     child:Container(

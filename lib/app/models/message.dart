@@ -1,13 +1,13 @@
-import 'package:pub/models/usuario_model.dart';
+import 'package:pub/app/models/user.dart';
 
-class Mensagem {
+class Message {
   late int _idMensagem;
   late DateTime _dataEnvio;
   late String _textoMensagem;
-  late Usuario _usuario;
+  late User _usuario;
 
-  Mensagem();
-  Mensagem.with_parameters(this._usuario);
+  Message();
+  Message.with_parameters(this._usuario);
 
 
   //GETTERS
@@ -17,7 +17,7 @@ class Mensagem {
   get getId => _idMensagem;
 
 //SETTERS
-  setUsuario(Usuario usuario) => _usuario = usuario;
+  setUsuario(User usuario) => _usuario = usuario;
   setId(int idMensagem) => _idMensagem = idMensagem;
   setDataEnvio(DateTime dataEnvio) => _dataEnvio = dataEnvio;
   setTextoMensagem(String textoMensagem) => _textoMensagem = textoMensagem;

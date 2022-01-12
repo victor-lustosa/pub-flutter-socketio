@@ -1,31 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:pub/config/app_colors.dart';
-import 'package:pub/models/usuario_model.dart';
-import 'package:pub/pages/estabelecimento_page.dart';
-import 'package:pub/view_models/usuario_view_model.dart';
-import 'package:pub/widgets/campo_formulario_widget.dart';
-import 'package:pub/widgets/bar_widgets/usuario_bar_widget.dart';
+import 'package:pub/app/config/app_colors.dart';
+import 'package:pub/app/models/user.dart';
+import 'package:pub/app/pages/establishment_page.dart';
+import 'package:pub/app/view_models/user_view_model.dart';
+import 'package:pub/app/widgets/form_field_widget.dart';
+import 'package:pub/app/widgets/bar_widgets/user_bar_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pub/widgets/dropdown_widget.dart';
-
-class UsuarioPage extends StatefulWidget  {
-  _UsuarioPageState createState() => _UsuarioPageState();
+import 'package:pub/app/widgets/dropdown_widget.dart';
+import 'package:location/location.dart';
+class UserPage extends StatefulWidget  {
+  _UserPageState createState() => _UserPageState();
 }
 
-class _UsuarioPageState extends State<UsuarioPage> {
+class _UserPageState extends State<UserPage> {
 
-  _UsuarioPageState(){
+  _UserPageState(){
     _usu.verificaLocalizacao();
   }
 
   TextEditingController _controllerNickName = TextEditingController();
   TextEditingController _controllerIdade = TextEditingController();
-  UsuarioViewModel _usu = UsuarioViewModel();
+  UserViewModel _usu = UserViewModel(Location(), User());
 
   List<String> _generos = ['Não informado','Masculino', 'Feminino'];
   String _selectedGenero = '';
-  bool selected =  false;
-  String _dropdownError = '';
 
   late String _latitude;
   late String _longitude;
@@ -41,7 +39,7 @@ class _UsuarioPageState extends State<UsuarioPage> {
             }
           },
         child: Scaffold(
-            appBar:  UsuarioBarWidget(),
+            appBar:  UserBarWidget(),
             body: SingleChildScrollView(
                 child:Container(
                     alignment: Alignment.center,
@@ -53,14 +51,14 @@ class _UsuarioPageState extends State<UsuarioPage> {
                         children: <Widget> [
                           Padding(
                               padding: EdgeInsets.only(top: 40),
-                              child:  CampoFormularioWidget(
+                              child:  FormFieldWidget(
                                       controllerCampoFormulario :_controllerNickName,
                                       nome: 'nickname',
                                       mensagem: 'digite seu nickname')
                               ),
                           Padding(
                               padding: EdgeInsets.only(top: 25),
-                              child:  CampoFormularioWidget(
+                              child:  FormFieldWidget(
                                       controllerCampoFormulario :_controllerIdade,
                                       nome: 'idade',
                                       mensagem: 'digite sua idade')
@@ -80,7 +78,7 @@ class _UsuarioPageState extends State<UsuarioPage> {
                             padding: EdgeInsets.only(top: 85),
                             child: ElevatedButton(
                                 onPressed: (){
-                                  Usuario usuario = _usu.validaUsuario(_controllerNickName, _controllerIdade, _selectedGenero, _generos);
+                                  User usuario = _usu.validaUsuario(_controllerNickName, _controllerIdade, _selectedGenero, _generos);
                                   this._latitude = _usu.locationData.latitude.toString();
                                   this._longitude = _usu.locationData.longitude.toString();
                                   Navigator.push(context, MaterialPageRoute(

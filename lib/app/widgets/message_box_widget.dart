@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:pub/config/app_colors.dart';
-import 'package:pub/config/app_text_styles.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:pub/models/estabelecimento_model.dart';
-import 'package:pub/models/mensagem_model.dart';
-import 'package:pub/models/usuario_model.dart';
-import 'package:pub/view_models/sala_view_model.dart';
-class CaixaMensagemWidget extends StatelessWidget{
-  Estabelecimento estabelecimento;
-  Usuario usuario;
+import 'package:pub/app/config/app_colors.dart';
+import 'package:pub/app/models/establishment.dart';
+import 'package:pub/app/models/message.dart';
+import 'package:pub/app/models/user.dart';
+import 'package:pub/app/view_models/room_view_model.dart';
 
-  CaixaMensagemWidget({required this.estabelecimento, required this.usuario });
+class MessageBoxWidget extends StatelessWidget{
+  Establishment establishment;
+  User usuario;
+
+  MessageBoxWidget({required this.establishment, required this.usuario });
 
   TextEditingController _controllerMensagem = TextEditingController();
-  SalaViewModel _salaViewModel = SalaViewModel();
+  RoomViewModel _salaViewModel = RoomViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +46,9 @@ class CaixaMensagemWidget extends StatelessWidget{
                   color: Colors.white,
                 ),
                 mini: true,
-                onPressed: _salaViewModel.enviarMensagem(this.estabelecimento,
+                onPressed: _salaViewModel.enviarMensagem(this.establishment,
                     _controllerMensagem.text,
-                    Mensagem(),
+                    Message(),
                     this.usuario),
               )
             ],

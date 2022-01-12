@@ -1,15 +1,15 @@
 
-import 'package:pub/services/interface_service.dart';
+import 'package:pub/app/repositories/repository.dart';
 import 'package:dio/dio.dart';
 
-abstract class  CrudService implements InterfaceService{
+abstract class  CrudRepository<T> implements Repository{
 
   @override
   Future create(Object T) {
     throw UnimplementedError();
   }
 
-  Future<List> getAll(Dio dio) async {
+  Future<List> getAll(Object T) async {
 
     throw UnimplementedError();
   }

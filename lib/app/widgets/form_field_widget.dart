@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:pub/config/app_colors.dart';
-import 'package:pub/config/app_text_styles.dart';
+import 'package:pub/app/config/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pub/models/estabelecimento_model.dart';
-import 'package:pub/models/mensagem_model.dart';
-import 'package:pub/models/usuario_model.dart';
-import 'package:pub/view_models/sala_view_model.dart';
-class CampoFormularioWidget extends StatelessWidget{
 
-  CampoFormularioWidget({required this.controllerCampoFormulario, required this.nome, required this.mensagem});
+class FormFieldWidget extends StatelessWidget{
+
+  FormFieldWidget({required this.controllerCampoFormulario, required this.nome, required this.mensagem});
 
   TextEditingController controllerCampoFormulario;
 

@@ -1,18 +1,18 @@
-import 'package:pub/models/usuario_model.dart';
+import 'package:pub/app/models/user.dart';
 
-import 'mensagem_model.dart';
+import 'message.dart';
 class Sala {
   late int _idSala;
   late String _nome;
   late String _icone;
   late bool _publica;
-  late List<Usuario> _listUsuario;
-  late Mensagem _mensagem;
+  late List<User> _listUsuario;
+  late Message _mensagem;
 
   Sala();
   Sala.with_parameters(this._nome, this._listUsuario);
 
-  void insereUsuario(Usuario usuario) {
+  void insereUsuario(User usuario) {
     getListUsuario.add(usuario);
   }
 
@@ -26,8 +26,8 @@ class Sala {
 
 //SETTERS
   setNome(String nome) => _nome = nome;
-  setUsuario(List<Usuario> listUsuario) => _listUsuario = listUsuario;
-  setMensagem(Mensagem mensagem) => _mensagem = mensagem;
+  setUsuario(List<User> listUsuario) => _listUsuario = listUsuario;
+  setMensagem(Message mensagem) => _mensagem = mensagem;
   setIcone(String icone) => _icone = icone;
   setIdSala(int value) => _idSala = value;
   setPublica(bool publica) => _publica = publica;

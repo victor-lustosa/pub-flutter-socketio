@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pub/config/app_colors.dart';
-import 'package:pub/config/app_text_styles.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pub/models/estabelecimento_model.dart';
-import 'package:pub/models/mensagem_model.dart';
-import 'package:pub/models/usuario_model.dart';
-import 'package:pub/view_models/sala_view_model.dart';
+
 class DropdownWidget extends StatefulWidget{
 
   DropdownWidget({required this.lista, required this.callback, required this.nome});
