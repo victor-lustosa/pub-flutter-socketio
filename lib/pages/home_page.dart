@@ -4,12 +4,12 @@ import 'package:pub/config/app_text_styles.dart';
 import 'package:pub/models/usuario_model.dart';
 import 'package:pub/pages/usuario_page.dart';
 
-class HomeApp extends StatelessWidget {
+class HomePage extends StatelessWidget {
 
   void avancar(BuildContext context){
     Navigator.push(context,
         MaterialPageRoute(
-            builder: (context) => HomeUsuario()));
+            builder: (context) => UsuarioPage()));
   }
 
   @override

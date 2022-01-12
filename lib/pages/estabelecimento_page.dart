@@ -4,26 +4,26 @@ import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pub/models/usuario_model.dart';
-import 'package:pub/pages/room_screen_page.dart';
+import 'package:pub/pages/sala_page.dart';
 import 'package:pub/services/estabelecimento_service.dart';
 import 'package:pub/view_models/estabelecimento_view_model.dart';
-import 'package:pub/widget/app_bar/home_estabelecimentos_bar_widget.dart';
+import '../widgets/bar_widgets/estabelecimento_bar_widget.dart';
 
-class ListaEstabelecimentos extends StatefulWidget {
+class EstabelecimentoPage extends StatefulWidget {
   Usuario usuario;
   String latitude;
   String longitude;
 
-  ListaEstabelecimentos({required this.usuario, required this.latitude, required this.longitude });
+  EstabelecimentoPage({required this.usuario, required this.latitude, required this.longitude });
   @override
-  _ListaEstabelecimentosState createState() => _ListaEstabelecimentosState();
+  _EstabelecimentoPageState createState() => _EstabelecimentoPageState();
 
 }
 
-class _ListaEstabelecimentosState extends State<ListaEstabelecimentos> with SingleTickerProviderStateMixin {
+class _EstabelecimentoPageState extends State<EstabelecimentoPage> with SingleTickerProviderStateMixin {
   late TabController _tabController;
-   EstabelecimentoViewModel estabelecimentoViewModel = EstabelecimentoViewModel();
-
+  EstabelecimentoViewModel estabelecimentoViewModel = EstabelecimentoViewModel();
+  late List<dynamic> estabelecimentos;
 
   @override
   void initState() {
@@ -53,10 +53,10 @@ class _ListaEstabelecimentosState extends State<ListaEstabelecimentos> with Sing
                     children: [
                       SizedBox(
                           child: FutureBuilder<List<dynamic>>(
-                              future: estabelecimentoViewModel.listaEstabelecimentos(),
+                              future: estabelecimentoViewModel.listaEstabelecimentos(
+                                  EstabelecimentoService(),'-10.257615194551102','-48.325213882543736'),
                               initialData: [],
                               builder: (context, AsyncSnapshot<List<dynamic>> snapshot){
-                                final List<dynamic>? estabelecimentos = snapshot.data;
                                 switch(snapshot.connectionState) {
                                   case ConnectionState.none:
                                     break;
@@ -67,7 +67,11 @@ class _ListaEstabelecimentosState extends State<ListaEstabelecimentos> with Sing
                                             child: Center(
                                                 child: CircularProgressIndicator(
                                                     valueColor: new AlwaysStoppedAnimation<Color>(
-                                                        AppColors.marromEscuro)))));
+                                                        AppColors.marromEscuro)
+                                                )
+                                            )
+                                        )
+                                    );
                                   case ConnectionState.active:
                                     break;
                                   case ConnectionState.done:
@@ -78,8 +82,13 @@ class _ListaEstabelecimentosState extends State<ListaEstabelecimentos> with Sing
                                               child: Center(
                                                   child: CircularProgressIndicator(
                                                       valueColor: new AlwaysStoppedAnimation<Color>(
-                                                          AppColors.marromEscuro)))));
+                                                          AppColors.marromEscuro)
+                                                  )
+                                              )
+                                          )
+                                      );
                                     }
+                                    estabelecimentos = snapshot.data!;
                                     return   ListView.builder(
                                         scrollDirection: Axis.vertical,
                                         shrinkWrap: true,
@@ -90,23 +99,36 @@ class _ListaEstabelecimentosState extends State<ListaEstabelecimentos> with Sing
                                                   padding: EdgeInsets.only(left: 25) ,
                                                   child: Icon(
                                                       Icons.location_on,size: 29,
-                                                      color: AppColors.corIconeEstabelecimento)),
+                                                      color: AppColors.corIconeEstabelecimento)
+                                              ),
                                               title: Padding(
                                                   padding: EdgeInsets.only(left: 5,) ,
                                                   child: Text(
-                                                      estabelecimentos![index].getNome,
-                                                      style: AppTextStyles.fonteLista)),
+                                                      estabelecimentos[index].getNome,
+                                                      style: AppTextStyles.fonteLista)
+                                              ),
                                               onTap: () {
 
                                                 Navigator.push( context,
                                                     MaterialPageRoute( builder:
-                                                        (context) => RoomScreen(
+                                                        (context) => SalaPage(
                                                         estabelecimento: estabelecimentos[index],
                                                         usuario: this.widget.usuario)
-                                                    ));});});
+                                                    )
+                                                );
+                                              }
+                                          );
+                                        }
+                                    );
                                 }
                                 return Text('Unkown error');
-                              }))]))),
+                              }
+                          )
+                      )
+                    ]
+                )
+            )
+        ),
         floatingActionButton: SizedBox(
             height: 32,
             width: 136,
@@ -114,10 +136,14 @@ class _ListaEstabelecimentosState extends State<ListaEstabelecimentos> with Sing
                 onPressed: () {},
                 label: Text("Visão em mapa",
                     style:GoogleFonts.inter(
-                        fontSize: 10.5,color: Colors.white)),
+                        fontSize: 10.5,color: Colors.white)
+                ),
                 backgroundColor: AppColors.marromClaro,
                 icon: Icon(
                     Icons.map,size: 15,
-                    color: Colors.white))));
+                    color: Colors.white)
+            )
+        )
+    );
   }
 }

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 /// Forces portrait-only mode application-wide
-/// Use this Mixin on the main app widget i.e. app.Dart
-/// Flutter's 'App' has to extend Stateless widget.
+/// Use this Mixin on the main app widgets i.e. app.Dart
+/// Flutter's 'App' has to extend Stateless widgets.
 ///
 /// Call `super.build(context)` in the main build() method
 /// to enable portrait only mode

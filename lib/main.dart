@@ -6,7 +6,7 @@ void main() {
       MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Pub',
-          home: HomeApp()
+          home: HomePage()
       )
   );
 }

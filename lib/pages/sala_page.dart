@@ -1,74 +1,30 @@
-import 'dart:async';
-import 'dart:developer';
-import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:pub/config/app_colors.dart';
 import 'package:pub/models/estabelecimento_model.dart';
 import 'package:pub/models/mensagem_model.dart';
 import 'package:pub/models/sala_model.dart';
 import 'package:pub/models/usuario_model.dart';
+import 'package:pub/view_models/sala_view_model.dart';
+import 'package:pub/widgets/caixa_mensagem_widget.dart';
 
-class RoomScreen extends StatefulWidget {
+class SalaPage extends StatefulWidget {
   Estabelecimento estabelecimento;
   Usuario usuario;
-  RoomScreen({required this.estabelecimento, required this.usuario });
+  SalaPage({required this.estabelecimento, required this.usuario });
   @override
-  _RoomScreenState createState() => _RoomScreenState();
+  _SalaPageState createState() => _SalaPageState();
 }
-class _RoomScreenState extends State<RoomScreen>  {
-  Sala sala = Sala();
-  TextEditingController _controllerMensagem = TextEditingController();
-  ScrollController _scrollController = ScrollController();
-  // QuerySnapshot querySnapshot = snapshot.data;
+class _SalaPageState extends State<SalaPage>  {
 
+
+  // ScrollController _scrollController = ScrollController();
+  // QuerySnapshot querySnapshot = snapshot.data;
   // final _controller = StreamController<QuerySnapshot>.broadcast();
-  _enviarMensagem() {
-    String textoMensagem = _controllerMensagem.text;
-    if (textoMensagem.isNotEmpty) {
-      sala.getMensagem(Mensagem());
-      sala.getMensagem().setUsuario(this.widget.usuario.getNickname());
-      sala.getMensagem().setTextoMensagem(textoMensagem);
-      sala.getMensagem().setDataEnvio(DateTime.now());
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
 
-    var caixaMensagem = Container(
-      padding: EdgeInsets.all(8),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(right: 8),
-              child: TextField(
-                controller: _controllerMensagem,
-                autofocus: true,
-                keyboardType: TextInputType.text,
-                style: TextStyle(fontSize: 20),
-                decoration: InputDecoration(
-                    contentPadding: EdgeInsets.fromLTRB(32, 8, 32, 8),
-                    hintText: "Digite uma mensagem...",
-                    filled: true,
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(32))
-                ),
-              ),
-            ),
-          ),
-        FloatingActionButton(
-            backgroundColor: Color(0xff075E54),
-            child: Icon(
-              Icons.send,
-              color: Colors.white,
-            ),
-            mini: true,
-            onPressed: _enviarMensagem,
-          )
-        ],
-      ),
-    );
+
 
     // var stream = StreamBuilder(
     //   stream: _controller.stream,
@@ -150,7 +106,7 @@ class _RoomScreenState extends State<RoomScreen>  {
             //         : null),
             Padding(
               padding: EdgeInsets.only(left: 8),
-              child: Text(widget.usuario.getNickname,
+              child: Text(widget.estabelecimento.getNome,
             ))
           ],
         ),
@@ -166,7 +122,7 @@ class _RoomScreenState extends State<RoomScreen>  {
               child: Column(
                 children: <Widget>[
                   // stream,
-                  caixaMensagem,
+                  CaixaMensagemWidget(estabelecimento: this.widget.estabelecimento, usuario: this.widget.usuario),
                 ],
               ),
             )),

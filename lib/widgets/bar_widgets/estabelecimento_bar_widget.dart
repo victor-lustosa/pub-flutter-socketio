@@ -6,14 +6,11 @@ class HomeEstabelecimentosBarWidget extends PreferredSize {
 
   HomeEstabelecimentosBarWidget(String nome, TabController _tabController)
       : super(
-
     preferredSize: Size.fromHeight(115),
     child:Container(
         height: 115,
         width: double.maxFinite,
-        child: Stack(
-          children: <Widget> [
-            Container(
+        child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 height: 120,
                 width: double.maxFinite,
@@ -26,13 +23,18 @@ class HomeEstabelecimentosBarWidget extends PreferredSize {
                                 color: AppColors.white,
                                 fontSize: 20,
                                 fontWeight: FontWeight.w500,
-                              ))),
+                              )
+                          )
+                      ),
                       Padding(padding: EdgeInsets.only(right: 240,),
                           child: Text(nome,
                               style: GoogleFonts.inter(
                                 color: AppColors.white,
                                 fontSize: 15, // fontWeight: FontWeight.w600,
-                              ))),TabBar(
+                              )
+                          )
+                      ),
+                      TabBar(
                           indicator: UnderlineTabIndicator(),
                           indicatorWeight: 0,
                           labelStyle: AppTextStyles.tabsSelecionadas,  //For Selected tab
@@ -44,6 +46,11 @@ class HomeEstabelecimentosBarWidget extends PreferredSize {
                           tabs: <Widget>[
                             Tab(text: "Salas disponíveis", ),
                             Tab(text: "Salas privadas",)
-                          ]),
-                    ])),])),);
+                          ]
+                      ),
+                    ]
+                )
+        ),
+    )
+  );
 }

@@ -1,22 +1,16 @@
-import 'dart:convert';
 
-import 'package:pub/config/app_routes.dart';
-import 'package:pub/models/estabelecimento_model.dart';
-import 'package:pub/services/crud_interface.dart';
+import 'package:pub/services/interface_service.dart';
 import 'package:dio/dio.dart';
 
-class CrudService implements CrudInterface{
-  CrudService();
-  Dio dio = Dio();
-  late Response response;
+abstract class  CrudService implements InterfaceService{
 
   @override
   Future create(Object T) {
     throw UnimplementedError();
   }
 
-  @override
-  Future<List> getAll() async {
+  Future<List> getAll(Dio dio) async {
+
     throw UnimplementedError();
   }
 
