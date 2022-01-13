@@ -10,11 +10,11 @@ class AppTextStyles {
     // fontWeight: FontWeight.w600,
   );
   static final TextStyle tabsSelecionadas = GoogleFonts.inter(
-    fontSize: 15,
+    fontSize: 13,
     // fontWeight: FontWeight.w600,
   );
   static final TextStyle tabsNaoSelecionadas = GoogleFonts.inter(
-    fontSize: 15,
+    fontSize: 13,
     // fontWeight: FontWeight.w600,
   );
   static final TextStyle titleHomeApp = GoogleFonts.inter(

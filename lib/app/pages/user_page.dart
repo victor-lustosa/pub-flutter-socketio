@@ -50,14 +50,14 @@ class _UserPageState extends State<UserPage> {
                     child: Column(
                         children: <Widget> [
                           Padding(
-                              padding: EdgeInsets.only(top: 40),
+                              padding: EdgeInsets.only(top: 60),
                               child:  FormFieldWidget(
                                       controllerCampoFormulario :_controllerNickName,
                                       nome: 'nickname',
                                       mensagem: 'digite seu nickname')
                               ),
                           Padding(
-                              padding: EdgeInsets.only(top: 25),
+                              padding: EdgeInsets.only(top: 28),
                               child:  FormFieldWidget(
                                       controllerCampoFormulario :_controllerIdade,
                                       nome: 'idade',
@@ -65,7 +65,20 @@ class _UserPageState extends State<UserPage> {
 
                           ),
                           Padding(
-                              padding: EdgeInsets.only(top: 40),
+                              padding: EdgeInsets.only(top: 28),
+                              child:Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10),
+                                          bottomRight: Radius.circular(10),
+                                          topLeft: Radius.circular(10),
+                                          topRight: Radius.circular(10)),
+                                    border: new Border.all(
+                                        color: Colors.black12,
+                                        width: 1.0,
+                                        style: BorderStyle.solid
+                                    ),
+                                  ), width: 280, height: 38,
                               child: Form(
                                   autovalidateMode: AutovalidateMode.always,
                                   child: DropdownWidget(lista: _generos, callback: (String retorno){
@@ -73,9 +86,9 @@ class _UserPageState extends State<UserPage> {
                                       _selectedGenero = retorno;
                                     });
                                   },nome: "gênero",))
-                          ),
+                          )),
                           Padding(
-                            padding: EdgeInsets.only(top: 85),
+                            padding: EdgeInsets.only(top: 144),
                             child: ElevatedButton(
                                 onPressed: (){
                                   User usuario = _usu.validaUsuario(_controllerNickName, _controllerIdade, _selectedGenero, _generos);
@@ -97,7 +110,10 @@ class _UserPageState extends State<UserPage> {
                                 style: ButtonStyle(
                                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                       RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(18.0)
+                                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10),
+                                              bottomRight: Radius.circular(10),
+                                              topLeft: Radius.circular(10),
+                                              topRight: Radius.circular(10))
                                       )
                                   ),
                                   backgroundColor: MaterialStateProperty.all(AppColors.marromClaro),
@@ -113,7 +129,5 @@ class _UserPageState extends State<UserPage> {
         )
     );
   }
-
-
 }
 

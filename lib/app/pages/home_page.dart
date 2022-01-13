@@ -43,7 +43,10 @@ class HomePage extends StatelessWidget {
                                 style: ButtonStyle(
                                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                       RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(18.0),
+                                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10),
+                                              bottomRight: Radius.circular(10),
+                                              topLeft: Radius.circular(10),
+                                              topRight: Radius.circular(10))
                                       )
                                   ),
                                   backgroundColor: MaterialStateProperty.all(Colors.white),

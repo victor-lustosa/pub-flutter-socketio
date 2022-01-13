@@ -38,7 +38,7 @@ class _EstabelecimentoPageState extends State<EstabelecimentoPage> with SingleTi
     return Scaffold(
         appBar: EstablishmentBarWidget(
             this.widget.usuario.getNickname,
-            this._tabController
+            this._tabController, context
         ),
         body: SingleChildScrollView(
             child: Container(

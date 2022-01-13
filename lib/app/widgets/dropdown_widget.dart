@@ -16,12 +16,13 @@ class DropdownWidget extends StatefulWidget{
   @override
   Widget build(BuildContext context) {
     return DropdownButton<String>(
+      underline:SizedBox() ,
       items: this.widget.lista.map<DropdownMenuItem<String>>((String val) {
         return DropdownMenuItem<String>(
             value: val,
             child:Container(
-                width:257,
-                child: Padding(padding: EdgeInsets.only(),
+                 width: 243,
+                child: Padding(padding: EdgeInsets.only(bottom: 3, left: 22),
                     child:Text(
                         val,
                         style:GoogleFonts.inter(
@@ -36,7 +37,7 @@ class DropdownWidget extends StatefulWidget{
       hint: Row(
           children: [
             Padding(
-                padding: EdgeInsets.only(bottom: 12),
+                padding: EdgeInsets.only(bottom: 3, left: 22),
                 child:Text("${this.widget.nome}")),
           ]
       ),
