@@ -3,8 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../config/app_colors.dart';
 
-class TitleSliverStablishment extends StatelessWidget {
-  const TitleSliverStablishment();
+class EstablishmentTitleSliver extends StatelessWidget {
+  const EstablishmentTitleSliver();
 
   @override
   Widget build(BuildContext context) {

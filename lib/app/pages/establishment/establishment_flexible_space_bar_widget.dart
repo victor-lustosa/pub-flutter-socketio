@@ -39,7 +39,9 @@ class EstablishmentFlexibleSpaceBarWidget extends StatelessWidget {
                       color: AppColors.white,
                       fontSize: 15, // fontWeight: FontWeight.w600,
                     ))),
-          ])],
+          ]),
+
+      ],
     );
   }
 }
