@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:pub/app/config/app_colors.dart';
 import 'package:pub/app/config/app_text_styles.dart';
-import 'package:pub/app/pages/user_page.dart';
+import 'package:pub/app/pages/user/user_register_page.dart';
 
 class HomePage extends StatelessWidget {
 
   void avancar(BuildContext context){
     Navigator.push(context,
         MaterialPageRoute(
-            builder: (context) => UserPage()
+            builder: (context) => UserRegisterPage()
         )
     );
   }

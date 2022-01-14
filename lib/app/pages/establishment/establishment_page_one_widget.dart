@@ -3,12 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:dio/dio.dart';
 import 'package:pub/app/config/NoGlowBehavior.dart';
-import '../config/app_colors.dart';
-import '../config/app_text_styles.dart';
-import '../models/user.dart';
-import '../pages/room_page.dart';
-import '../repositories/establishment_repository.dart';
-import '../view_models/establishment_view_model.dart';
+import '../../config/app_colors.dart';
+import '../../config/app_text_styles.dart';
+import '../../models/user.dart';
+import '../room/room_page.dart';
+import '../../repositories/establishment_repository.dart';
+import '../../view_models/establishment_view_model.dart';
 
 class EstablishmentPageOneWidget extends StatelessWidget {
   EstablishmentPageOneWidget(

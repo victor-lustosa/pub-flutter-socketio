@@ -3,10 +3,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pub/app/config/app_colors.dart';
 import 'package:pub/app/config/app_text_styles.dart';
 import 'package:pub/app/models/user.dart';
-import 'package:pub/app/widgets/bar_widgets/title_sliver_stablishment.dart';
-
-import '../widgets/establishment_page_one_widget.dart';
-import '../widgets/establishment_page_two_widget.dart';
+import 'package:pub/app/pages/establishment/stablishment_title_sliver.dart';
+import 'establishment_flexible_space_bar_widget.dart';
+import 'establishment_page_one_widget.dart';
+import 'establishment_page_two_widget.dart';
+// import '../../widgets/establishment_page_two_widget.dart';
 
 class EstablishmentPage extends StatefulWidget {
   User user;
@@ -51,32 +52,7 @@ class _EstablishmentPageState extends State<EstablishmentPage> with SingleTicker
                       collapsedHeight: 70,
                       toolbarHeight: 50,
                       flexibleSpace:  FlexibleSpaceBar(
-                        background: Stack(children: <Widget>[
-                          Column(
-                            children: [
-                              Padding(padding: EdgeInsets.only(top: 64, ),
-                                  child: IconButton(iconSize: 30,
-                                      icon: Icon(Icons.navigate_before_rounded,
-                                        color: AppColors.white,),
-                                      color: AppColors.marromEscuro,
-                                      onPressed: (){
-                                        Navigator.pop(context);
-                                      }
-                                  )
-                              ),
-                            ],
-                          ),
-                          Column(
-                              children: [
-                                Padding(
-                                    padding: EdgeInsets.only(left: 110, top: 80, bottom: 0),
-                                    child: Text("nome",
-                                        style: GoogleFonts.inter(
-                                          color: AppColors.white,
-                                          fontSize: 15, // fontWeight: FontWeight.w600,
-                                        ))),
-                              ])],
-                        ),),
+                        background: EstablishmentFlexibleSpaceBarWidget(this.widget.user),),
                       bottom: TabBar(
                         controller: _tabController,
                         // isScrollable: true,
@@ -99,13 +75,13 @@ class _EstablishmentPageState extends State<EstablishmentPage> with SingleTicker
                                 height: 23.0,
                                 width: 160,
                                 child: Tab(
-                                  text: "Salas disponíveis",
+                                  text: "salas disponíveis",
                                 )),
                             Container(
                                 height: 23.0,
                                 width: 140,
                                 child: Tab(
-                                  text: "Salas privadas",
+                                  text: "salas privadas",
                                 )
                             )
                           ],
@@ -124,7 +100,7 @@ class _EstablishmentPageState extends State<EstablishmentPage> with SingleTicker
               width: 136,
               child: FloatingActionButton.extended(
                   onPressed: () {},
-                  label: Text("Visão em mapa",
+                  label: Text("visão em mapa",
                       style:GoogleFonts.inter(
                           fontSize: 10.5,color: Colors.white)
                   ),

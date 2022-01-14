@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pub/app/config/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
-class UserBarWidget extends PreferredSize {
+class UserRegisterBarWidget extends PreferredSize {
 
-  UserBarWidget()
+  UserRegisterBarWidget()
       : super(
     preferredSize: Size.fromHeight(325),
     child: Container(

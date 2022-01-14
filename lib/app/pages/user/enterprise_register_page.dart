@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:pub/app/config/app_colors.dart';
 import 'package:pub/app/models/user.dart';
-import 'package:pub/app/pages/establishment_page.dart';
+import 'package:pub/app/pages/establishment/establishment_page.dart';
+import 'package:pub/app/pages/user/enterprise_register_bar_widget.dart';
 import 'package:pub/app/view_models/user_view_model.dart';
 import 'package:pub/app/widgets/form_field_widget.dart';
-import 'package:pub/app/widgets/bar_widgets/user_bar_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pub/app/widgets/dropdown_widget.dart';
 import 'package:location/location.dart';
-class UserPage extends StatefulWidget  {
-  _UserPageState createState() => _UserPageState();
+class EnterpriseRegisterPage extends StatefulWidget  {
+  _EnterpriseRegisterPageState createState() => _EnterpriseRegisterPageState();
 }
 
-class _UserPageState extends State<UserPage> {
+class _EnterpriseRegisterPageState extends State<EnterpriseRegisterPage> {
 
-  _UserPageState(){
+  _EnterpriseRegisterPageState(){
     _usu.verificaLocalizacao();
   }
 
@@ -36,10 +36,10 @@ class _UserPageState extends State<UserPage> {
           FocusScopeNode currentFocus = FocusScope.of(context);
           if (!currentFocus.hasPrimaryFocus) {
             currentFocus.unfocus();
-            }
-          },
+          }
+        },
         child: Scaffold(
-            appBar:  UserBarWidget(),
+            appBar:  EnterpriseRegisterBarWidget(),
             body: SingleChildScrollView(
                 child:Container(
                     alignment: Alignment.center,
@@ -52,16 +52,16 @@ class _UserPageState extends State<UserPage> {
                           Padding(
                               padding: EdgeInsets.only(top: 60),
                               child:  FormFieldWidget(
-                                      controllerCampoFormulario :_controllerNickName,
-                                      nome: 'nickname',
-                                      mensagem: 'digite seu nickname')
-                              ),
+                                  controllerCampoFormulario :_controllerNickName,
+                                  nome: 'nickname',
+                                  mensagem: 'digite seu nickname')
+                          ),
                           Padding(
                               padding: EdgeInsets.only(top: 28),
                               child:  FormFieldWidget(
-                                      controllerCampoFormulario :_controllerIdade,
-                                      nome: 'idade',
-                                      mensagem: 'digite sua idade')
+                                  controllerCampoFormulario :_controllerIdade,
+                                  nome: 'idade',
+                                  mensagem: 'digite sua idade')
 
                           ),
                           Padding(
@@ -69,24 +69,24 @@ class _UserPageState extends State<UserPage> {
                               child:Container(
                                   decoration: BoxDecoration(
                                     color: Colors.white,
-                                      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10),
-                                          bottomRight: Radius.circular(10),
-                                          topLeft: Radius.circular(10),
-                                          topRight: Radius.circular(10)),
+                                    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10),
+                                        bottomRight: Radius.circular(10),
+                                        topLeft: Radius.circular(10),
+                                        topRight: Radius.circular(10)),
                                     border: new Border.all(
                                         color: Colors.black12,
                                         width: 1.0,
                                         style: BorderStyle.solid
                                     ),
                                   ), width: 280, height: 38,
-                              child: Form(
-                                  autovalidateMode: AutovalidateMode.always,
-                                  child: DropdownWidget(lista: _generos, callback: (String retorno){
-                                    setState(() {
-                                      _selectedGenero = retorno;
-                                    });
-                                  },nome: "gênero",))
-                          )),
+                                  child: Form(
+                                      autovalidateMode: AutovalidateMode.always,
+                                      child: DropdownWidget(lista: _generos, callback: (String retorno){
+                                        setState(() {
+                                          _selectedGenero = retorno;
+                                        });
+                                      },nome: "gênero",))
+                              )),
                           Padding(
                             padding: EdgeInsets.only(top: 144),
                             child: ElevatedButton(
@@ -99,7 +99,7 @@ class _UserPageState extends State<UserPage> {
                                           user: usuario,
                                           latitude:_latitude,
                                           longitude:_longitude)
-                                    )
+                                  )
                                   );
                                 },
                                 child: Text("Avançar",
