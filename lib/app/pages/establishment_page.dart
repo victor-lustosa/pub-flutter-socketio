@@ -1,147 +1,138 @@
-import 'package:pub/app/config/app_colors.dart';
-import 'package:pub/app/config/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pub/app/config/app_colors.dart';
+import 'package:pub/app/config/app_text_styles.dart';
 import 'package:pub/app/models/user.dart';
-import 'package:pub/app/pages/room_page.dart';
-import 'package:pub/app/repositories/establishment_repository.dart';
-import 'package:pub/app/view_models/establishment_view_model.dart';
-import '../widgets/bar_widgets/establishment_bar_widget.dart';
-import 'package:dio/dio.dart';
-class EstabelecimentoPage extends StatefulWidget {
-  User usuario;
+import 'package:pub/app/widgets/bar_widgets/title_sliver_stablishment.dart';
+
+import '../widgets/establishment_page_one_widget.dart';
+import '../widgets/establishment_page_two_widget.dart';
+
+class EstablishmentPage extends StatefulWidget {
+  User user;
   String latitude;
   String longitude;
 
-  EstabelecimentoPage({required this.usuario, required this.latitude, required this.longitude });
+  EstablishmentPage({required this.user, required this.latitude, required this.longitude });
   @override
-  _EstabelecimentoPageState createState() => _EstabelecimentoPageState();
+  _EstablishmentPageState createState() => _EstablishmentPageState();
 
 }
 
-class _EstabelecimentoPageState extends State<EstabelecimentoPage> with SingleTickerProviderStateMixin {
+class _EstablishmentPageState extends State<EstablishmentPage> with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  EstablishmentViewModel _estabelecimentoViewModel = EstablishmentViewModel(DioEstablishmentRepository(Dio()));
-  late List<dynamic> _estabelecimentos;
-
+  late ScrollController _scrollViewController;
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(
-        length: 2,
-        vsync: this
-    );
+    _scrollViewController = ScrollController(initialScrollOffset: 0.0);
+    _tabController = TabController(vsync: this, length: 2);
   }
-
+  @override
+  void dispose() {
+    _tabController.dispose();
+    _scrollViewController.dispose();
+    super.dispose();
+  }
   @override
   Widget build (BuildContext context) {
     return Scaffold(
-        appBar: EstablishmentBarWidget(
-            this.widget.usuario.getNickname,
-            this._tabController, context
-        ),
-        body: SingleChildScrollView(
-            child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    color: AppColors.white
-                ),
-                child: Column(
-                    children: [
-                      SizedBox(
-                          child: FutureBuilder<List<dynamic>>(
-                              future: _estabelecimentoViewModel.listaEstabelecimentos('-10.257615194551102','-48.325213882543736'),
-                              initialData: [],
-                              builder: (context, AsyncSnapshot<List<dynamic>> snapshot){
-                                switch(snapshot.connectionState) {
-                                  case ConnectionState.none:
-                                    break;
-                                  case ConnectionState.waiting:
-                                    return Padding(
-                                        padding: EdgeInsets.only(top: 30),
-                                        child: Container(
-                                            child: Center(
-                                                child: CircularProgressIndicator(
-                                                    valueColor: new AlwaysStoppedAnimation<Color>(
-                                                        AppColors.marromEscuro)
-                                                )
-                                            )
-                                        )
-                                    );
-                                  case ConnectionState.active:
-                                    break;
-                                  case ConnectionState.done:
-                                    if (!snapshot.hasData) {
-                                      return Padding(
-                                          padding: EdgeInsets.only(top: 30),
-                                          child: Container(
-                                              child: Center(
-                                                  child: CircularProgressIndicator(
-                                                      valueColor: new AlwaysStoppedAnimation<Color>(
-                                                          AppColors.marromEscuro)
-                                                  )
-                                              )
-                                          )
-                                      );
-                                    }
-                                    _estabelecimentos = snapshot.data!;
-                                    return   ListView.builder(
-                                        scrollDirection: Axis.vertical,
-                                        shrinkWrap: true,
-                                        itemCount: snapshot.data!.length ,
-                                        itemBuilder: (context, index) {
-                                          return ListTile(
-                                              leading: Padding(
-                                                  padding: EdgeInsets.only(left: 25) ,
-                                                  child: Icon(
-                                                      Icons.location_on,size: 29,
-                                                      color: AppColors.corIconeEstabelecimento)
-                                              ),
-                                              title: Padding(
-                                                  padding: EdgeInsets.only(left: 5,) ,
-                                                  child: Text(
-                                                      _estabelecimentos[index].getNome,
-                                                      style: AppTextStyles.fonteLista)
-                                              ),
-                                              onTap: () {
-
-                                                Navigator.push( context,
-                                                    MaterialPageRoute( builder:
-                                                        (context) => RoomPage(
-                                                        establishment: _estabelecimentos[index],
-                                                        usuario: this.widget.usuario)
-                                                    )
-                                                );
-                                              }
-                                          );
-                                        }
-                                    );
-                                }
-                                return Text('Unkown error');
-                              }
-                          )
+          body: NestedScrollView(
+              controller: _scrollViewController,
+              headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+                return <Widget>[
+                   SliverAppBar(automaticallyImplyLeading: false,
+                      backgroundColor: AppColors.marromEscuro,
+                      title: TitleSliverStablishment(),
+                      pinned: true,
+                      snap: false,
+                       floating: true,
+                      expandedHeight: 140.0,
+                      collapsedHeight: 70,
+                      toolbarHeight: 50,
+                      flexibleSpace:  FlexibleSpaceBar(
+                        background: Stack(children: <Widget>[
+                          Column(
+                            children: [
+                              Padding(padding: EdgeInsets.only(top: 64, ),
+                                  child: IconButton(iconSize: 30,
+                                      icon: Icon(Icons.navigate_before_rounded,
+                                        color: AppColors.white,),
+                                      color: AppColors.marromEscuro,
+                                      onPressed: (){
+                                        Navigator.pop(context);
+                                      }
+                                  )
+                              ),
+                            ],
+                          ),
+                          Column(
+                              children: [
+                                Padding(
+                                    padding: EdgeInsets.only(left: 110, top: 80, bottom: 0),
+                                    child: Text("nome",
+                                        style: GoogleFonts.inter(
+                                          color: AppColors.white,
+                                          fontSize: 15, // fontWeight: FontWeight.w600,
+                                        ))),
+                              ])],
+                        ),),
+                      bottom: TabBar(
+                        controller: _tabController,
+                        // isScrollable: true,
+                          indicator: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(10),
+                                  bottomRight: Radius.circular(10),
+                                  topLeft: Radius.circular(10),
+                                  topRight: Radius.circular(10)), // Creates border
+                              color: AppColors.white),
+                          indicatorWeight: 0,
+                          indicatorSize: TabBarIndicatorSize.label,
+                          labelStyle: AppTextStyles.tabsSelecionadas,
+                          unselectedLabelStyle: AppTextStyles.tabsNaoSelecionadas,
+                          indicatorColor: AppColors.marromEscuro,
+                          labelColor: AppColors.marromEscuro,
+                          unselectedLabelColor: Colors.grey,
+                          tabs: <Widget>[
+                            Container(
+                                height: 23.0,
+                                width: 160,
+                                child: Tab(
+                                  text: "Salas disponíveis",
+                                )),
+                            Container(
+                                height: 23.0,
+                                width: 140,
+                                child: Tab(
+                                  text: "Salas privadas",
+                                )
+                            )
+                          ],
                       )
-                    ]
-                )
-            )
-        ),
-        floatingActionButton: SizedBox(
-            height: 32,
-            width: 136,
-            child: FloatingActionButton.extended(
-                onPressed: () {},
-                label: Text("Visão em mapa",
-                    style:GoogleFonts.inter(
-                        fontSize: 10.5,color: Colors.white)
-                ),
-                backgroundColor: AppColors.marromClaro,
-                icon: Icon(
-                    Icons.map,size: 15,
-                    color: Colors.white)
-            )
-        )
-    );
+                  )
+                ];},
+              body: TabBarView(
+                  controller: _tabController,
+                  children: <Widget>[
+                EstablishmentPageOneWidget(usuario:this.widget.user),
+                EstablishmentPageTwoWidget()]
+              )
+          ),
+          floatingActionButton: SizedBox(
+              height: 32,
+              width: 136,
+              child: FloatingActionButton.extended(
+                  onPressed: () {},
+                  label: Text("Visão em mapa",
+                      style:GoogleFonts.inter(
+                          fontSize: 10.5,color: Colors.white)
+                  ),
+                  backgroundColor: AppColors.marromClaro,
+                  icon: Icon(
+                      Icons.map,size: 15,
+                      color: Colors.white)
+              )
+          ),);
   }
 }

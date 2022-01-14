@@ -95,8 +95,8 @@ class _UserPageState extends State<UserPage> {
                                   this._latitude = _usu.locationData.latitude.toString();
                                   this._longitude = _usu.locationData.longitude.toString();
                                   Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) => EstabelecimentoPage(
-                                          usuario: usuario,
+                                      builder: (context) => EstablishmentPage(
+                                          user: usuario,
                                           latitude:_latitude,
                                           longitude:_longitude)
                                     )

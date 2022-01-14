@@ -13,11 +13,11 @@ class UserViewModel implements IUserViewModel{
   Location location;
   late bool _serviceEnabled;
   PermissionStatus permissionGranted = PermissionStatus.denied;
-  User usuario;
+  User user;
   late LocationData locationData;
   int _idade = 0;
 
-  UserViewModel(this.location, this.usuario);
+  UserViewModel(this.location, this.user);
 
   verificaLocalizacao() async{
     _serviceEnabled = await location.serviceEnabled();
@@ -39,15 +39,15 @@ class UserViewModel implements IUserViewModel{
 
   User validaUsuario(TextEditingController _controllerNickName, TextEditingController _controllerIdade, String _selectedGenero, List<String> _generos){
 
-    this.usuario.setNickname(_controllerNickName.text);
+    this.user.setNickname(_controllerNickName.text);
     _idade = int.tryParse(_controllerIdade.text)!;
-    this.usuario.setIdade(_idade);
+    this.user.setIdade(_idade);
     if(_selectedGenero == ''){
       _selectedGenero = _generos[0];
-      this.usuario.setGenero(_selectedGenero);
+      this.user.setGenero(_selectedGenero);
     }else{
-      this.usuario.setGenero(_selectedGenero);
+      this.user.setGenero(_selectedGenero);
     }
-    return this.usuario;
+    return this.user;
   }
 }
