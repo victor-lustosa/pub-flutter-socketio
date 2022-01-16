@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pub/app/config/app_colors.dart';
-import 'package:pub/app/config/app_text_styles.dart';
 import 'package:google_fonts/google_fonts.dart';
 class HomeBarWidget extends PreferredSize {
 
@@ -19,11 +18,7 @@ class HomeBarWidget extends PreferredSize {
           children: [
             Text.rich( TextSpan (
                 text: "Olá, ",
-                style: GoogleFonts.inter(
-                  color: AppColors.white,
-                  fontSize: 25,
-                  // fontWeight: FontWeight.w600,
-                )
+                style: GoogleFonts.inter( color: AppColors.white, fontSize: 25,/* fontWeight: FontWeight.w600,*/)
              )
             )
           ],

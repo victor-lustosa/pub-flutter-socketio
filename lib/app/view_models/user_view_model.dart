@@ -3,10 +3,10 @@ import 'package:location/location.dart';
 import 'package:pub/app/models/user.dart';
 
 abstract class IUserViewModel{
-  verificaLocalizacao();
-  User validaUsuario(TextEditingController _controllerNickName,
-                        TextEditingController _controllerIdade,
-                        String _selectedGenero, List<String> _generos);
+  checkLocation();
+  User validaUsuario(TextEditingController _nickNameController,
+                        TextEditingController _ageController,
+                        String _selectedGenre, List<String> _listGenres);
 }
 
 class UserViewModel implements IUserViewModel{
@@ -15,11 +15,11 @@ class UserViewModel implements IUserViewModel{
   PermissionStatus permissionGranted = PermissionStatus.denied;
   User user;
   late LocationData locationData;
-  int _idade = 0;
+  int _age = 0;
 
   UserViewModel(this.location, this.user);
 
-  verificaLocalizacao() async{
+  checkLocation() async{
     _serviceEnabled = await location.serviceEnabled();
     if (!_serviceEnabled) {
       _serviceEnabled = await location.requestService();
@@ -37,16 +37,16 @@ class UserViewModel implements IUserViewModel{
     locationData = await location.getLocation();
   }
 
-  User validaUsuario(TextEditingController _controllerNickName, TextEditingController _controllerIdade, String _selectedGenero, List<String> _generos){
+  User validaUsuario(TextEditingController _nickNameController, TextEditingController _ageController, String _selectedGenre, List<String> _listGenres){
 
-    this.user.setNickname(_controllerNickName.text);
-    _idade = int.tryParse(_controllerIdade.text)!;
-    this.user.setIdade(_idade);
-    if(_selectedGenero == ''){
-      _selectedGenero = _generos[0];
-      this.user.setGenero(_selectedGenero);
+    this.user.setNickname(_nickNameController.text);
+    _age = int.tryParse(_ageController.text)!;
+    this.user.setAge(_age);
+    if(_selectedGenre == ''){
+      _selectedGenre = _listGenres[0];
+      this.user.setGenre(_selectedGenre);
     }else{
-      this.user.setGenero(_selectedGenero);
+      this.user.setGenre(_selectedGenre);
     }
     return this.user;
   }

@@ -1,35 +1,35 @@
 import 'package:pub/app/models/user.dart';
 
 import 'message.dart';
-class Sala {
-  late int _idSala;
-  late String _nome;
-  late String _icone;
-  late bool _publica;
-  late List<User> _listUsuario;
-  late Message _mensagem;
+class Room {
+  late int _idRoom;
+  late String _name;
+  late String _icon;
+  late bool _public;
+  late List<User> _listUsers;
+  late Message _message;
 
-  Sala();
-  Sala.with_parameters(this._nome, this._listUsuario);
+  Room();
+  Room.with_parameters(this._name, this._listUsers);
 
-  void insereUsuario(User usuario) {
-    getListUsuario.add(usuario);
+  void addUser(User user) {
+    getListUsers.add(user);
   }
 
   //GETTERS
-  get getNome => _nome;
-  get getListUsuario => _listUsuario;
-  get getMensagem => _mensagem;
-  get getIdSala => _idSala;
-  get getIcone => _icone;
-  get isPublica => _publica;
+  get getName => _name;
+  get getListUsers => _listUsers;
+  get getMessage => _message;
+  get getIdRoom => _idRoom;
+  get getIcon => _icon;
+  get isPublic => _public;
 
 //SETTERS
-  setNome(String nome) => _nome = nome;
-  setUsuario(List<User> listUsuario) => _listUsuario = listUsuario;
-  setMensagem(Message mensagem) => _mensagem = mensagem;
-  setIcone(String icone) => _icone = icone;
-  setIdSala(int value) => _idSala = value;
-  setPublica(bool publica) => _publica = publica;
+  setName(String name) => _name = name;
+  setListUsers(List<User> listUsers) => _listUsers = listUsers;
+  setMessage(Message message) => _message = message;
+  setIcon(String icon) => _icon = icon;
+  setIdRoom(int idRoom) => _idRoom = idRoom;
+  setPublic(bool public) => _public = public;
 
 }

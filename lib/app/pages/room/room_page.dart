@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pub/app/models/establishment.dart';
 import 'package:pub/app/models/user.dart';
-import 'package:pub/app/widgets/message_box_widget.dart';
+import 'package:pub/app/shared/message_box_widget.dart';
 
 class RoomPage extends StatefulWidget {
   Establishment establishment;
@@ -101,7 +101,7 @@ class _RoomPageState extends State<RoomPage>  {
             //         : null),
             Padding(
               padding: EdgeInsets.only(left: 8),
-              child: Text(widget.establishment.getNome,
+              child: Text(widget.establishment.getName,
             ))
           ],
         ),
@@ -117,7 +117,7 @@ class _RoomPageState extends State<RoomPage>  {
               child: Column(
                 children: <Widget>[
                   // stream,
-                  MessageBoxWidget(establishment: this.widget.establishment, usuario: this.widget.user),
+                  MessageBoxWidget(establishment: this.widget.establishment, user: this.widget.user),
                 ],
               ),
             )),

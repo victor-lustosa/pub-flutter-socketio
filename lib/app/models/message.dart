@@ -1,24 +1,24 @@
 import 'package:pub/app/models/user.dart';
 
 class Message {
-  late int _idMensagem;
-  late DateTime _dataEnvio;
-  late String _textoMensagem;
-  late User _usuario;
+  late int _idMessage;
+  late DateTime _sendDate;
+  late String _textMessage;
+  late User _user;
 
   Message();
-  Message.with_parameters(this._usuario);
+  Message.with_parameters(this._user);
 
 
   //GETTERS
-  get getUsuario => _usuario;
-  get getDataEnvio => _dataEnvio;
-  get getMensagem => _textoMensagem;
-  get getId => _idMensagem;
+  get getUser => _user;
+  get getSendDate => _sendDate;
+  get getTextMessage => _textMessage;
+  get getIdMessage => _idMessage;
 
 //SETTERS
-  setUsuario(User usuario) => _usuario = usuario;
-  setId(int idMensagem) => _idMensagem = idMensagem;
-  setDataEnvio(DateTime dataEnvio) => _dataEnvio = dataEnvio;
-  setTextoMensagem(String textoMensagem) => _textoMensagem = textoMensagem;
+  setUser(User user) => _user = user;
+  setIdMessage(int idMessage) => _idMessage = idMessage;
+  setSendDate(DateTime sendDate) => _sendDate = sendDate;
+  setTextMessage(String textMessage) => _textMessage = textMessage;
 }

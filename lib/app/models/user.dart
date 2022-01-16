@@ -1,18 +1,18 @@
 class User {
-  late int _idUsuario;
+  late int _idUser;
   late String _nickname;
-  late int _idade;
-  late String _genero;
+  late int _age;
+  late String _genre;
 
   User();
 
   //GETTERS
   get getNickname => _nickname;
-  get getIdade => _idade;
-  get getGenero => _genero;
+  get getAge => _age;
+  get getGenre => _genre;
 
 //SETTERS
   setNickname(String nickname) => _nickname = nickname;
-  setIdade(int idade) => _idade = idade;
-  setGenero(String genero) => _genero = genero;
+  setAge(int age) => _age = age;
+  setGenre(String genre) => _genre = genre;
 }

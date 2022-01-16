@@ -5,7 +5,7 @@ import 'repository.dart';
 
  abstract class IEstablishmentRepository implements Repository{
 
-  Future<List<dynamic>> getAllEstabelecimentos(String latitude, String longitude){
+  Future<List<dynamic>> getAllEstablishments(String latitude, String longitude){
     throw UnimplementedError();
   }
 }
@@ -20,11 +20,11 @@ class DioEstablishmentRepository  implements IEstablishmentRepository{
   }
 
   @override
-  Future<List<dynamic>> getAllEstabelecimentos(String latitude, String longitude) async {
+  Future<List<dynamic>> getAllEstablishments(String latitude, String longitude) async {
     try {
 
       dio.options.headers['content-Type'] = 'application/json, charset=utf-8';
-      var response = await dio.get('${urlEstabelecimentos}/${latitude}/${longitude}');
+      var response = await dio.get('${urlEstablishments}/${latitude}/${longitude}');
       return response.data;
     } catch(e){
       return throw Exception("Erro ao receber dados de Estabelecimentos: $e");

@@ -7,12 +7,12 @@ import 'package:pub/app/view_models/room_view_model.dart';
 
 class MessageBoxWidget extends StatelessWidget{
   Establishment establishment;
-  User usuario;
+  User user;
 
-  MessageBoxWidget({required this.establishment, required this.usuario });
+  MessageBoxWidget({required this.establishment, required this.user });
 
-  TextEditingController _controllerMensagem = TextEditingController();
-  RoomViewModel _salaViewModel = RoomViewModel();
+  TextEditingController _messageController = TextEditingController();
+  RoomViewModel _roomViewModel = RoomViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class MessageBoxWidget extends StatelessWidget{
                 child: Padding(
                   padding: EdgeInsets.only(right: 8),
                   child: TextField(
-                    controller:_controllerMensagem,
+                    controller:_messageController,
                     autofocus: true,
                     keyboardType: TextInputType.text,
                     style: TextStyle(fontSize: 20),
@@ -34,22 +34,24 @@ class MessageBoxWidget extends StatelessWidget{
                         filled: true,
                         fillColor: Colors.white,
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(32))
+                            borderRadius: BorderRadius.circular(32)
+                        )
                     ),
                   ),
                 ),
               ),
               FloatingActionButton(
-                backgroundColor: AppColors.marrom,
+                backgroundColor: AppColors.brown,
                 child: Icon(
                   Icons.send,
                   color: Colors.white,
                 ),
                 mini: true,
-                onPressed: _salaViewModel.enviarMensagem(this.establishment,
-                    _controllerMensagem.text,
+                onPressed: _roomViewModel.sendMessage(
+                    this.establishment,
+                    _messageController.text,
                     Message(),
-                    this.usuario),
+                    this.user),
               )
             ],
           ),

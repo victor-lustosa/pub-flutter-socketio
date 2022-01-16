@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pub/app/config/app_colors.dart';
-import 'package:pub/app/config/app_text_styles.dart';
+
 import 'package:pub/app/models/user.dart';
-import 'package:pub/app/pages/establishment/establishment_sliver_tab_bar.dart';
-import 'package:pub/app/pages/establishment/establishment_title_sliver.dart';
-import 'establishment_flexible_space_bar_widget.dart';
-import 'establishment_page_one_widget.dart';
-import 'establishment_page_two_widget.dart';
+import 'package:pub/app/pages/establishment/widgets/establishment_tab_bar_sliver_widget.dart';
+import 'package:pub/app/pages/establishment/widgets/establishment_title_sliver_widget.dart';
+import 'widgets/establishment_flexible_space_bar_widget.dart';
+import 'widgets/establishment_page_one_widget.dart';
+import 'widgets/establishment_page_two_widget.dart';
 // import '../../widgets/establishment_page_two_widget.dart';
 
 class EstablishmentPage extends StatefulWidget {
@@ -49,23 +49,23 @@ class _EstablishmentPageState extends State<EstablishmentPage>
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverAppBar(
-                  bottom: EstablishmentSliverTabBar(_tabController),
+                  bottom: EstablishmentTabBarSliverWidget(_tabController),
                   automaticallyImplyLeading: false,
-                  backgroundColor: AppColors.marromEscuro,
-                  title: EstablishmentTitleSliver(),
+                  backgroundColor: AppColors.darkBrown,
+                  title: EstablishmentTitleSliverWidget(),
                   pinned: true,
                   snap: false,
                   floating: true,
-                  expandedHeight: 140.0,
-                  collapsedHeight: 70,
-                  toolbarHeight: 50,
+                  expandedHeight: 133.0,
+                  collapsedHeight: 33,
+                  toolbarHeight: 33,
                   flexibleSpace: FlexibleSpaceBar(
                     background: EstablishmentFlexibleSpaceBarWidget(this.widget.user),
                   )),
             ];
           },
           body: TabBarView(controller: _tabController, children: <Widget>[
-            EstablishmentPageOneWidget(usuario: this.widget.user),
+            EstablishmentPageOneWidget(user: this.widget.user),
             EstablishmentPageTwoWidget()
           ])),
       floatingActionButton: SizedBox(
@@ -75,7 +75,7 @@ class _EstablishmentPageState extends State<EstablishmentPage>
               onPressed: () {},
               label: Text("visão em mapa",
                   style: GoogleFonts.inter(fontSize: 10.5, color: Colors.white)),
-              backgroundColor: AppColors.marromClaro,
+              backgroundColor: AppColors.lightBrown,
               icon: Icon(Icons.map, size: 15, color: Colors.white))),
     );
   }

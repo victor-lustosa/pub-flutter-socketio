@@ -3,21 +3,21 @@ import 'package:google_fonts/google_fonts.dart';
 
 class DropdownWidget extends StatefulWidget{
 
-  DropdownWidget({required this.lista, required this.callback, required this.nome});
+  DropdownWidget({required this.list, required this.callback, required this.name});
   final Function(String) callback;
-  List<String> lista;
-  String nome;
+  List<String> list;
+  String name;
   _DropdownWidgetState createState() => _DropdownWidgetState();
 }
   class _DropdownWidgetState extends State<DropdownWidget> {
-    String _selectedLista = '';
-    bool selected =  false;
+    String _listSelected = '';
+    bool isSelected =  false;
 
   @override
   Widget build(BuildContext context) {
     return DropdownButton<String>(
       underline:SizedBox() ,
-      items: this.widget.lista.map<DropdownMenuItem<String>>((String val) {
+      items: this.widget.list.map<DropdownMenuItem<String>>((String val) {
         return DropdownMenuItem<String>(
             value: val,
             child:Container(
@@ -25,9 +25,7 @@ class DropdownWidget extends StatefulWidget{
                 child: Padding(padding: EdgeInsets.only(bottom: 3, left: 22),
                     child:Text(
                         val,
-                        style:GoogleFonts.inter(
-                            fontSize: 14,
-                            color: Colors.black54)
+                        style:GoogleFonts.inter( fontSize: 14, color: Colors.black54)
                     )
                 )
             )
@@ -38,7 +36,7 @@ class DropdownWidget extends StatefulWidget{
           children: [
             Padding(
                 padding: EdgeInsets.only(bottom: 3, left: 22),
-                child:Text("${this.widget.nome}")),
+                child:Text("${this.widget.name}")),
           ]
       ),
       style:GoogleFonts.inter(fontSize: 14),
@@ -46,19 +44,19 @@ class DropdownWidget extends StatefulWidget{
         _dropDownItemSelected(newValue!);
         this.setState(() {
           print(newValue.toString());
-          this._selectedLista = newValue;
+          this._listSelected = newValue;
         }
         );
       },
-      value:selected ? _selectedLista : null,
+      value:isSelected ? _listSelected : null,
     );
   }
 
   void _dropDownItemSelected(String novoItem){
     setState(() {
-      this._selectedLista = novoItem;
-      this.selected = true;
-      this.widget.callback(this._selectedLista);
+      this._listSelected = novoItem;
+      this.isSelected = true;
+      this.widget.callback(this._listSelected);
     });
   }
 }

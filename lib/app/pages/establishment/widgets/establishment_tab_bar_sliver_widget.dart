@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../config/app_colors.dart';
-import '../../config/app_text_styles.dart';
+import '../../../config/app_colors.dart';
 
-class EstablishmentSliverTabBar extends  PreferredSize{
+class EstablishmentTabBarSliverWidget extends  PreferredSize{
 
   TabController tabController;
 
-   EstablishmentSliverTabBar(this.tabController) : super(
+   EstablishmentTabBarSliverWidget(this.tabController) : super(
        preferredSize: Size.fromHeight(0),
        child: Padding(
-      padding: const EdgeInsets.all(3),
+      padding: const EdgeInsets.all(5),
       child: TabBar(
         controller: tabController,
         // isScrollable: true,
@@ -24,10 +23,10 @@ class EstablishmentSliverTabBar extends  PreferredSize{
             color: AppColors.white),
         indicatorWeight: 0,
         indicatorSize: TabBarIndicatorSize.label,
-        labelStyle: AppTextStyles.tabsSelecionadas,
-        unselectedLabelStyle: AppTextStyles.tabsNaoSelecionadas,
-        indicatorColor: AppColors.marromEscuro,
-        labelColor: AppColors.marromEscuro,
+        labelStyle: GoogleFonts.inter( fontSize: 13, /* fontWeight: FontWeight.w600,*/),
+        unselectedLabelStyle: GoogleFonts.inter( fontSize: 13, /*fontWeight: FontWeight.w600,*/),
+        indicatorColor: AppColors.darkBrown,
+        labelColor: AppColors.darkBrown,
         unselectedLabelColor: Colors.grey,
         tabs: <Widget>[
           Container(

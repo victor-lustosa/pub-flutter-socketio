@@ -1,3 +1,3 @@
 class AppImages {
-  static String get logo_infraero => "assets/images/logo_infraero.png";
+  static String get user_avatar => "assets/images/user_avatar.png";
 }
