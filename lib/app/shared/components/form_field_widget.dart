@@ -4,18 +4,27 @@ import 'package:google_fonts/google_fonts.dart';
 
 class FormFieldWidget extends StatelessWidget {
   FormFieldWidget(
-      {required this.formFieldController,
-        required this.name,
-        required this.message});
+      this.formFieldController,
+      this.name);
 
-  TextEditingController formFieldController;
+   TextEditingController formFieldController;
   int times = 0;
-  String message;
-  String name;
+   String name;
 
-  String? _validateFormField(value) {
+  String? validateAgeFormField(value) {
+    int valor = 0;
+    if(value!='')
+      valor = int.tryParse(value)!;
     if (value == "") {
-      return "${message}";
+
+      return "digite sua idade";
+    } else if( valor < 18){
+      return "Precisa ser maior de 18 anos";
+    }
+    return null;
+  } String? valideNickNameFormField(value) {
+    if (value == "") {
+      return "digite seu nickname";
     }
     return null;
   }
@@ -23,14 +32,14 @@ class FormFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: 280.0,
-        height: 60,
+        width: 350.0,
+        height: 100,
         child: TextFormField(
             onEditingComplete: () {},
-            autovalidateMode: AutovalidateMode.always,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             autofocus: false,
             maxLength: name == "nickname" ? 40 : 2,
-            validator: _validateFormField,
+            validator: name == "idade" ? validateAgeFormField : valideNickNameFormField ,
             controller: formFieldController,
             keyboardType:
             name == "idade" ? TextInputType.number : TextInputType.text,
@@ -39,9 +48,18 @@ class FormFieldWidget extends StatelessWidget {
                 : <TextInputFormatter>[],
             decoration: InputDecoration(
                 contentPadding:
-                EdgeInsets.symmetric(vertical: 7, horizontal: 25),
+                EdgeInsets.symmetric(vertical: 16, horizontal: 30),
                 focusColor: Colors.black12,
                 hintText: '${name}',
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(10),
+                        bottomRight: Radius.circular(10),
+                        topLeft: Radius.circular(10),
+                        topRight: Radius.circular(10)
+                    ),
+                    borderSide: BorderSide(color: Colors.black12)
+                ),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(10),
@@ -61,7 +79,7 @@ class FormFieldWidget extends StatelessWidget {
                     borderSide: BorderSide(color: Colors.black12)
                 )
             ),
-            style: GoogleFonts.inter(fontSize: 14)
+            style: GoogleFonts.inter(fontSize: 15)
         )
     );
   }

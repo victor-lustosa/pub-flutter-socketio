@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:pub/app/config/app_colors.dart';
+import 'package:pub/app/shared/config/app_colors.dart';
 import 'package:pub/app/models/user.dart';
 import 'package:pub/app/pages/establishment/establishment_page.dart';
-import 'package:pub/app/pages/user/widgets/enterprise_register_bar_widget.dart';
+import 'package:pub/app/pages/user/components/enterprise_register_bar_widget.dart';
 import 'package:pub/app/view_models/user_view_model.dart';
-import 'package:pub/app/shared/form_field_widget.dart';
+import 'package:pub/app/shared/components/form_field_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pub/app/shared/dropdown_widget.dart';
+import 'package:pub/app/shared/components/dropdown_widget.dart';
 import 'package:location/location.dart';
 class EnterpriseRegisterPage extends StatefulWidget  {
   _EnterpriseRegisterPageState createState() => _EnterpriseRegisterPageState();
@@ -52,16 +52,14 @@ class _EnterpriseRegisterPageState extends State<EnterpriseRegisterPage> {
                           Padding(
                               padding: EdgeInsets.only(top: 60),
                               child:  FormFieldWidget(
-                                  formFieldController :_nickNameController,
-                                  name: 'nickname',
-                                  message: 'digite seu nickname')
+                                  _nickNameController,
+                                  'nickname')
                           ),
                           Padding(
                               padding: EdgeInsets.only(top: 28),
                               child:  FormFieldWidget(
-                                  formFieldController :_ageController,
-                                  name: 'idade',
-                                  message: 'digite sua idade')
+                                  _ageController,
+                                  'idade')
 
                           ),
                           Padding(
@@ -81,28 +79,26 @@ class _EnterpriseRegisterPageState extends State<EnterpriseRegisterPage> {
                                   ), width: 280, height: 38,
                                   child: Form(
                                       autovalidateMode: AutovalidateMode.always,
-                                      child: DropdownWidget(list: _listGenres, callback: (String dropdownReturn){
+                                      child: DropdownWidget(_listGenres, (String dropdownReturn){
                                         setState(() {
                                           _selectedGenre = dropdownReturn;
                                         });
-                                      },name: "gênero",))
+                                      }, "gênero",))
                               )),
                           Padding(
                             padding: EdgeInsets.only(top: 144),
                             child: ElevatedButton(
                                 onPressed: (){
-                                  User user = _userViewModel.validaUsuario(_nickNameController, _ageController, _selectedGenre, _listGenres);
+                                  User user = _userViewModel.validateUser(_nickNameController, _ageController, _selectedGenre, _listGenres);
                                   this._latitude = _userViewModel.locationData.latitude.toString();
                                   this._longitude = _userViewModel.locationData.longitude.toString();
                                   Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) => EstablishmentPage( user: user,
-                                                                               latitude:_latitude,
-                                                                               longitude:_longitude)
+                                      builder: (context) => EstablishmentPage(user, _latitude, _longitude)
                                   )
                                   );
                                 },
                                 child: Text("Avançar",
-                                    style:GoogleFonts.inter( fontSize: 14, color: Colors.white)
+                                    style:GoogleFonts.inter( fontSize: 15, color: Colors.white)
                                 ),
                                 style: ButtonStyle(
                                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(

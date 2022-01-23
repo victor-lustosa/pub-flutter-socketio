@@ -1,6 +1,7 @@
 
 import 'package:dio/dio.dart';
-import 'package:pub/app/config/app_routes.dart';
+
+import '../shared/config/app_routes.dart';
 import 'repository.dart';
 
  abstract class IEstablishmentRepository implements Repository{

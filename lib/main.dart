@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pub/app/config/NoGlowBehavior.dart';
+
 import 'package:pub/app/pages/home/home_page.dart';
+
+import 'app/shared/config/no_glow_behavior.dart';
 
 void main() {
   runApp(

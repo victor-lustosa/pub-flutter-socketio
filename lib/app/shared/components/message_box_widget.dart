@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:pub/app/config/app_colors.dart';
+
 import 'package:pub/app/models/establishment.dart';
 import 'package:pub/app/models/message.dart';
 import 'package:pub/app/models/user.dart';
 import 'package:pub/app/view_models/room_view_model.dart';
 
+import '../config/app_colors.dart';
+
 class MessageBoxWidget extends StatelessWidget{
   Establishment establishment;
   User user;
 
-  MessageBoxWidget({required this.establishment, required this.user });
+  MessageBoxWidget(this.establishment, this.user);
 
   TextEditingController _messageController = TextEditingController();
   RoomViewModel _roomViewModel = RoomViewModel();

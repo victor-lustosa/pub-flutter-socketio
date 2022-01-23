@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:pub/app/models/establishment.dart';
 import 'package:pub/app/models/user.dart';
-import 'package:pub/app/shared/message_box_widget.dart';
+import 'package:pub/app/shared/components/message_box_widget.dart';
 
 class RoomPage extends StatefulWidget {
   Establishment establishment;
   User user;
-  RoomPage({required this.establishment, required this.user });
+  RoomPage(this.establishment, this.user);
   @override
   _RoomPageState createState() => _RoomPageState();
 }
@@ -117,7 +117,7 @@ class _RoomPageState extends State<RoomPage>  {
               child: Column(
                 children: <Widget>[
                   // stream,
-                  MessageBoxWidget(establishment: this.widget.establishment, user: this.widget.user),
+                  MessageBoxWidget(this.widget.establishment, this.widget.user),
                 ],
               ),
             )),

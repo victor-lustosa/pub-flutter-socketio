@@ -1,7 +1,7 @@
 class User {
   late int _idUser;
   late String _nickname;
-  late int _age;
+  late double _age;
   late String _genre;
 
   User();
@@ -13,6 +13,6 @@ class User {
 
 //SETTERS
   setNickname(String nickname) => _nickname = nickname;
-  setAge(int age) => _age = age;
+  setAge(double age) => _age = age;
   setGenre(String genre) => _genre = genre;
 }

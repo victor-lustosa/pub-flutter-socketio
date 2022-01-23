@@ -8,8 +8,15 @@ abstract class IEstablishmentViewModel{
 }
 
 class EstablishmentViewModel implements IEstablishmentViewModel{
-  IEstablishmentRepository repository;
-  EstablishmentViewModel(this.repository);
+  final IEstablishmentRepository repository;
+  EstablishmentViewModel(this.repository, this._establishmentList);
+   List<dynamic> _establishmentList;
+
+  List<dynamic> get establishmentList => _establishmentList;
+
+  set establishmentList(List<dynamic> value) {
+    _establishmentList = value;
+  }
 
   Future<List<Establishment>> getListEstablishments(String latitude, String longitude) async{
     try{

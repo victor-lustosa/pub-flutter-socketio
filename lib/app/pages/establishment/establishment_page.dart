@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pub/app/config/app_colors.dart';
+import 'package:pub/app/shared/config/app_colors.dart';
 
 import 'package:pub/app/models/user.dart';
-import 'package:pub/app/pages/establishment/widgets/establishment_tab_bar_sliver_widget.dart';
-import 'package:pub/app/pages/establishment/widgets/establishment_title_sliver_widget.dart';
-import 'widgets/establishment_flexible_space_bar_widget.dart';
-import 'widgets/establishment_page_one_widget.dart';
-import 'widgets/establishment_page_two_widget.dart';
-// import '../../widgets/establishment_page_two_widget.dart';
-
+import 'package:pub/app/pages/establishment/components/establishment_tab_bar_sliver_widget.dart';
+import 'package:pub/app/view_models/establishment_view_model.dart';
+import '../../repositories/establishment_repository.dart';
+import 'components/establishment_flexible_space_bar_widget.dart';
+import 'components/establishment_page_one_widget.dart';
+import 'components/establishment_page_two_widget.dart';
+// import '../../components/establishment_page_two_widget.dart';
+import 'package:dio/dio.dart';
 class EstablishmentPage extends StatefulWidget {
   User user;
   String latitude;
   String longitude;
 
-  EstablishmentPage(
-      {required this.user, required this.latitude, required this.longitude});
+  EstablishmentPage( this.user, this.latitude, this.longitude);
 
   @override
   _EstablishmentPageState createState() => _EstablishmentPageState();
@@ -26,7 +26,7 @@ class _EstablishmentPageState extends State<EstablishmentPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late ScrollController _scrollViewController;
-
+  final EstablishmentViewModel _establishmentViewModel = EstablishmentViewModel(DioEstablishmentRepository(Dio()),[]);
   @override
   void initState() {
     super.initState();
@@ -49,23 +49,22 @@ class _EstablishmentPageState extends State<EstablishmentPage>
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverAppBar(
-                  bottom: EstablishmentTabBarSliverWidget(_tabController),
-                  automaticallyImplyLeading: false,
-                  backgroundColor: AppColors.darkBrown,
-                  title: EstablishmentTitleSliverWidget(),
-                  pinned: true,
-                  snap: false,
-                  floating: true,
-                  expandedHeight: 133.0,
-                  collapsedHeight: 33,
-                  toolbarHeight: 33,
-                  flexibleSpace: FlexibleSpaceBar(
-                    background: EstablishmentFlexibleSpaceBarWidget(this.widget.user),
-                  )),
-            ];
-          },
-          body: TabBarView(controller: _tabController, children: <Widget>[
-            EstablishmentPageOneWidget(user: this.widget.user),
+                flexibleSpace: FlexibleSpaceBar(
+                  background: EstablishmentFlexibleSpaceBarWidget(this.widget.user),
+                ),
+                automaticallyImplyLeading: false,
+                backgroundColor: AppColors.darkBrown,
+                pinned: true,
+                snap: false,
+                floating: false,
+                expandedHeight: 133.0,
+                collapsedHeight: 33,
+                toolbarHeight: 33,
+                bottom: EstablishmentTabBarSliverWidget(_tabController),
+              )];},
+          body: TabBarView(
+              controller: _tabController, children: <Widget>[
+            EstablishmentPageOneWidget(this.widget.user,_establishmentViewModel),
             EstablishmentPageTwoWidget()
           ])),
       floatingActionButton: SizedBox(

@@ -3,31 +3,38 @@ import 'package:google_fonts/google_fonts.dart';
 
 class DropdownWidget extends StatefulWidget{
 
-  DropdownWidget({required this.list, required this.callback, required this.name});
+  DropdownWidget(this.list, this.callback,this.name);
   final Function(String) callback;
   List<String> list;
   String name;
   _DropdownWidgetState createState() => _DropdownWidgetState();
 }
-  class _DropdownWidgetState extends State<DropdownWidget> {
-    String _listSelected = '';
-    bool isSelected =  false;
+class _DropdownWidgetState extends State<DropdownWidget> {
+  String _listSelected = '';
+  bool isSelected =  false;
 
   @override
   Widget build(BuildContext context) {
     return DropdownButton<String>(
-      underline:SizedBox() ,
+      elevation: 16,
+      underline:SizedBox() ,iconSize: 32,iconEnabledColor: Colors.white,
+      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10),
+          bottomRight: Radius.circular(10),
+          topLeft: Radius.circular(10),
+          topRight: Radius.circular(10)),
       items: this.widget.list.map<DropdownMenuItem<String>>((String val) {
         return DropdownMenuItem<String>(
+
             value: val,
-            child:Container(
-                 width: 243,
-                child: Padding(padding: EdgeInsets.only(bottom: 3, left: 22),
-                    child:Text(
-                        val,
-                        style:GoogleFonts.inter( fontSize: 14, color: Colors.black54)
-                    )
+            child: Padding(
+                padding: const EdgeInsets.only(top: 16, left: 22),
+                child:  SizedBox(width: 294,height: 44,
+                  child: Text(
+                      val,
+                      style:GoogleFonts.inter( fontSize: 15, color: Colors.black54)
+                  ),
                 )
+
             )
         );
       }
@@ -35,11 +42,12 @@ class DropdownWidget extends StatefulWidget{
       hint: Row(
           children: [
             Padding(
-                padding: EdgeInsets.only(bottom: 3, left: 22),
-                child:Text("${this.widget.name}")),
+                  padding: EdgeInsets.only(top:5,left: 25),
+                  child:Text("${this.widget.name}")),
+
           ]
       ),
-      style:GoogleFonts.inter(fontSize: 14),
+      style:GoogleFonts.inter(fontSize: 15),
       onChanged: (newValue) {
         _dropDownItemSelected(newValue!);
         this.setState(() {
