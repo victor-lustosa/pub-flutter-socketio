@@ -14,7 +14,7 @@ class MessageBoxWidget extends StatelessWidget{
   MessageBoxWidget(this.establishment, this.user);
 
   TextEditingController _messageController = TextEditingController();
-  RoomViewModel _roomViewModel = RoomViewModel();
+
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class MessageBoxWidget extends StatelessWidget{
                   color: Colors.white,
                 ),
                 mini: true,
-                onPressed: _roomViewModel.sendMessage(
+                onPressed: RoomViewModel.instance.sendMessage(
                     this.establishment,
                     _messageController.text,
                     Message(),

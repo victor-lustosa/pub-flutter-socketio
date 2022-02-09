@@ -1,10 +1,9 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pub/app/shared/config/no_glow_behavior.dart';
-import '../../../shared/config/app_colors.dart';
+
 import '../../../models/user.dart';
-import '../../../repositories/establishment_repository.dart';
+import '../../../shared/components/Routes.dart';
+import '../../../shared/config/app_colors.dart';
 import '../../../shared/config/app_images.dart';
 import '../../../view_models/establishment_view_model.dart';
 import '../../room/room_page.dart';
@@ -18,8 +17,9 @@ class EstablishmentPageOneWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
     return Container(
-      height: 0,
       decoration: BoxDecoration(
           color: AppColors.darkBrown
       ),
@@ -30,11 +30,10 @@ class EstablishmentPageOneWidget extends StatelessWidget {
             topRight: const Radius.circular(10.0),
           ),
           ),
-
-          child: FutureBuilder<List<dynamic>>(
+          child: FutureBuilder(
               future: _establishmentViewModel.getListEstablishments('-10.182325978880673','-48.33803205711477'),
               initialData: [],
-              builder: (context, AsyncSnapshot<List<dynamic>> snapshot){
+              builder: (context, AsyncSnapshot snapshot){
                 switch(snapshot.connectionState) {
                   case ConnectionState.none:
                     break;
@@ -42,7 +41,7 @@ class EstablishmentPageOneWidget extends StatelessWidget {
                     return Column(mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CircularProgressIndicator(
-                            valueColor: new AlwaysStoppedAnimation<Color>(
+                            valueColor: AlwaysStoppedAnimation<Color>(
                                 AppColors.darkBrown)
                         ),
                       ],
@@ -54,14 +53,14 @@ class EstablishmentPageOneWidget extends StatelessWidget {
                       return Column(mainAxisAlignment: MainAxisAlignment.center,
                           children:[ Center(
                               child: CircularProgressIndicator(
-                                  valueColor: new AlwaysStoppedAnimation<Color>(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
                                       AppColors.darkBrown)
                               )
                           )
                           ] );
                     }
                     _establishmentViewModel.establishmentList = snapshot.data!;
-                    return   ListView.builder(
+                    return ListView.builder(
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
                         itemCount: snapshot.data!.length ,
@@ -88,36 +87,28 @@ class EstablishmentPageOneWidget extends StatelessWidget {
                                           offset: Offset(1, 3,), // changes position of shadow
                                         ),
                                       ],
-
                                       ),child: Image.asset(AppImages.light_logo,width: 20,height: 20),)),
                                 title: Padding(
-                                    padding: EdgeInsets.only(left: 0,bottom: 10) ,
+                                    padding: EdgeInsets.only(bottom: 10) ,
                                     child: Text(
                                         _establishmentViewModel.establishmentList[index].getName,
                                         style: GoogleFonts.inter( color: AppColors.brown, fontSize: 18,))
                                 ),
                                 subtitle:Row(
                                   children: [
+                                    Text( '20 pessoas',
+                                        style:GoogleFonts.inter( fontSize: 13, color: Colors.black45)),
                                     Padding(
-                                        padding: EdgeInsets.only(left: 0,bottom: 0) ,
-                                        child: Text( '20 pessoas',
-                                            style:GoogleFonts.inter( fontSize: 13, color: Colors.black45))
-                                    ),
-                                    Padding(
-                                        padding: EdgeInsets.only(left: 40,bottom: 0) ,
+                                        padding: EdgeInsets.only(left: 40) ,
                                         child: Text('3.2 km de distância',
                                             style:GoogleFonts.inter( fontSize: 13, color: Colors.black45))
                                     ),
                                   ],
                                 ),
                                 onTap: () {
-                                  Navigator.push( context,
-                                      MaterialPageRoute( builder:
-                                          (context) => RoomPage(
-                                              _establishmentViewModel.establishmentList[index],
-                                          this.user)
-                                      )
-                                  );
+                                  Navigator.pushNamed(context,Routes.PUBLIC_ROOM_ROUTE,
+                                  arguments:{ 'establishment': _establishmentViewModel.establishmentList[index], 'user': this.user });
+
                                 }
                             ),
                           );

@@ -8,6 +8,8 @@ import 'package:pub/app/shared/components/form_field_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pub/app/shared/components/dropdown_widget.dart';
 import 'package:location/location.dart';
+
+import '../../models/establishment.dart';
 class EnterpriseRegisterPage extends StatefulWidget  {
   _EnterpriseRegisterPageState createState() => _EnterpriseRegisterPageState();
 }
@@ -51,16 +53,11 @@ class _EnterpriseRegisterPageState extends State<EnterpriseRegisterPage> {
                         children: <Widget> [
                           Padding(
                               padding: EdgeInsets.only(top: 60),
-                              child:  FormFieldWidget(
-                                  _nickNameController,
-                                  'nickname')
+                              child:  FormFieldWidget(_nickNameController, 'nickname')
                           ),
                           Padding(
                               padding: EdgeInsets.only(top: 28),
-                              child:  FormFieldWidget(
-                                  _ageController,
-                                  'idade')
-
+                              child:  FormFieldWidget(_ageController, 'idade')
                           ),
                           Padding(
                               padding: EdgeInsets.only(top: 28),
@@ -71,7 +68,7 @@ class _EnterpriseRegisterPageState extends State<EnterpriseRegisterPage> {
                                         bottomRight: Radius.circular(10),
                                         topLeft: Radius.circular(10),
                                         topRight: Radius.circular(10)),
-                                    border: new Border.all(
+                                    border: Border.all(
                                         color: Colors.black12,
                                         width: 1.0,
                                         style: BorderStyle.solid
@@ -82,18 +79,23 @@ class _EnterpriseRegisterPageState extends State<EnterpriseRegisterPage> {
                                       child: DropdownWidget(_listGenres, (String dropdownReturn){
                                         setState(() {
                                           _selectedGenre = dropdownReturn;
-                                        });
-                                      }, "gênero",))
-                              )),
+                                        }
+                                       );
+                                      }, "gênero",)
+                                  )
+                              )
+                          ),
                           Padding(
                             padding: EdgeInsets.only(top: 144),
                             child: ElevatedButton(
                                 onPressed: (){
-                                  User user = _userViewModel.validateUser(_nickNameController, _ageController, _selectedGenre, _listGenres);
+                                  double idade =  3;
+                                  Establishment establishment = Establishment();
+                                  User user = _userViewModel.validateUser(_nickNameController,_ageController, _selectedGenre, _listGenres);
                                   this._latitude = _userViewModel.locationData.latitude.toString();
                                   this._longitude = _userViewModel.locationData.longitude.toString();
                                   Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) => EstablishmentPage(user, _latitude, _longitude)
+                                      builder: (context) => EstablishmentPage(user, establishment)
                                   )
                                   );
                                 },

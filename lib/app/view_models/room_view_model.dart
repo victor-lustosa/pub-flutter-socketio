@@ -8,6 +8,8 @@ abstract class IRoomViewModel{
 }
 
 class RoomViewModel implements IRoomViewModel{
+  RoomViewModel._();
+  static final RoomViewModel instance = RoomViewModel._();
 
   sendMessage(Establishment establishment, String textMessage, Message message, User user) {
     if (textMessage.isNotEmpty) {
@@ -16,5 +18,4 @@ class RoomViewModel implements IRoomViewModel{
       message.setSendDate(DateTime.now());
     }
   }
-
 }

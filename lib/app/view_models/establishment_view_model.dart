@@ -1,22 +1,15 @@
-
 import 'package:pub/app/models/establishment.dart';
 import 'package:pub/app/repositories/establishment_repository.dart';
-
-
+import 'package:dio/dio.dart';
 abstract class IEstablishmentViewModel{
   Future<List<Establishment>> getListEstablishments(String latitude, String longitude);
 }
 
 class EstablishmentViewModel implements IEstablishmentViewModel{
+  EstablishmentViewModel._(this.repository, this.establishmentList);
+  static final EstablishmentViewModel instance = EstablishmentViewModel._(DioEstablishmentRepository(Dio()),[]);
   final IEstablishmentRepository repository;
-  EstablishmentViewModel(this.repository, this._establishmentList);
-   List<dynamic> _establishmentList;
-
-  List<dynamic> get establishmentList => _establishmentList;
-
-  set establishmentList(List<dynamic> value) {
-    _establishmentList = value;
-  }
+  List establishmentList;
 
   Future<List<Establishment>> getListEstablishments(String latitude, String longitude) async{
     try{

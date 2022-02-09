@@ -3,26 +3,26 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class FormFieldWidget extends StatelessWidget {
-  FormFieldWidget(
-      this.formFieldController,
-      this.name);
+  FormFieldWidget(this.formFieldController, this.name);
 
-   TextEditingController formFieldController;
-  int times = 0;
-   String name;
+  late TextEditingController formFieldController;
+  late String name;
+
 
   String? validateAgeFormField(value) {
     int valor = 0;
-    if(value!='')
+    if(value != '')
       valor = int.tryParse(value)!;
-    if (value == "") {
 
+    if (value == "") {
       return "digite sua idade";
     } else if( valor < 18){
       return "Precisa ser maior de 18 anos";
     }
     return null;
-  } String? valideNickNameFormField(value) {
+  }
+
+  String? valideNickNameFormField(value) {
     if (value == "") {
       return "digite seu nickname";
     }
@@ -41,8 +41,7 @@ class FormFieldWidget extends StatelessWidget {
             maxLength: name == "nickname" ? 40 : 2,
             validator: name == "idade" ? validateAgeFormField : valideNickNameFormField ,
             controller: formFieldController,
-            keyboardType:
-            name == "idade" ? TextInputType.number : TextInputType.text,
+            keyboardType: name == "idade" ? TextInputType.number : TextInputType.text,
             inputFormatters: name == "idade"
                 ? <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]
                 : <TextInputFormatter>[],

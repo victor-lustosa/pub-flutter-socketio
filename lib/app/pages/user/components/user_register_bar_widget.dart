@@ -7,7 +7,6 @@ class UserRegisterBarWidget extends PreferredSize {
       : super(
     preferredSize: Size.fromHeight(325),
     child: Container(
-
         height: 325,
         decoration: BoxDecoration(color: AppColors.darkBrown),
         child:Stack(

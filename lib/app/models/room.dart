@@ -9,7 +9,9 @@ class Room {
   late List<User> _listUsers;
   late Message _message;
 
-  Room();
+  Room({required int idRoom, required String name, required String icon,
+    required bool public, required List<User> listUsers, required Message message});
+
   Room.with_parameters(this._name, this._listUsers);
 
   void addUser(User user) {
@@ -32,4 +34,25 @@ class Room {
   setIdRoom(int idRoom) => _idRoom = idRoom;
   setPublic(bool public) => _public = public;
 
+  Map<String, dynamic> toMap() {
+    return {
+      '_idRoom': this._idRoom,
+      '_name': this._name,
+      '_icon': this._icon,
+      '_public': this._public,
+      '_listUsers': this._listUsers,
+      '_message': this._message,
+    };
+  }
+
+  factory Room.fromMap(Map<String, dynamic> map) {
+    return Room(
+      idRoom: map['_idRoom'] as int,
+      name: map['_name'] as String,
+      icon: map['_icon'] as String,
+      public: map['_public'] as bool,
+      listUsers: map['_listUsers'] as List<User>,
+      message: map['_message'] as Message,
+    );
+  }
 }
