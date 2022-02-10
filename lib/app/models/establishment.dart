@@ -1,8 +1,8 @@
 import 'package:pub/app/models/room.dart';
 class Establishment {
   late String _name;
-  late String _latitude;
-  late String _longitude;
+  late double _latitude;
+  late double _longitude;
   late Room _room;
 
   Establishment();
@@ -20,8 +20,8 @@ class Establishment {
 
 //SETTERS
   setName(String nome) => _name = nome;
-  setLatitude(String latitude) => _latitude = latitude;
-  setLongitude(String longitude) => _longitude = longitude;
+  setLatitude(double latitude) => _latitude = latitude;
+  setLongitude(double longitude) => _longitude = longitude;
   setRoom(Room room) => _room = room;
 }
 

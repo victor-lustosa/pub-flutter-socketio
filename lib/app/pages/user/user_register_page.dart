@@ -94,11 +94,11 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                                   age = double.tryParse(_ageController.text) == null ? 0 : double.tryParse(_ageController.text)!;
                                   if(_ageController.text.isNotEmpty && _nickNameController.text.isNotEmpty) {
                                     User user = _userViewModel.validateUser(_nickNameController, _ageController, _selectedGenre, _listGenres);
-                                    establishment.setLatitude(_userViewModel.locationData.latitude.toString());
-                                    establishment.setLongitude(_userViewModel.locationData.longitude.toString());
+                                    establishment.setLatitude(_userViewModel.locationData.latitude!);
+                                    establishment.setLongitude(_userViewModel.locationData.longitude!);
                                     if(age >= 18){
                                       Navigator.pushReplacementNamed(context,Routes.ESTABLISHMENT_ROUTE,
-                                          arguments:{ 'user':user ,'establishment': establishment});
+                                          arguments:{'user':user ,'establishment': establishment});
                                     }
                                   }
                                 },
