@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pub/app/models/establishment.dart';
 import 'package:pub/app/shared/config/app_colors.dart';
 
 import 'package:pub/app/models/user.dart';
@@ -13,10 +14,9 @@ import 'components/establishment_page_two_widget.dart';
 import 'package:dio/dio.dart';
 class EstablishmentPage extends StatefulWidget {
   User user;
-  String latitude;
-  String longitude;
+  Establishment establishment;
 
-  EstablishmentPage( this.user, this.latitude, this.longitude);
+  EstablishmentPage( this.user, this.establishment);
 
   @override
   _EstablishmentPageState createState() => _EstablishmentPageState();
