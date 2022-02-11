@@ -40,16 +40,10 @@ class HomePage extends StatelessWidget {
                           fontSize: 14, /* fontWeight: FontWeight.w600,*/
                         )),
                     style: ButtonStyle(
-                      shape: MaterialStateProperty.all<
-                          RoundedRectangleBorder>(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(10),
-                                  bottomRight: Radius.circular(10),
-                                  topLeft: Radius.circular(10),
-                                  topRight: Radius.circular(10)))),
-                      backgroundColor:
-                      MaterialStateProperty.all(AppColors.lightBrown),
+                              borderRadius: BorderRadius.all(Radius.circular(10)))),
+                      backgroundColor: MaterialStateProperty.all(AppColors.lightBrown),
                       padding: MaterialStateProperty.all(
                           EdgeInsets.symmetric(horizontal:100, vertical: 16)),
                     ),
@@ -74,16 +68,10 @@ class HomePage extends StatelessWidget {
                           fontSize: 14, /* fontWeight: FontWeight.w600,*/
                         )),
                     style: ButtonStyle(
-                      shape: MaterialStateProperty.all<
-                          RoundedRectangleBorder>(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(10),
-                                  bottomRight: Radius.circular(10),
-                                  topLeft: Radius.circular(10),
-                                  topRight: Radius.circular(10)))),
-                      backgroundColor:
-                      MaterialStateProperty.all(AppColors.lightBrown),
+                              borderRadius: BorderRadius.all(Radius.circular(10)))),
+                      backgroundColor: MaterialStateProperty.all(AppColors.lightBrown),
                       padding: MaterialStateProperty.all(
                           EdgeInsets.symmetric(horizontal: 70, vertical: 16)),
                     ),

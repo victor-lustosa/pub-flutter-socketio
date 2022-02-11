@@ -52,30 +52,15 @@ class FormFieldWidget extends StatelessWidget {
                 focusColor: Colors.black12,
                 hintText: '${name}',
                 enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(10),
-                        bottomRight: Radius.circular(10),
-                        topLeft: Radius.circular(10),
-                        topRight: Radius.circular(10)
-                    ),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
                     borderSide: BorderSide(color: Colors.black12)
                 ),
                 border: OutlineInputBorder(
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(10),
-                        bottomRight: Radius.circular(10),
-                        topLeft: Radius.circular(10),
-                        topRight: Radius.circular(10)
-                    ),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
                     borderSide: BorderSide(color: Colors.black12)
                 ),
                 focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(10),
-                        bottomRight: Radius.circular(10),
-                        topLeft: Radius.circular(10),
-                        topRight: Radius.circular(10)
-                    ),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
                     borderSide: BorderSide(color: Colors.black12)
                 )
             ),
