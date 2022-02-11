@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pub/app/models/dto/establishment_dto.dart';
 
 import '../../../models/user.dart';
 import '../../../shared/components/Routes.dart';
@@ -107,7 +108,7 @@ class EstablishmentPageOneWidget extends StatelessWidget {
                                 ),
                                 onTap: () {
                                   Navigator.pushNamed(context,Routes.PUBLIC_ROOM_ROUTE,
-                                  arguments:{ 'establishment': _establishmentViewModel.establishmentList[index], 'user': this.user });
+                                  arguments:EstablishmentDTO(this.user, _establishmentViewModel.establishmentList[index]));
 
                                 }
                             ),

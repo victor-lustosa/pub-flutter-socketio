@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pub/app/models/dto/establishment_dto.dart';
 import 'package:pub/app/models/establishment.dart';
 import 'package:pub/app/models/user.dart';
 import 'package:pub/app/pages/establishment/establishment_page.dart';
@@ -34,8 +35,9 @@ class Routes{
             builder: (_) =>  HomePage());
 
       case ESTABLISHMENT_ROUTE:
+        EstablishmentDTO establishmentDTO = arguments as EstablishmentDTO;
         return MaterialPageRoute(
-            builder: (_) => EstablishmentPage(arguments as dynamic, arguments as dynamic));
+            builder: (_) => EstablishmentPage(establishmentDTO.user, establishmentDTO.establishment));
 
       case USER_REGISTER_ROUTE:
         return MaterialPageRoute(
@@ -46,8 +48,9 @@ class Routes{
             builder: (_) =>  EnterpriseRegisterPage());
 
       case PUBLIC_ROOM_ROUTE:
+        EstablishmentDTO establishmentDTO = arguments as EstablishmentDTO;
         return MaterialPageRoute(
-            builder: (_) => RoomPage(arguments as Establishment, arguments as User));
+            builder: (_) => RoomPage(establishmentDTO.establishment, establishmentDTO.user));
 
       default:
         _erroRota();

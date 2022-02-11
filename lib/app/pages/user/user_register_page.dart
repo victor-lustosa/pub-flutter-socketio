@@ -10,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pub/app/shared/components/dropdown_widget.dart';
 import 'package:location/location.dart';
 
+import '../../models/dto/establishment_dto.dart';
 import '../../shared/components/Routes.dart';
 class UserRegisterPage extends StatefulWidget  {
   _UserRegisterPageState createState() => _UserRegisterPageState();
@@ -33,7 +34,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
 
   @override
   Widget build (BuildContext context) {
-    final arguments = ModalRoute.of(context)?.settings.arguments as Map;
+
     return GestureDetector(
         onTap: () {
           FocusScopeNode currentFocus = FocusScope.of(context);
@@ -98,7 +99,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                                     establishment.setLongitude(_userViewModel.locationData.longitude!);
                                     if(age >= 18){
                                       Navigator.pushReplacementNamed(context,Routes.ESTABLISHMENT_ROUTE,
-                                          arguments:{'user':user ,'establishment': establishment});
+                                          arguments:EstablishmentDTO(user,establishment));
                                     }
                                   }
                                 },
