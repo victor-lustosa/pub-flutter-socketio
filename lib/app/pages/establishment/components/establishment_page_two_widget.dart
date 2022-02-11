@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import '../../../shared/config/app_colors.dart';
@@ -8,9 +7,7 @@ import '../../../shared/config/app_colors.dart';
 
 
 class EstablishmentPageTwoWidget extends StatelessWidget {
-  EstablishmentPageTwoWidget(
-      );
-
+  EstablishmentPageTwoWidget();
 
   // EstablishmentViewModel _establishmentViewModel = EstablishmentViewModel(DioEstablishmentRepository(Dio()));
   // late List<dynamic> _establishmentList;

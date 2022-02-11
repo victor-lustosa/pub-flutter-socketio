@@ -29,7 +29,7 @@ class _EnterpriseRegisterPageState extends State<EnterpriseRegisterPage> {
 
   late String _latitude;
   late String _longitude;
-  double age = 0;
+
   @override
   Widget build (BuildContext context) {
 
@@ -91,6 +91,16 @@ class _EnterpriseRegisterPageState extends State<EnterpriseRegisterPage> {
                             padding: EdgeInsets.only(top: 144),
                             child: ElevatedButton(
                                 onPressed: (){
+                                  double idade =  3;
+                                  Establishment establishment = Establishment();
+                                  User user = _userViewModel.validateUser(_nickNameController,_ageController, _selectedGenre, _listGenres);
+                                  this._latitude = _userViewModel.locationData.latitude.toString();
+                                  this._longitude = _userViewModel.locationData.longitude.toString();
+                                  Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) => EstablishmentPage(user, establishment)
+                                  )
+                                  );
+                                },
                                   Establishment establishment = Establishment();
                                   age = double.tryParse(_ageController.text) == null ? 0 : double.tryParse(_ageController.text)!;
                                   if(_ageController.text.isNotEmpty && _nickNameController.text.isNotEmpty) {

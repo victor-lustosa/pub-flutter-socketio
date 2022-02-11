@@ -6,7 +6,7 @@ import 'repository.dart';
 
  abstract class IEstablishmentRepository implements Repository{
 
-  Future<List<dynamic>> getAllEstablishments(String latitude, String longitude){
+  Future<List> getAllEstablishments(String latitude, String longitude){
     throw UnimplementedError();
   }
 }
@@ -21,7 +21,7 @@ class DioEstablishmentRepository  implements IEstablishmentRepository{
   }
 
   @override
-  Future<List<dynamic>> getAllEstablishments(String latitude, String longitude) async {
+  Future<List> getAllEstablishments(String latitude, String longitude) async {
     try {
 
       dio.options.headers['content-Type'] = 'application/json, charset=utf-8';

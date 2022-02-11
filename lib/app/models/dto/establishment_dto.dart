@@ -3,21 +3,21 @@ import 'package:pub/app/models/room.dart';
 
 import '../user.dart';
 class EstablishmentDTO {
-  late Establishment _establishment;
   late User _user;
-  EstablishmentDTO();
-  EstablishmentDTO.establishment(User user, Establishment establishment);
-  EstablishmentDTO.room(Establishment establishment, User user);
-  Establishment get establishment => _establishment;
+  late Establishment _establishment;
 
-  set establishment(Establishment value) {
-    _establishment = value;
-  }
+  EstablishmentDTO(this._user, this._establishment);
 
   User get user => _user;
 
   set user(User value) {
     _user = value;
+  }
+
+  Establishment get establishment => _establishment;
+
+  set establishment(Establishment value) {
+    _establishment = value;
   }
 }
 

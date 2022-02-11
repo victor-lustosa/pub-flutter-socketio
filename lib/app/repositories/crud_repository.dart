@@ -1,6 +1,5 @@
 
 import 'package:pub/app/repositories/repository.dart';
-import 'package:dio/dio.dart';
 
 abstract class  CrudRepository<T> implements Repository{
 

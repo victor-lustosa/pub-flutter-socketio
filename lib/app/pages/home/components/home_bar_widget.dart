@@ -20,7 +20,7 @@ class HomeBarWidget extends PreferredSize {
               Padding(
                   padding: EdgeInsets.only(top: 15),
                   child: Text(
-                    "PUB",
+                    "APP",
                     style: GoogleFonts.gugi(
                       color: AppColors.white,
                       fontSize: 30, /* fontWeight: FontWeight.w600,*/
