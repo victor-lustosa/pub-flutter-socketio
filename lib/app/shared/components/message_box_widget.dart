@@ -20,7 +20,7 @@ class MessageBoxWidget extends StatefulWidget {
 class _MessageBoxWidgetState extends State<MessageBoxWidget> {
   TextEditingController _messageController = TextEditingController();
 
-  RoomViewModel _roomViewModel = RoomViewModel();
+
   String _enteredText = '';
   List<String> listaMensagens = [
     'ola, tudo bem?',
@@ -142,7 +142,7 @@ class _MessageBoxWidgetState extends State<MessageBoxWidget> {
                     color: Colors.white,
                   ),
                   mini: true,
-                  onPressed: _roomViewModel.sendMessage(this.widget.establishment,
+                  onPressed: RoomViewModel.instance.sendMessage(this.widget.establishment,
                       _messageController.text, Message(), this.widget.user),
                 ),
               ),

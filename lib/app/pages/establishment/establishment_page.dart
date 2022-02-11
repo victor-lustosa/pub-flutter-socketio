@@ -5,8 +5,9 @@ import 'package:pub/app/shared/config/app_colors.dart';
 
 import 'package:pub/app/models/user.dart';
 import 'package:pub/app/pages/establishment/components/establishment_tab_bar_sliver_widget.dart';
-import 'package:pub/app/view_models/establishment_view_model.dart';
+
 import '../../repositories/establishment_repository.dart';
+import '../../view_models/establishment_view_model.dart';
 import 'components/establishment_flexible_space_bar_widget.dart';
 import 'components/establishment_page_one_widget.dart';
 import 'components/establishment_page_two_widget.dart';
@@ -26,7 +27,7 @@ class _EstablishmentPageState extends State<EstablishmentPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late ScrollController _scrollViewController;
-  final EstablishmentViewModel _establishmentViewModel = EstablishmentViewModel(DioEstablishmentRepository(Dio()),[]);
+
   @override
   void initState() {
     super.initState();
@@ -64,7 +65,7 @@ class _EstablishmentPageState extends State<EstablishmentPage>
               )];},
           body: TabBarView(
               controller: _tabController, children: <Widget>[
-            EstablishmentPageOneWidget(this.widget.user,_establishmentViewModel),
+            EstablishmentPageOneWidget(this.widget.user,EstablishmentViewModel.instance),
             EstablishmentPageTwoWidget()
           ])),
       floatingActionButton: SizedBox(

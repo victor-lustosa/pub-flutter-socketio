@@ -27,8 +27,7 @@ class _EnterpriseRegisterPageState extends State<EnterpriseRegisterPage> {
   List<String> _listGenres = ['Não informado','Masculino', 'Feminino'];
   String _selectedGenre = '';
 
-  late String _latitude;
-  late String _longitude;
+  double age = 0;
 
   @override
   Widget build (BuildContext context) {
@@ -91,26 +90,14 @@ class _EnterpriseRegisterPageState extends State<EnterpriseRegisterPage> {
                             padding: EdgeInsets.only(top: 144),
                             child: ElevatedButton(
                                 onPressed: (){
-                                  double idade =  3;
-                                  Establishment establishment = Establishment();
-                                  User user = _userViewModel.validateUser(_nickNameController,_ageController, _selectedGenre, _listGenres);
-                                  this._latitude = _userViewModel.locationData.latitude.toString();
-                                  this._longitude = _userViewModel.locationData.longitude.toString();
-                                  Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) => EstablishmentPage(user, establishment)
-                                  )
-                                  );
-                                },
                                   Establishment establishment = Establishment();
                                   age = double.tryParse(_ageController.text) == null ? 0 : double.tryParse(_ageController.text)!;
                                   if(_ageController.text.isNotEmpty && _nickNameController.text.isNotEmpty) {
-                                    User user = _userViewModel.validateUser(_nickNameController, _ageController, _selectedGenre, _listGenres);
-                                    establishment.setLatitude(_userViewModel.locationData.latitude!);
-                                    establishment.setLongitude(_userViewModel.locationData.longitude!);
-                                    Navigator.push(context, MaterialPageRoute(
-                                        builder: (context) => EstablishmentPage(user, establishment)
-                                    )
-                                    );
+                                  User user = _userViewModel.validateUser(_nickNameController, _ageController, _selectedGenre, _listGenres);
+                                  establishment.setLatitude(_userViewModel.locationData.latitude!);
+                                  establishment.setLongitude(_userViewModel.locationData.longitude!);
+                                  Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) => EstablishmentPage(user, establishment)));
                                   }},
                                 child: Text("Avançar",
                                     style:GoogleFonts.inter( fontSize: 15, color: Colors.white)

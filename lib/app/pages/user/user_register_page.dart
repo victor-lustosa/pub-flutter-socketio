@@ -10,6 +10,7 @@ import 'package:pub/app/shared/components/dropdown_widget.dart';
 import 'package:location/location.dart';
 
 import '../../models/dto/establishment_dto.dart';
+import '../../models/establishment.dart';
 import '../../shared/components/Routes.dart';
 class UserRegisterPage extends StatefulWidget  {
   _UserRegisterPageState createState() => _UserRegisterPageState();
