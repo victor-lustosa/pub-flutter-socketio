@@ -7,8 +7,6 @@ export class EstablishmentController {
             let establishment_featched = await EstablishmentRepository.find_establishments(request);
             if (establishment_featched !== null)
                 return response.status(200).json(establishment_featched);
-            else
-                return false
         } catch (e) {
             return response.status(500).json(e);
         }
