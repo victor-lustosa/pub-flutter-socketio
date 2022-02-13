@@ -1,7 +1,7 @@
 import {express} from "../app";
 const establishment_router = express.Router();
-const controller = require("../controllers/establishment-controller");
+import { EstablishmentController } from "../controllers/establishment-controller";
 
-establishment_router.get("/", controller.fetch);
+establishment_router.get("/", EstablishmentController.fetch);
 
 module.exports = establishment_router;

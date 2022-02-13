@@ -4,13 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node-dev --inspect --transpile-only --ignore-watch node src/server.ts"
+    "start": "ts-node-dev --inspect --transpile-only --ignore-watch ts-node src/server.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.25.0",
+    "body-parser": "^1.19.1",
     "express": "^4.17.1",
     "socket.io": "^4.3.1"
   },

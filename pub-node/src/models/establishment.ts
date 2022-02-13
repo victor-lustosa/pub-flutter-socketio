@@ -1,10 +1,6 @@
 export class Establishment{
-    constructor(public nameConstructor:string,public latitudeConstructor:number,public longitudeConstructor:number){
-        this.name = nameConstructor;
-        this.latitude = latitudeConstructor;
-        this.longitude = longitudeConstructor;
-    }
-    name:string;
-    latitude:number;
-    longitude:number;
+    constructor(public name:string,public latitude:number,public longitude:number){}
+    _name?:string;
+    _latitude?:number;
+    _longitude?:number;
 }

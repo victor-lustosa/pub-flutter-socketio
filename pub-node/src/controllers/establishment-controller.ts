@@ -1,14 +1,17 @@
-import { EstablishmentDTO } from "../models/establishment_dto";
+import { EstablishmentRepository } from "../repositories/establishment-repository";
 
-const establishment_repository = require("../repositories/establishment-repository");
+export class EstablishmentController {
 
-exports.fetch = async (request: EstablishmentDTO, response: any) => {
-    try{
-        console.log('request controller: '+request.latitude);
-        console.log('request controller: '+request.longitude);
-        let establishment_featched = await establishment_repository.find_establishments(request);
-        response.status(201).json(establishment_featched);
-    } catch (e) {
-        response.status(500).json(e);
+    static async fetch(request: any, response: any){
+
+        try{
+            let establishment_featched = await EstablishmentRepository.find_establishments(request);
+            if (establishment_featched !== null)
+                return response.status(201).json(establishment_featched);
+            else
+                return false
+        } catch (e) {
+            return response.status(500).json(e);
+        }
     }
 }
