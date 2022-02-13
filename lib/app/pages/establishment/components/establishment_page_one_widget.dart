@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pub/app/models/dto/establishment_dto.dart';
+import 'package:pub/app/models/dto/establishment_repository_dto.dart';
+import 'package:pub/app/models/establishment.dart';
 
 import '../../../models/user.dart';
-import '../../../shared/components/Routes.dart';
 import '../../../shared/config/app_colors.dart';
 import '../../../shared/config/app_images.dart';
+import '../../../shared/config/app_routes.dart';
 import '../../../view_models/establishment_view_model.dart';
 import '../../room/room_page.dart';
 
@@ -32,7 +34,7 @@ class EstablishmentPageOneWidget extends StatelessWidget {
           ),
           ),
           child: FutureBuilder(
-              future: _establishmentViewModel.getListEstablishments('-10.182325978880673','-48.33803205711477'),
+              future: _establishmentViewModel.getListEstablishments(EstablishmentRepositoryDTO('-10.182325978880673','-48.33803205711477')),
               initialData: [],
               builder: (context, AsyncSnapshot snapshot){
                 switch(snapshot.connectionState) {
@@ -107,7 +109,7 @@ class EstablishmentPageOneWidget extends StatelessWidget {
                                   ],
                                 ),
                                 onTap: () {
-                                  Navigator.pushNamed(context,Routes.PUBLIC_ROOM_ROUTE,
+                                  Navigator.pushNamed(context,AppRoutes.PUBLIC_ROOM_ROUTE,
                                   arguments:EstablishmentDTO(this.user, _establishmentViewModel.establishmentList[index]));
 
                                 }

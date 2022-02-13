@@ -1,8 +1,10 @@
 import 'package:pub/app/models/establishment.dart';
 import 'package:pub/app/repositories/establishment_repository.dart';
 import 'package:dio/dio.dart';
+
+import '../models/dto/establishment_repository_dto.dart';
 abstract class IEstablishmentViewModel{
-  Future<List<Establishment>> getListEstablishments(String latitude, String longitude);
+  Future<List<Establishment>> getListEstablishments(EstablishmentRepositoryDTO establishment);
 }
 
 class EstablishmentViewModel implements IEstablishmentViewModel{
@@ -11,9 +13,9 @@ class EstablishmentViewModel implements IEstablishmentViewModel{
   final IEstablishmentRepository repository;
   List establishmentList;
 
-  Future<List<Establishment>> getListEstablishments(String latitude, String longitude) async{
+  Future<List<Establishment>> getListEstablishments(EstablishmentRepositoryDTO establishment) async{
     try{
-      List listEstablishments = await repository.getAllEstablishments(latitude, longitude);
+      List listEstablishments = await repository.fetchEstablishments(establishment);
       return listEstablishments.map((model) => Establishment.with_JSON(model)).toList();
     }
     catch (e){

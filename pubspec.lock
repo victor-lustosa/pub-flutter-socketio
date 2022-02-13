@@ -281,7 +281,7 @@ packages:
     source: sdk
     version: "0.0.99"
   socket_io_client:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: socket_io_client
       url: "https://pub.dartlang.org"

@@ -11,7 +11,8 @@ import 'package:location/location.dart';
 
 import '../../models/dto/establishment_dto.dart';
 import '../../models/establishment.dart';
-import '../../shared/components/Routes.dart';
+import '../../shared/config/app_routes.dart';
+
 class UserRegisterPage extends StatefulWidget  {
   _UserRegisterPageState createState() => _UserRegisterPageState();
 }
@@ -105,7 +106,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                                     establishment.setLatitude(_userViewModel.locationData.latitude!);
                                     establishment.setLongitude(_userViewModel.locationData.longitude!);
                                     if(age >= 18){
-                                      Navigator.pushReplacementNamed(context,Routes.ESTABLISHMENT_ROUTE,
+                                      Navigator.pushReplacementNamed(context,AppRoutes.ESTABLISHMENT_ROUTE,
                                           arguments:EstablishmentDTO(user,establishment));
                                     }
                                   }

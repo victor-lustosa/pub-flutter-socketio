@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pub/app/models/establishment.dart';
 import 'package:pub/app/models/user.dart';
-import 'package:pub/app/shared/components/message_box_widget.dart';
+import 'package:pub/app/pages/room/components/message_box_widget.dart';
 import 'package:pub/app/shared/config/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -23,7 +23,7 @@ class _RoomPageState extends State<RoomPage> {
 
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppBar(automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         title: Row(
           children: <Widget>[
@@ -34,11 +34,25 @@ class _RoomPageState extends State<RoomPage> {
             //         ? NetworkImage(widget.contato.urlImagem)
             //         : null),
             Padding(
+                padding: EdgeInsets.only(top: 0, right: 0),
+                child: IconButton(
+                    iconSize: 30,
+                    icon: Icon(
+                      Icons.navigate_before_rounded,
+                      color: AppColors.darkBrown,
+                    ),
+                    color: AppColors.darkBrown,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    }
+                )
+            ),
+            Padding(
                 padding: EdgeInsets.only(left: 8),
                 child: Text(
                   widget.establishment.getName,
                   style:
-                      GoogleFonts.inter(fontSize: 17, color: AppColors.brown),
+                      GoogleFonts.inter(fontSize: 17, color: AppColors.darkBrown),
                 )
             )
           ],

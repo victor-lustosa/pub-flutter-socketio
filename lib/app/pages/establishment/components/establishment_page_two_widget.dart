@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../shared/config/app_colors.dart';
-// import '../../repositories/establishment_repository.dart';
+// import '../../repositories/establishment_repository_dto.dart';
 // import '../../view_models/establishment_view_model.dart';
 
 

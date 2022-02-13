@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pub/app/pages/user/user_register_page.dart';
-import 'package:pub/app/shared/components/Routes.dart';
+
 import 'package:pub/app/shared/config/app_colors.dart';
 
+import '../../shared/config/app_routes.dart';
 import 'components/home_bar_widget.dart';
 
 class HomePage extends StatelessWidget {
@@ -57,7 +58,7 @@ class HomePage extends StatelessWidget {
                   padding: EdgeInsets.only(top: 50),
                   child:ElevatedButton.icon(
                     onPressed: () {
-                      Navigator.pushNamed(context,Routes.USER_REGISTER_ROUTE);
+                      Navigator.pushNamed(context,AppRoutes.USER_REGISTER_ROUTE);
                     },
                     label: Text("Estabelecimento",
                         style: GoogleFonts.inter(

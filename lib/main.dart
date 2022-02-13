@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:pub/app/pages/home/home_page.dart';
 
-import 'app/shared/components/Routes.dart';
+import 'app/shared/config/app_routes.dart';
 import 'app/shared/config/no_glow_behavior.dart';
 
 void main() {
@@ -15,7 +15,7 @@ void main() {
         );
       },
           initialRoute: "/",
-          onGenerateRoute: Routes.onGenerateRoute,
+          onGenerateRoute: AppRoutes.onGenerateRoute,
           debugShowCheckedModeBanner: false,
           title: 'Pub',
           home: HomePage()

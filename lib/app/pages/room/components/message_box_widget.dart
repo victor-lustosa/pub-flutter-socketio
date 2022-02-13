@@ -1,11 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:pub/app/models/establishment.dart';
 import 'package:pub/app/models/message.dart';
 import 'package:pub/app/models/user.dart';
+import 'package:pub/app/shared/components/stream_socket.dart';
 import 'package:pub/app/view_models/room_view_model.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../config/app_colors.dart';
+import '../../../shared/config/app_colors.dart';
 
 class MessageBoxWidget extends StatefulWidget {
   Establishment establishment;
@@ -20,18 +23,7 @@ class MessageBoxWidget extends StatefulWidget {
 class _MessageBoxWidgetState extends State<MessageBoxWidget> {
   TextEditingController _messageController = TextEditingController();
 
-
   String _enteredText = '';
-  List<String> listaMensagens = [
-    'ola, tudo bem?',
-    'tudo otimo, e contigo?',
-    'Estou bem, queria ver uma coisa contigo, voce vai na corrida?',
-    'nao sei ainda, cara',
-    'porque se voce fosse, eu poderia te da um carona',
-    'ahh sim, blz',
-    'te aviso depois',
-    'blz'
-  ];
 
   @override
   initState() {
@@ -50,58 +42,46 @@ class _MessageBoxWidgetState extends State<MessageBoxWidget> {
     }
   }
   // ScrollController _scrollController = ScrollController();
-  // QuerySnapshot querySnapshot = snapshot.data;
-  // final _controller = StreamController<QuerySnapshot>.broadcast();
 
-  // var stream = StreamBuilder(
-  //   stream: _controller.stream,
-  //   builder: (context, snapshot) {
-  //     switch (snapshot.connectionState) {
-  //       case ConnectionState.none:
-  //       case ConnectionState.waiting:
-  //         return Center(
-  //           child: Column(
-  //             children: <Widget>[
-  //               Text("Carregando mensagens"),
-  //               CircularProgressIndicator()
-  //             ],
-  //           ),
-  //         );
-  //         break;
-  //       case ConnectionState.active:
-  //       case ConnectionState.done:
-  //
-  //         // QuerySnapshot querySnapshot = snapshot.data;
-  //
-  //         if (snapshot.hasError) {
-  //           return Text("Erro ao carregar os dados!");
-  //         }
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         Expanded(
-          child: ListView.builder(
-              itemCount: listaMensagens.length,
-              itemBuilder: (context, index) {
-                return Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                    padding: const EdgeInsets.all(6),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      padding: const EdgeInsets.all(14),
-                      decoration: const BoxDecoration(
-                          color: Color(0xffdcd9d9),
-                          borderRadius: BorderRadius.all(Radius.circular(8))),
-                      child: Text(
-                        listaMensagens[index],
-                        style: GoogleFonts.inter(fontSize: 14),
+          child: StreamBuilder(
+              stream: StreamSocket.instance.getResponse,
+              builder: (context,AsyncSnapshot<String> snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.none:
+                  case ConnectionState.waiting:
+                    return Center(
+                      child: Column(
+                        children: <Widget>[
+                          CircularProgressIndicator()
+                        ],
                       ),
-                    ),
-                  ),
-                );
-              }),
+                    );
+                    break;
+                  case ConnectionState.active:
+                  case ConnectionState.done:
+                    return Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding: const EdgeInsets.all(6),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          padding: const EdgeInsets.all(14),
+                          decoration: const BoxDecoration(
+                              color: Color(0xffdcd9d9),
+                              borderRadius: BorderRadius.all(Radius.circular(8))),
+                          child: Text(
+                            snapshot.data!,
+                            style: GoogleFonts.inter(fontSize: 14),
+                          ),
+                        ),
+                      ),
+                    );
+                }}),
         ),
         Row(
           children: [

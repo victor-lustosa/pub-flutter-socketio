@@ -6,7 +6,7 @@ class Establishment {
   late Room _room;
 
   Establishment();
-
+  Establishment.repository(this._latitude,this._longitude);
   Establishment.with_JSON (Map json) :
       _name = json['nome'],
       _latitude = json['latit'],
