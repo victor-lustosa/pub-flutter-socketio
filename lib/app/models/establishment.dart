@@ -8,9 +8,9 @@ class Establishment {
   Establishment();
   Establishment.repository(this._latitude,this._longitude);
   Establishment.with_JSON (Map json) :
-      _name = json['nome'],
-      _latitude = json['latit'],
-     _longitude = json['longit'];
+      _name = json['name'],
+      _latitude = json['latitude'],
+     _longitude = json['latitude'];
 
   //GETTERS
   get getName => _name;

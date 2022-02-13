@@ -8,9 +8,8 @@ export class EstablishmentRepository {
     private static establishmentList: Array<Establishment> = new Array<Establishment>();
 
     static  async find_establishments(data:any) {
-
         let res
-        let  result = await axios.get(`${api_tomtom}2/nearbySearch/.json?lat=${data.body.latitude}&lon=${data.body.longitude}&countrySet=BR%2C%20UTF-8&radius=5000&language=pt-BR&categorySet=9376003%2C%207315039&key=${key_tomtom}`)
+        let  result = await axios.get(`${api_tomtom}2/nearbySearch/.json?lat=${data.query.latitude}&lon=${data.query.longitude}&countrySet=BR%2C%20UTF-8&radius=5000&language=pt-BR&categorySet=9376003%2C%207315039&key=${key_tomtom}`)
         try{
             res  = result.data['results']
             for (let index = 0; index < res.length; index++) {

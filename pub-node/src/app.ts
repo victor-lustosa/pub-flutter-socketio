@@ -1,7 +1,10 @@
-
 export const express = require('express');
-const bodyParser = require('body-parser');
 export const app = express();
+const bodyParser = require('body-parser');
+const cors = require('cors')
+
+app.use(cors())
+
 const indexRouter = require("./routers/index-router");
 const establishmentRouter = require("./routers/establishment-router");
 
