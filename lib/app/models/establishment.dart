@@ -10,7 +10,7 @@ class Establishment {
   Establishment.with_JSON (Map json) :
       _name = json['name'],
       _latitude = json['latitude'],
-     _longitude = json['latitude'];
+     _longitude = json['longitude'];
 
   //GETTERS
   get getName => _name;

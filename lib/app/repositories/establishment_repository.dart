@@ -25,11 +25,12 @@ class DioEstablishmentRepository  implements IEstablishmentRepository{
   @override
   Future<List> fetchEstablishments(EstablishmentRepositoryDTO establishment) async {
     try {
-      final params = <String, dynamic>{
+      final params = <String, String>{
         'latitude': establishment.latitude,
         'longitude':establishment.longitude
       };
       dio.options.headers['content-Type'] = 'application/json, charset=utf-8';
+      print(params);
       var response = await dio.get('${urlEstablishments}',queryParameters: params);
       return response.data;
     } catch(e){
