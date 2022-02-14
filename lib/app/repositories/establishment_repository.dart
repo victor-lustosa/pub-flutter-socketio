@@ -30,7 +30,6 @@ class DioEstablishmentRepository  implements IEstablishmentRepository{
         'longitude':establishment.longitude
       };
       dio.options.headers['content-Type'] = 'application/json, charset=utf-8';
-      print(params);
       var response = await dio.get('${urlEstablishments}',queryParameters: params);
       return response.data;
     } catch(e){
