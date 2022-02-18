@@ -17,7 +17,12 @@ class RoomPage extends StatefulWidget {
 
 class _RoomPageState extends State<RoomPage> {
 
+@override
+  void initState() {
 
+    super.initState();
+
+  }
   @override
   Widget build(BuildContext context) {
 

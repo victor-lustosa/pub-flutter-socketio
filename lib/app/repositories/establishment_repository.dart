@@ -36,4 +36,5 @@ class DioEstablishmentRepository  implements IEstablishmentRepository{
       return throw Exception("Erro ao receber dados de Estabelecimentos: $e");
     }
   }
+
 }

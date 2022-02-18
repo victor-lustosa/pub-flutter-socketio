@@ -8,6 +8,8 @@ import 'package:pub/app/models/user.dart';
 import 'package:pub/app/shared/components/stream_socket.dart';
 import 'package:pub/app/view_models/room_view_model.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:rx_notifier/rx_notifier.dart';
+import '../../../models/room.dart';
 import '../../../shared/config/app_colors.dart';
 
 class MessageBoxWidget extends StatefulWidget {
@@ -21,50 +23,52 @@ class MessageBoxWidget extends StatefulWidget {
 }
 
 class _MessageBoxWidgetState extends State<MessageBoxWidget> {
-  TextEditingController _messageController = TextEditingController();
 
+  late final RoomViewModel instance;
   String _enteredText = '';
+  // ScrollController _scrollController = ScrollController();
 
   @override
   initState() {
     super.initState();
-  }
+    print(widget.establishment.toString());
+    print(widget.user.toString());
+    instance = RoomViewModel(widget.establishment,widget.user);
 
-  _sizeBoxMessage(String value){
-    if(value.length < 30) {
-      return 1;
-    } else if(value.length < 60){
-      return 2;
-    } else if(value.length < 100){
-      return 3;
-    } else{
-      return 5;
-    }
   }
-  // ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Expanded(
-          child: StreamBuilder(
-              stream: StreamSocket.instance.getResponse,
-              builder: (context,AsyncSnapshot<String> snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.none:
-                  case ConnectionState.waiting:
-                    return Center(
-                      child: Column(
-                        children: <Widget>[
-                          CircularProgressIndicator()
-                        ],
-                      ),
-                    );
-                    break;
-                  case ConnectionState.active:
-                  case ConnectionState.done:
-                    return Align(
+        // Expanded(
+        // child:
+        // StreamBuilder(
+        //     stream: StreamSocket.instance.getResponse,
+        //     builder: (context,AsyncSnapshot<Room> snapshot) {
+        //       switch (snapshot.connectionState) {
+        //         case ConnectionState.none:
+        //         case ConnectionState.waiting:
+        //           return Center(
+        //             child: CircularProgressIndicator(color:AppColors.brown ),
+        //           );
+        //           break;
+        //         case ConnectionState.active:
+        //         case ConnectionState.done:
+        //           return
+        //             Align(
+        RxBuilder(builder:(_){
+          return Expanded(
+            child: ListView.builder(
+                itemCount: instance.listEvents.length,
+                itemBuilder: (_,id){
+                  final event = instance.listEvents[id];
+                  if (event.getType == SocketEventType.enter_room) {
+                    return ListTile(title: Text('${widget.user.getNickname} entrou na sala'));
+                  }else if(event.getType == SocketEventType.leave_room){
+                    return ListTile(title: Text('${widget.user.getNickname} saiu da sala'));
+                  }return
+                    Align(
                       alignment: Alignment.centerRight,
                       child: Padding(
                         padding: const EdgeInsets.all(6),
@@ -74,20 +78,19 @@ class _MessageBoxWidgetState extends State<MessageBoxWidget> {
                           decoration: const BoxDecoration(
                               color: Color(0xffdcd9d9),
                               borderRadius: BorderRadius.all(Radius.circular(8))),
-                          child: Text(
-                            snapshot.data!,
+                          child: Text(event.getMessage,
                             style: GoogleFonts.inter(fontSize: 14),
                           ),
                         ),
                       ),
                     );
-                }}),
-        ),
+                }),
+          );}),
         Row(
           children: [
             Expanded(
               child: Padding(
-                padding: EdgeInsets.only(left: 8),
+                padding: EdgeInsets.only(left: 4,right: 8),
                 child: TextField(
                   onEditingComplete: () {},
                   onChanged: (String value) {
@@ -95,10 +98,11 @@ class _MessageBoxWidgetState extends State<MessageBoxWidget> {
                       _enteredText = value;
                     });
                   },
-                  controller: _messageController,
+                  onSubmitted: (_) => instance.sendMessage(),
+                  controller: instance.textController,
                   autofocus: true,
                   keyboardType: TextInputType.multiline,
-                  maxLines: _sizeBoxMessage(_enteredText) ,
+                  maxLines: instance.sizeBoxMessage(_enteredText) ,
                   style: GoogleFonts.inter(fontSize: 15),
                   decoration: InputDecoration(
                       contentPadding: EdgeInsets.fromLTRB(20, 6, 20, 6),
@@ -122,8 +126,9 @@ class _MessageBoxWidgetState extends State<MessageBoxWidget> {
                     color: Colors.white,
                   ),
                   mini: true,
-                  onPressed: RoomViewModel.instance.sendMessage(this.widget.establishment,
-                      _messageController.text, Message(), this.widget.user),
+                  onPressed: (){
+                    instance.sendMessage();
+                  },
                 ),
               ),
             )
