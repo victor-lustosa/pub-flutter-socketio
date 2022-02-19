@@ -5,24 +5,34 @@ import 'package:pub/app/models/user.dart';
 import 'message.dart';
 class Room {
   late int _idRoom;
-  late String _name;
+  late String _roomName;
+  late String _userNickName;
   late String _icon;
   late bool _isPublic;
-  List<dynamic> _listUsers = [];
-  late Message _message;
+  List<dynamic> _usersList = [];
+  List<dynamic> _messagesList = [];
   late String _type;
 
 
   Room.withoutParameters();
 
-  void addUser(User user) {
-    getListUsers.add(user);
+  void addUsers(User user) {
+    getUsersList.add(user);
   }
-
+  void addMessages(Message message) {
+    getMessagesList.add(message);
+  }
+  void removeMessages(){
+    setMessagesList([]);
+  }
+  void removeUsers(){
+    setMessagesList([]);
+  }
   //GETTERS
-  get getName => _name;
-  get getListUsers => _listUsers;
-  get getMessage => _message;
+  get getUserNickName => _userNickName;
+  get getRoomName => _roomName;
+  get getUsersList => _usersList;
+  get getMessagesList => _messagesList;
   get getIdRoom => _idRoom;
   get getIcon => _icon;
   get getIsPublic => _isPublic;
@@ -31,9 +41,10 @@ class Room {
 
 //SETTERS
   setType(SocketEventType type) =>  type = type;
-  setName(String name) => _name = name;
-  setListUsers(List<User> listUsers) => _listUsers = listUsers;
-  setMessage(Message message) => _message = message;
+  setUserNickName(String userNickName) => _userNickName = userNickName;
+  setRoomName(String roomName) => _roomName = roomName;
+  setUsersList(List<User> usersList) => _usersList = usersList;
+  setMessagesList(List<Message> messagesList) => _messagesList = messagesList;
   setIcon(String icon) => _icon = icon;
   setIdRoom(int idRoom) => _idRoom = idRoom;
   setIsPublic(bool isPublic) => _isPublic = isPublic;
@@ -41,10 +52,10 @@ class Room {
   Map toMap() {
     return {
       'idRoom': _idRoom,
-      'name': _name,
+      'userNickName': _userNickName,
       'isPublic': _isPublic,
-      'listUsers': _listUsers,
-      'message': _message.toMap(),
+      'usersList': _usersList,
+      'messagesList': _messagesList,
       'type':_type
     };
   }
@@ -52,10 +63,11 @@ class Room {
   factory Room.fromJson(Map<String, dynamic> map) {
     return Room(
       idRoom: map['idRoom'],
-      name: map['name'],
+      userNickName: map['userNickName'],
+      roomName: map['roomName'],
       isPublic: map['isPublic'],
-      listUsers: map['listUsers'],
-      message: Message.fromMap(map['message']),
+      usersList: map['usersList'],
+      messagesList: map['messagesList'],
       type: map['type']
     );
   }
@@ -63,15 +75,17 @@ class Room {
   Room({
     required type,
     required idRoom,
-    required name,
+    required userNickName,
+    required roomName,
     required isPublic,
-    required listUsers,
-    required message,
+    required usersList,
+    required messagesList,
   })  : _idRoom = idRoom,
-        _name = name,
+        _userNickName = userNickName,
+        _roomName = roomName,
         _isPublic = isPublic,
-        _listUsers = listUsers,
-        _message = message,
+        _usersList = usersList,
+        _messagesList = messagesList,
         _type = type;
 }
 enum SocketEventType { enter_room, leave_room, message }

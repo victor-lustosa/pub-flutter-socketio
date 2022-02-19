@@ -1,14 +1,9 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-
-import 'package:pub/app/models/establishment.dart';
-import 'package:pub/app/models/message.dart';
-import 'package:pub/app/models/user.dart';
-import 'package:pub/app/shared/components/stream_socket.dart';
-import 'package:pub/app/view_models/room_view_model.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:rx_notifier/rx_notifier.dart';
+import 'package:pub/app/models/user.dart';
+import 'package:pub/app/view_models/room_view_model.dart';
+
+import '../../../models/message.dart';
 import '../../../models/room.dart';
 import '../../../shared/config/app_colors.dart';
 
@@ -23,10 +18,11 @@ class MessageBoxWidget extends StatefulWidget {
 }
 
 class _MessageBoxWidgetState extends State<MessageBoxWidget> {
-
+  List<dynamic> dataMessagesList = [];
+  User userAux = User.withoutParameters();
   late final RoomViewModel instance;
   String _enteredText = '';
-  // ScrollController _scrollController = ScrollController();
+  ScrollController _scrollController = ScrollController();
 
   @override
   initState() {
@@ -39,58 +35,55 @@ class _MessageBoxWidgetState extends State<MessageBoxWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        // Expanded(
-        // child:
-        // StreamBuilder(
-        //     stream: StreamSocket.instance.getResponse,
-        //     builder: (context,AsyncSnapshot<Room> snapshot) {
-        //       switch (snapshot.connectionState) {
-        //         case ConnectionState.none:
-        //         case ConnectionState.waiting:
-        //           return Center(
-        //             child: CircularProgressIndicator(color:AppColors.brown ),
-        //           );
-        //           break;
-        //         case ConnectionState.active:
-        //         case ConnectionState.done:
-        //           return
-        //             Align(
-        RxBuilder(builder:(_){
-          return Expanded(
-            child: ListView.builder(
-                itemCount: instance.listEvents.length,
-                itemBuilder: (_,id){
-                  final event = instance.listEvents[id];
-                  print('evento ${event}');
-                  // if (event.getType == 'enter_room') {
-                  //   return ListTile(title: Text('${widget.user.getNickname} entrou na sala'));
-                  // }else if(event.getType == 'leave_room'){
-                  //   return ListTile(title: Text('${widget.user.getNickname} saiu da sala'));
-                  // }
-                  Color color = Color(0xffdcd9d9);
-                  Alignment alignment = Alignment.centerRight;
-                  if(event.getMessage.getUser != widget.user.getNickname){
-                    color = Colors.white;
-                    alignment = Alignment.centerLeft;
+        Expanded(
+        child: StreamBuilder<Room>(
+            stream: instance.getResponse,
+            builder: (context,AsyncSnapshot<Room> snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.none:
+                case ConnectionState.waiting:
+                  return Center(
+                    child: CircularProgressIndicator(color:AppColors.brown ),
+                  );
+                  break;
+                case ConnectionState.active:
+                case ConnectionState.done:
+               this.dataMessagesList = instance.convertData(snapshot);
+                return ListView.builder(
+                    controller: _scrollController,
+                    itemCount: this.dataMessagesList.length,
+                    itemBuilder: (_,index){
+                  if (snapshot.data!.getType == 'enter_room') {
+                    return ListTile(title: Text('${userAux.getNickname} entrou na sala'));
                   }
-                  return Align(
-                    alignment: alignment,
-                    child: Padding(
-                      padding: const EdgeInsets.all(6),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        padding: const EdgeInsets.all(14),
-                        decoration: BoxDecoration(
-                            color: color,
-                            borderRadius: BorderRadius.all(Radius.circular(8))),
-                        child: Text('${event.getMessage.getUser} - ${event.getMessage.getTextMessage}',
-                          style: GoogleFonts.inter(fontSize: 14),
+                  // else if(snapshot.data!.getType == 'leave_room'){
+                  //   return ListTile(title: Text('${userAux.getNickname} saiu da sala'));
+                  // }
+
+                   return Align(
+                      alignment: this.dataMessagesList[index].getUser != widget.user.getNickname ?
+                      Alignment.centerRight: Alignment.centerLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.all(6),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          padding: const EdgeInsets.all(14),
+                          decoration: BoxDecoration(
+                              color: this.dataMessagesList[index].getUser != widget.user.getNickname ?
+                              Color(0xffdcd9d9) : Colors.white,
+                              borderRadius: BorderRadius.all(Radius.circular(8))),
+                          child: Text('${this.dataMessagesList[index].getUser} - ${this.dataMessagesList[index].getTextMessage}',
+                            style: GoogleFonts.inter(fontSize: 14),
+                          ),
                         ),
                       ),
-                    ),
+                    );
+                  }
                   );
-                }),
-          );}),
+                }
+               },
+          )
+        ),
         Row(
           children: [
             Expanded(
@@ -103,7 +96,8 @@ class _MessageBoxWidgetState extends State<MessageBoxWidget> {
                       _enteredText = value;
                     });
                   },
-                  onSubmitted: (_) { instance.sendMessage();},
+                  focusNode: instance.focusNode,
+                  onSubmitted: (_) => instance.sendMessage(),
                   controller: instance.textController,
                   autofocus: true,
                   keyboardType: TextInputType.multiline,

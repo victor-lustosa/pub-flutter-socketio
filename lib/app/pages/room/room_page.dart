@@ -28,7 +28,6 @@ class _RoomPageState extends State<RoomPage> {
   @override
   Widget build(BuildContext context) {
 
-    print('nome: ${widget.room.getName}');
     return Scaffold(
       appBar: AppBar(automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
@@ -58,7 +57,7 @@ class _RoomPageState extends State<RoomPage> {
                 padding: EdgeInsets.only(left: 8),
                 child: Text(
 
-                  widget.room.getName,
+                  widget.room.getRoomName,
                   style:
                       GoogleFonts.inter(fontSize: 17, color: AppColors.darkBrown),
                 )

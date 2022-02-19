@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pub/app/models/dto/establishment_dto.dart';
 import 'package:pub/app/models/dto/establishment_repository_dto.dart';
-import 'package:pub/app/models/establishment.dart';
-
 import '../../../models/dto/room_dto.dart';
 import '../../../models/room.dart';
 import '../../../models/user.dart';
@@ -11,7 +8,6 @@ import '../../../shared/config/app_colors.dart';
 import '../../../shared/config/app_images.dart';
 import '../../../shared/config/app_routes.dart';
 import '../../../view_models/establishment_view_model.dart';
-import '../../room/room_page.dart';
 
 class EstablishmentPageOneWidget extends StatelessWidget {
   EstablishmentPageOneWidget(this.user,this._establishmentViewModel);
@@ -62,7 +58,7 @@ class EstablishmentPageOneWidget extends StatelessWidget {
                                       AppColors.darkBrown)
                               )
                           )
-                          ] );
+                        ]);
                     }
                     _establishmentViewModel.establishmentList = snapshot.data!;
                     return ListView.builder(
@@ -112,10 +108,9 @@ class EstablishmentPageOneWidget extends StatelessWidget {
                                 ),
                                 onTap: () {
                                   Room room = Room.withoutParameters();
-                                  room.setName(_establishmentViewModel.establishmentList[index].getName);
+                                  room.setRoomName(_establishmentViewModel.establishmentList[index].getName);
                                   Navigator.pushNamed(context,AppRoutes.PUBLIC_ROOM_ROUTE,
                                   arguments:RoomDTO(this.user, room));
-
                                 }
                             ),
                           );

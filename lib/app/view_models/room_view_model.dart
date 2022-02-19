@@ -1,28 +1,38 @@
 
+import 'dart:async';
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:pub/app/models/message.dart';
 import 'package:pub/app/models/user.dart';
-import 'package:rx_notifier/rx_notifier.dart';
+// import 'package:rx_notifier/rx_notifier.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 import '../models/room.dart';
+
 
 abstract class IRoomViewModel{
   // sendMessage();
 }
 
 class RoomViewModel implements IRoomViewModel{
+
+  final _socketResponse = StreamController<Room>.broadcast();
   late final Socket socket;
   final Random randomNumber = new Random();
   final Room room;
   final User user;
+  final focusNode = FocusNode();
   final Message message = Message.withoutParameters();
-  final listEvents = RxList<Room>([]);
+
+  Stream<Room> get getResponse => _socketResponse.stream;
+
+  // final listEvents = RxList<Room>([]);
   RoomViewModel(this.room, this.user){
     _initClientServer();
   }
-
+  List convertData(AsyncSnapshot snapshot){
+    return snapshot.data!.getMessagesList.map((message) => Message.fromMap(message)).toList();
+  }
   _initClientServer(){
     // Dart client
     socket = io('http://localhost:4000',
@@ -32,14 +42,13 @@ class RoomViewModel implements IRoomViewModel{
     );
     socket.connect();
     socket.onConnect((_){
-      socket.emit('enter_room',{'room':this.room.getName,'name':this.user.getNickname});
+      socket.emit('enter_room',{'room':this.room.getRoomName,'nickName':this.user.getNickname});
     });
     socket.on('message',(data){
       print(data);
       final event = Room.fromJson(data);
-      // listEvent.value.add(event);
-      // listEvent.value = List.from(listEvent.value);
-      listEvents.add(event);
+      _socketResponse.sink.add(event);
+
     });
   }
 
@@ -59,35 +68,53 @@ class RoomViewModel implements IRoomViewModel{
 
   void sendMessage() {
     String textMessage = textController.text;
-    print(textMessage);
-    print("entrei");
     message.setTextMessage(textMessage);
     if (textMessage.isNotEmpty) {
       this.user.setIdUser(randomNumber.nextInt(100));
-      room.addUser(this.user);
-      List userJsonCode = [];
-      for(int i = 0; i < room.getListUsers.length; i++){
-        userJsonCode.add(room.getListUsers[i].toMap());
+      for(int i = 0;i < room.getUsersList.length; i++){
+        if(room.getUsersList[i].getNickname != this.user.getNickname){
+          room.addUsers(this.user);
+        }
       }
-      final event = Room(
-          idRoom:randomNumber.nextInt(100),
-          name: room.getName,
-          isPublic: true,
-          listUsers: userJsonCode,
-          message: Message(
+
+      room.setMessagesList([]);
+      room.addMessages(
+          Message(
               createdAt: DateTime.now().toString(),
               idMessage: randomNumber.nextInt(100),
               textMessage: textMessage,
-              user: this.user.getNickname
-          ),
+              user: this.user.getNickname)
+      );
+      List jsonCodeUsersList = [];
+      List jsonCodeMessagesList = [];
+      print('oiii  ${room.getUsersList.toString()}');
+      for(int i = 0; i < room.getUsersList.length; i++){
+        jsonCodeUsersList.add(room.getUsersList[i].toMap());
+        print('lista usuarios: ${jsonCodeUsersList[i]}');
+      }
+
+      for(int i = 0; i < room.getMessagesList.length; i++){
+        jsonCodeMessagesList.add(room.getMessagesList[i].toMap());
+        print('lista mensagens: ${jsonCodeMessagesList[i]}');
+      }
+
+      final event = Room(
+          idRoom:randomNumber.nextInt(100),
+          roomName:room.getRoomName,
+          userNickName: user.getNickname,
+          isPublic: true,
+          usersList: jsonCodeUsersList,
+          messagesList: jsonCodeMessagesList,
           type: 'message');
+
       socket.emit('message', event.toMap());
-      // StreamSocket.instance.addResponse(message);
-      // StreamSocket.instance.toStringStream();
+      _socketResponse.sink.add(event);
       textController.clear();
+      focusNode.requestFocus();
     }
   }
   void dispose(){
+    _socketResponse.close();
     socket.clearListeners();
     socket.dispose();
     textController.dispose();
