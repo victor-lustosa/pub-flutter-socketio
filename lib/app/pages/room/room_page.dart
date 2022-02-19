@@ -5,11 +5,13 @@ import 'package:pub/app/pages/room/components/message_box_widget.dart';
 import 'package:pub/app/shared/config/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../models/room.dart';
+
 class RoomPage extends StatefulWidget {
-  Establishment establishment;
+  Room room;
   User user;
 
-  RoomPage(this.establishment, this.user);
+  RoomPage(this.room, this.user);
 
   @override
   _RoomPageState createState() => _RoomPageState();
@@ -26,7 +28,7 @@ class _RoomPageState extends State<RoomPage> {
   @override
   Widget build(BuildContext context) {
 
-
+    print('nome: ${widget.room.getName}');
     return Scaffold(
       appBar: AppBar(automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
@@ -55,7 +57,8 @@ class _RoomPageState extends State<RoomPage> {
             Padding(
                 padding: EdgeInsets.only(left: 8),
                 child: Text(
-                  widget.establishment.getName,
+
+                  widget.room.getName,
                   style:
                       GoogleFonts.inter(fontSize: 17, color: AppColors.darkBrown),
                 )
@@ -72,7 +75,7 @@ class _RoomPageState extends State<RoomPage> {
         child: SafeArea(
             child: Container(
           padding: EdgeInsets.all(8),
-          child: MessageBoxWidget(this.widget.establishment, this.widget.user),
+          child: MessageBoxWidget(this.widget.room, this.widget.user),
         )
        ),
       ),

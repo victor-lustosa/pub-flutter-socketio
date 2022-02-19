@@ -1,30 +1,25 @@
 
+import 'dart:math';
 import 'package:flutter/cupertino.dart';
-import 'package:pub/app/models/establishment.dart';
 import 'package:pub/app/models/message.dart';
 import 'package:pub/app/models/user.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 import 'package:socket_io_client/socket_io_client.dart';
+
 import '../models/room.dart';
-import '../shared/components/stream_socket.dart';
 
 abstract class IRoomViewModel{
-  sendMessage();
+  // sendMessage();
 }
 
 class RoomViewModel implements IRoomViewModel{
-  late Socket socket;
-  Establishment establishment;
+  late final Socket socket;
+  final Random randomNumber = new Random();
+  final Room room;
   final User user;
-  final Message message = Message();
+  final Message message = Message.withoutParameters();
   final listEvents = RxList<Room>([]);
-  RoomViewModel(this.establishment, this.user){
-    this.establishment.setRoom(Room());
-    this.establishment.getRoom.setName(this.establishment.getName);
-    this.establishment.getRoom.setIdRoom(23);
-    this.establishment.getRoom.setIcon('');
-    this.establishment.getRoom.setPublic(true);
-    this.establishment.getRoom.getListUsers().push(this.user);
+  RoomViewModel(this.room, this.user){
     _initClientServer();
   }
 
@@ -33,14 +28,14 @@ class RoomViewModel implements IRoomViewModel{
     socket = io('http://localhost:4000',
         OptionBuilder().
         setTransports(['websocket']).
-            build()
+        build()
     );
     socket.connect();
     socket.onConnect((_){
-      socket.emit('enter_room',{'room':this.establishment.getRoom,'name':this.user.getNickname});
+      socket.emit('enter_room',{'room':this.room.getName,'name':this.user.getNickname});
     });
     socket.on('message',(data){
-      final event = this.establishment.getRoom.fromJson(data);
+      final event = Room.fromJson(data);
       // listEvent.value.add(event);
       // listEvent.value = List.from(listEvent.value);
       listEvents.add(event);
@@ -65,13 +60,24 @@ class RoomViewModel implements IRoomViewModel{
     String textMessage = textController.text;
     print(textMessage);
     print("entrei");
+    message.setTextMessage(textMessage);
     if (textMessage.isNotEmpty) {
-      message.setTextMessage(textMessage);
-      message.setUser(user);
+      List users = [];
+      users.add(this.user);
 
-      message.setRoom(this.establishment.getRoom.getName);
-      this.establishment.getRoom.setMessage(message);
-      socket.emit('message',this.establishment.getRoom.toMap());
+      final event = Room(
+          idRoom:randomNumber.nextInt(100),
+          name: room.getName,
+          isPublic: true,
+          listUsers: users,
+          message: Message(
+              createdAt: DateTime.now().toString(),
+              idMessage: randomNumber.nextInt(100),
+              textMessage: textMessage,
+              user: this.user.getNickname
+          ),
+          type: SocketEventType.message);
+      socket.emit('message', event.toMap());
       // StreamSocket.instance.addResponse(message);
       // StreamSocket.instance.toStringStream();
       textController.clear();

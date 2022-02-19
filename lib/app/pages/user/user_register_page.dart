@@ -25,7 +25,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
 
   final TextEditingController _nickNameController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
-  UserViewModel _userViewModel = UserViewModel(Location(), User());
+  UserViewModel _userViewModel = UserViewModel(Location(), User.withoutParameters());
 
   List<String> _listGenres = ['não informado','masculino', 'feminino'];
   String _selectedGenre = '';

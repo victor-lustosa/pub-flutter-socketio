@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/dto/establishment_dto.dart';
+import '../../models/dto/room_dto.dart';
 import '../../pages/establishment/establishment_page.dart';
 import '../../pages/home/home_page.dart';
 import '../../pages/room/room_page.dart';
@@ -46,10 +47,9 @@ class AppRoutes{
             builder: (_) =>  EnterpriseRegisterPage());
 
       case PUBLIC_ROOM_ROUTE:
-        EstablishmentDTO establishmentDTO = arguments as EstablishmentDTO;
-        print(establishmentDTO.toString());
+        RoomDTO roomDTO = arguments as RoomDTO;
         return MaterialPageRoute(
-            builder: (_) => RoomPage(establishmentDTO.establishment, establishmentDTO.user));
+            builder: (_) => RoomPage(roomDTO.room, roomDTO.user));
 
       default:
         _erroRota();

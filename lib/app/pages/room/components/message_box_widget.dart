@@ -13,10 +13,10 @@ import '../../../models/room.dart';
 import '../../../shared/config/app_colors.dart';
 
 class MessageBoxWidget extends StatefulWidget {
-  Establishment establishment;
+  Room room;
   User user;
 
-  MessageBoxWidget(this.establishment, this.user);
+  MessageBoxWidget(this.room, this.user);
 
   @override
   _MessageBoxWidgetState createState() => _MessageBoxWidgetState();
@@ -31,9 +31,7 @@ class _MessageBoxWidgetState extends State<MessageBoxWidget> {
   @override
   initState() {
     super.initState();
-    print(widget.establishment.toString());
-    print(widget.user.toString());
-    instance = RoomViewModel(widget.establishment,widget.user);
+    instance = RoomViewModel(widget.room,widget.user);
 
   }
 
@@ -98,7 +96,7 @@ class _MessageBoxWidgetState extends State<MessageBoxWidget> {
                       _enteredText = value;
                     });
                   },
-                  onSubmitted: (_) => instance.sendMessage(),
+                  onSubmitted: (_) { instance.sendMessage();},
                   controller: instance.textController,
                   autofocus: true,
                   keyboardType: TextInputType.multiline,

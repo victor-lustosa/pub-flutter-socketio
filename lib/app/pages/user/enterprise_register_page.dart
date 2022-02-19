@@ -22,7 +22,7 @@ class _EnterpriseRegisterPageState extends State<EnterpriseRegisterPage> {
 
   TextEditingController _nickNameController = TextEditingController();
   TextEditingController _ageController = TextEditingController();
-  UserViewModel _userViewModel = UserViewModel(Location(), User());
+  UserViewModel _userViewModel = UserViewModel(Location(), User.withoutParameters());
 
   List<String> _listGenres = ['Não informado','Masculino', 'Feminino'];
   String _selectedGenre = '';
