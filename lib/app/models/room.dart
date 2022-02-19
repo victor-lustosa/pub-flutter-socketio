@@ -10,7 +10,7 @@ class Room {
   late bool _isPublic;
   List<dynamic> _listUsers = [];
   late Message _message;
-  late SocketEventType _type;
+  late String _type;
 
 
   Room.withoutParameters();
@@ -45,7 +45,7 @@ class Room {
       'isPublic': _isPublic,
       'listUsers': _listUsers,
       'message': _message.toMap(),
-      'type':_type.toString()
+      'type':_type
     };
   }
 
@@ -56,7 +56,7 @@ class Room {
       isPublic: map['isPublic'],
       listUsers: map['listUsers'],
       message: Message.fromMap(map['message']),
-      type: SocketEventType.values.firstWhere((element) => element.toString() == map["type"])
+      type: map['type']
     );
   }
 

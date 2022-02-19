@@ -35,6 +35,7 @@ class RoomViewModel implements IRoomViewModel{
       socket.emit('enter_room',{'room':this.room.getName,'name':this.user.getNickname});
     });
     socket.on('message',(data){
+      print(data);
       final event = Room.fromJson(data);
       // listEvent.value.add(event);
       // listEvent.value = List.from(listEvent.value);
@@ -79,7 +80,7 @@ class RoomViewModel implements IRoomViewModel{
               textMessage: textMessage,
               user: this.user.getNickname
           ),
-          type: SocketEventType.message);
+          type: 'message');
       socket.emit('message', event.toMap());
       // StreamSocket.instance.addResponse(message);
       // StreamSocket.instance.toStringStream();

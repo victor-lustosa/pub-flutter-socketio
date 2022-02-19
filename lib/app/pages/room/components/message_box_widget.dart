@@ -61,27 +61,34 @@ class _MessageBoxWidgetState extends State<MessageBoxWidget> {
                 itemCount: instance.listEvents.length,
                 itemBuilder: (_,id){
                   final event = instance.listEvents[id];
-                  if (event.getType == SocketEventType.enter_room) {
-                    return ListTile(title: Text('${widget.user.getNickname} entrou na sala'));
-                  }else if(event.getType == SocketEventType.leave_room){
-                    return ListTile(title: Text('${widget.user.getNickname} saiu da sala'));
-                  }return
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: const EdgeInsets.all(6),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.8,
-                          padding: const EdgeInsets.all(14),
-                          decoration: const BoxDecoration(
-                              color: Color(0xffdcd9d9),
-                              borderRadius: BorderRadius.all(Radius.circular(8))),
-                          child: Text(event.getMessage,
-                            style: GoogleFonts.inter(fontSize: 14),
-                          ),
+                  print('evento ${event}');
+                  // if (event.getType == 'enter_room') {
+                  //   return ListTile(title: Text('${widget.user.getNickname} entrou na sala'));
+                  // }else if(event.getType == 'leave_room'){
+                  //   return ListTile(title: Text('${widget.user.getNickname} saiu da sala'));
+                  // }
+                  Color color = Color(0xffdcd9d9);
+                  Alignment alignment = Alignment.centerRight;
+                  if(event.getMessage.getUser != widget.user.getNickname){
+                    color = Colors.white;
+                    alignment = Alignment.centerLeft;
+                  }
+                  return Align(
+                    alignment: alignment,
+                    child: Padding(
+                      padding: const EdgeInsets.all(6),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        padding: const EdgeInsets.all(14),
+                        decoration: BoxDecoration(
+                            color: color,
+                            borderRadius: BorderRadius.all(Radius.circular(8))),
+                        child: Text('${event.getMessage.getUser} - ${event.getMessage.getTextMessage}',
+                          style: GoogleFonts.inter(fontSize: 14),
                         ),
                       ),
-                    );
+                    ),
+                  );
                 }),
           );}),
         Row(
