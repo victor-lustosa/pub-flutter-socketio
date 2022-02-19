@@ -62,14 +62,17 @@ class RoomViewModel implements IRoomViewModel{
     print("entrei");
     message.setTextMessage(textMessage);
     if (textMessage.isNotEmpty) {
-      List users = [];
-      users.add(this.user);
-
+      this.user.setIdUser(randomNumber.nextInt(100));
+      room.addUser(this.user);
+      List userJsonCode = [];
+      for(int i = 0; i < room.getListUsers.length; i++){
+        userJsonCode.add(room.getListUsers[i].toMap());
+      }
       final event = Room(
           idRoom:randomNumber.nextInt(100),
           name: room.getName,
           isPublic: true,
-          listUsers: users,
+          listUsers: userJsonCode,
           message: Message(
               createdAt: DateTime.now().toString(),
               idMessage: randomNumber.nextInt(100),

@@ -15,7 +15,7 @@ class Room {
 
   Room.withoutParameters();
 
-  void addUser(String user) {
+  void addUser(User user) {
     getListUsers.add(user);
   }
 
@@ -32,7 +32,7 @@ class Room {
 //SETTERS
   setType(SocketEventType type) =>  type = type;
   setName(String name) => _name = name;
-  setListUsers(List<dynamic> listUsers) => _listUsers = listUsers;
+  setListUsers(List<User> listUsers) => _listUsers = listUsers;
   setMessage(Message message) => _message = message;
   setIcon(String icon) => _icon = icon;
   setIdRoom(int idRoom) => _idRoom = idRoom;
@@ -49,7 +49,7 @@ class Room {
     };
   }
 
-  factory Room.fromJson(Map<User, dynamic> map) {
+  factory Room.fromJson(Map<String, dynamic> map) {
     return Room(
       idRoom: map['idRoom'],
       name: map['name'],

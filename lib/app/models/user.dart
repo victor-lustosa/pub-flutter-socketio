@@ -28,7 +28,7 @@ class User {
 
   User.withoutParameters();
 
-  factory User.fromMap(Map<User, dynamic> map) {
+  factory User.fromMap(Map<String, dynamic> map) {
     return User(
       idUser: map['idUser'],
       nickname: map['nickname'],

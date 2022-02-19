@@ -32,7 +32,7 @@ class Message {
     };
   }
 
-  factory Message.fromMap(Map<User, dynamic> map) {
+  factory Message.fromMap(Map<String, dynamic> map) {
     return Message(
       idMessage: map['idMessage'],
       createdAt: map['createdAt'],
