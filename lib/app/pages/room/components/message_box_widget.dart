@@ -18,7 +18,6 @@ class MessageBoxWidget extends StatefulWidget {
 }
 
 class _MessageBoxWidgetState extends State<MessageBoxWidget> {
-  List<dynamic> dataMessagesList = [];
   User userAux = User.withoutParameters();
   late final RoomViewModel instance;
   String _enteredText = '';
@@ -32,26 +31,37 @@ class _MessageBoxWidgetState extends State<MessageBoxWidget> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    instance.dispose();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         Expanded(
         child: StreamBuilder<Room>(
+          initialData: instance.initialData(),
             stream: instance.getResponse,
             builder: (context,AsyncSnapshot<Room> snapshot) {
+              var dataMessagesList = instance.getData();
               switch (snapshot.connectionState) {
+
                 case ConnectionState.none:
                 case ConnectionState.waiting:
                   return Center(
-                    child: CircularProgressIndicator(color:AppColors.brown ),
+                    child: CircularProgressIndicator(color:AppColors.brown),
                   );
                   break;
                 case ConnectionState.active:
+
                 case ConnectionState.done:
-               this.dataMessagesList = instance.convertData(snapshot);
+
+                print(dataMessagesList.toString());
                 return ListView.builder(
                     controller: _scrollController,
-                    itemCount: this.dataMessagesList.length,
+                    itemCount: instance.getData().dataMessagesList.length,
                     itemBuilder: (_,index){
                   if (snapshot.data!.getType == 'enter_room') {
                     return ListTile(title: Text('${userAux.getNickname} entrou na sala'));
@@ -61,18 +71,18 @@ class _MessageBoxWidgetState extends State<MessageBoxWidget> {
                   // }
 
                    return Align(
-                      alignment: this.dataMessagesList[index].getUser != widget.user.getNickname ?
-                      Alignment.centerRight: Alignment.centerLeft,
+                      alignment: instance.dataMessagesList[index].getUser != widget.user.getNickname ?
+                      Alignment.centerLeft : Alignment.centerRight ,
                       child: Padding(
                         padding: const EdgeInsets.all(6),
                         child: Container(
                           width: MediaQuery.of(context).size.width * 0.8,
                           padding: const EdgeInsets.all(14),
                           decoration: BoxDecoration(
-                              color: this.dataMessagesList[index].getUser != widget.user.getNickname ?
-                              Color(0xffdcd9d9) : Colors.white,
+                              color: instance.dataMessagesList[index].getUser != widget.user.getNickname ?
+                              Colors.white : Color(0xffdcd9d9),
                               borderRadius: BorderRadius.all(Radius.circular(8))),
-                          child: Text('${this.dataMessagesList[index].getUser} - ${this.dataMessagesList[index].getTextMessage}',
+                          child: Text('${instance.dataMessagesList[index].getUser} - ${instance.dataMessagesList[index].getTextMessage}',
                             style: GoogleFonts.inter(fontSize: 14),
                           ),
                         ),

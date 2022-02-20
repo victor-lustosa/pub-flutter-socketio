@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:pub/app/models/message.dart';
 import 'package:pub/app/models/user.dart';
+import 'package:pub/app/shared/config/app_routes.dart';
 // import 'package:rx_notifier/rx_notifier.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
@@ -25,30 +26,22 @@ class RoomViewModel implements IRoomViewModel{
   final Message message = Message.withoutParameters();
 
   Stream<Room> get getResponse => _socketResponse.stream;
-
+  List<dynamic> dataMessagesList = [];
   // final listEvents = RxList<Room>([]);
   RoomViewModel(this.room, this.user){
     _initClientServer();
   }
-  List convertData(AsyncSnapshot snapshot){
-    return snapshot.data!.getMessagesList.map((message) => Message.fromMap(message)).toList();
-  }
+
   _initClientServer(){
     // Dart client
-    socket = io('http://localhost:4000',
-        OptionBuilder().
-        setTransports(['websocket']).
-        build()
-    );
+    socket = io(urlServer, OptionBuilder().setTransports(['websocket']).build());
     socket.connect();
     socket.onConnect((_){
       socket.emit('enter_room',{'room':this.room.getRoomName,'nickName':this.user.getNickname});
     });
     socket.on('message',(data){
-      print(data);
       final event = Room.fromJson(data);
       _socketResponse.sink.add(event);
-
     });
   }
 
@@ -77,7 +70,7 @@ class RoomViewModel implements IRoomViewModel{
         }
       }
 
-      room.setMessagesList([]);
+      // room.setMessagesList([]);
       room.addMessages(
           Message(
               createdAt: DateTime.now().toString(),
@@ -118,6 +111,15 @@ class RoomViewModel implements IRoomViewModel{
     socket.clearListeners();
     socket.dispose();
     textController.dispose();
-    // focusNode.dispose();
+    focusNode.dispose();
   }
+
+  initialData() {
+
+  }
+
+  getData() {
+
+  }
+
 }

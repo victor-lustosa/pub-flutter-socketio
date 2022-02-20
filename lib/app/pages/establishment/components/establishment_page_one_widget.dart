@@ -58,7 +58,7 @@ class EstablishmentPageOneWidget extends StatelessWidget {
                                       AppColors.darkBrown)
                               )
                           )
-                        ]);
+                          ]);
                     }
                     _establishmentViewModel.establishmentList = snapshot.data!;
                     return ListView.builder(
@@ -110,7 +110,7 @@ class EstablishmentPageOneWidget extends StatelessWidget {
                                   Room room = Room.withoutParameters();
                                   room.setRoomName(_establishmentViewModel.establishmentList[index].getName);
                                   Navigator.pushNamed(context,AppRoutes.PUBLIC_ROOM_ROUTE,
-                                  arguments:RoomDTO(this.user, room));
+                                      arguments:RoomDTO(this.user, room));
                                 }
                             ),
                           );
