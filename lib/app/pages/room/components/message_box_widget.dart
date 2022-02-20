@@ -42,12 +42,9 @@ class _MessageBoxWidgetState extends State<MessageBoxWidget> {
       children: <Widget>[
         Expanded(
         child: StreamBuilder<Room>(
-          initialData: instance.initialData(),
             stream: instance.getResponse,
             builder: (context,AsyncSnapshot<Room> snapshot) {
-              var dataMessagesList = instance.getData();
               switch (snapshot.connectionState) {
-
                 case ConnectionState.none:
                 case ConnectionState.waiting:
                   return Center(
@@ -57,11 +54,11 @@ class _MessageBoxWidgetState extends State<MessageBoxWidget> {
                 case ConnectionState.active:
 
                 case ConnectionState.done:
-
+                List<dynamic> dataMessagesList = snapshot.data!.getMessagesList.map((message) => Message.fromMap(message)).toList();
                 print(dataMessagesList.toString());
                 return ListView.builder(
                     controller: _scrollController,
-                    itemCount: instance.getData().dataMessagesList.length,
+                    itemCount: dataMessagesList.length,
                     itemBuilder: (_,index){
                   if (snapshot.data!.getType == 'enter_room') {
                     return ListTile(title: Text('${userAux.getNickname} entrou na sala'));
@@ -71,7 +68,7 @@ class _MessageBoxWidgetState extends State<MessageBoxWidget> {
                   // }
 
                    return Align(
-                      alignment: instance.dataMessagesList[index].getUser != widget.user.getNickname ?
+                      alignment: dataMessagesList[index].getUser != widget.user.getNickname ?
                       Alignment.centerLeft : Alignment.centerRight ,
                       child: Padding(
                         padding: const EdgeInsets.all(6),
@@ -79,10 +76,10 @@ class _MessageBoxWidgetState extends State<MessageBoxWidget> {
                           width: MediaQuery.of(context).size.width * 0.8,
                           padding: const EdgeInsets.all(14),
                           decoration: BoxDecoration(
-                              color: instance.dataMessagesList[index].getUser != widget.user.getNickname ?
+                              color: dataMessagesList[index].getUser != widget.user.getNickname ?
                               Colors.white : Color(0xffdcd9d9),
                               borderRadius: BorderRadius.all(Radius.circular(8))),
-                          child: Text('${instance.dataMessagesList[index].getUser} - ${instance.dataMessagesList[index].getTextMessage}',
+                          child: Text('${dataMessagesList[index].getUser} - ${dataMessagesList[index].getTextMessage}',
                             style: GoogleFonts.inter(fontSize: 14),
                           ),
                         ),

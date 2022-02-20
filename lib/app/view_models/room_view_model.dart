@@ -26,7 +26,7 @@ class RoomViewModel implements IRoomViewModel{
   final Message message = Message.withoutParameters();
 
   Stream<Room> get getResponse => _socketResponse.stream;
-  List<dynamic> dataMessagesList = [];
+
   // final listEvents = RxList<Room>([]);
   RoomViewModel(this.room, this.user){
     _initClientServer();
@@ -112,14 +112,6 @@ class RoomViewModel implements IRoomViewModel{
     socket.dispose();
     textController.dispose();
     focusNode.dispose();
-  }
-
-  initialData() {
-
-  }
-
-  getData() {
-
   }
 
 }
