@@ -43,8 +43,8 @@ class Room {
   setType(SocketEventType type) =>  type = type;
   setUserNickName(String userNickName) => _userNickName = userNickName;
   setRoomName(String roomName) => _roomName = roomName;
-  setUsersList(List<User> usersList) => _usersList = usersList;
-  setMessagesList(List<Message> messagesList) => _messagesList = messagesList;
+  setUsersList(List<dynamic> usersList) => _usersList = usersList;
+  setMessagesList(List<dynamic> messagesList) => _messagesList = messagesList;
   setIcon(String icon) => _icon = icon;
   setIdRoom(int idRoom) => _idRoom = idRoom;
   setIsPublic(bool isPublic) => _isPublic = isPublic;

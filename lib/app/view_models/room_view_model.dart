@@ -24,11 +24,9 @@ class RoomViewModel extends ValueNotifier <RoomState> implements IRoomViewModel{
   final Room room;
   final User user;
   final focusNode = FocusNode();
-   // Message message = Message.withoutParameters();
-   List<dynamic> dataMessagesList = [];
+
   Stream<Room> get getResponse => _socketResponse.stream;
 
-  // final listEvents = RxList<Room>([]);
   RoomViewModel(this.room, this.user) : super(InicialRoomState()){
     _initClientServer();
   }
@@ -71,8 +69,8 @@ class RoomViewModel extends ValueNotifier <RoomState> implements IRoomViewModel{
         }
       }
 
-      dataMessagesList = [];
-      dataMessagesList.add(
+      room.setMessagesList([]);
+      room.addMessages(
           Message(
               createdAt: DateTime.now().toString(),
               idMessage: randomNumber.nextInt(100),
@@ -87,8 +85,8 @@ class RoomViewModel extends ValueNotifier <RoomState> implements IRoomViewModel{
         print('lista usuarios: ${jsonCodeUsersList[i]}');
       }
 
-      for(int i = 0; i < dataMessagesList.length; i++){
-        jsonCodeMessagesList.add(dataMessagesList[i].toMap());
+      for(int i = 0; i < room.getMessagesList.length; i++){
+        jsonCodeMessagesList.add(room.getMessagesList[i].toMap());
         print('lista mensagens: ${jsonCodeMessagesList[i]}');
       }
 
@@ -116,7 +114,7 @@ class RoomViewModel extends ValueNotifier <RoomState> implements IRoomViewModel{
   }
 
   void getData(AsyncSnapshot<Room> snapshot) {
-    dataMessagesList = snapshot.data!.getMessagesList.map((message) => Message.fromMap(message)).toList();
+    room.setMessagesList(snapshot.data!.getMessagesList.map((message) => Message.fromMap(message)).toList());
   }
 
 }

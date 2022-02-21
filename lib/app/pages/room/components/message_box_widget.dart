@@ -55,10 +55,9 @@ class _MessageBoxWidgetState extends State<MessageBoxWidget> {
 
                 case ConnectionState.done:
                  instance.getData(snapshot);
-                print(instance.dataMessagesList.toString());
                 return ListView.builder(
                     controller: _scrollController,
-                    itemCount: instance.dataMessagesList.length,
+                    itemCount: instance.room.getMessagesList.length,
                     itemBuilder: (_,index){
                   if (snapshot.data!.getType == 'enter_room') {
                     return ListTile(title: Text('${userAux.getNickname} entrou na sala'));
@@ -68,7 +67,7 @@ class _MessageBoxWidgetState extends State<MessageBoxWidget> {
                   // }
 
                    return Align(
-                      alignment: instance.dataMessagesList[index].getUser != widget.user.getNickname ?
+                      alignment: instance.room.getMessagesList[index].getUser != widget.user.getNickname ?
                       Alignment.centerLeft : Alignment.centerRight ,
                       child: Padding(
                         padding: const EdgeInsets.all(6),
@@ -76,10 +75,10 @@ class _MessageBoxWidgetState extends State<MessageBoxWidget> {
                           width: MediaQuery.of(context).size.width * 0.8,
                           padding: const EdgeInsets.all(14),
                           decoration: BoxDecoration(
-                              color: instance.dataMessagesList[index].getUser != widget.user.getNickname ?
+                              color: instance.room.getMessagesList[index].getUser != widget.user.getNickname ?
                               Colors.white : Color(0xffdcd9d9),
                               borderRadius: BorderRadius.all(Radius.circular(8))),
-                          child: Text('${instance.dataMessagesList[index].getUser} - ${instance.dataMessagesList[index].getTextMessage}',
+                          child: Text('${instance.room.getMessagesList[index].getUser} - ${instance.room.getMessagesList[index].getTextMessage}',
                             style: GoogleFonts.inter(fontSize: 14),
                           ),
                         ),
