@@ -9,13 +9,14 @@ import 'package:pub/app/shared/config/app_routes.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 import '../models/room.dart';
+import '../states/room_state.dart';
 
 
 abstract class IRoomViewModel{
   // sendMessage();
 }
 
-class RoomViewModel implements IRoomViewModel{
+class RoomViewModel extends ValueNotifier <RoomState> implements IRoomViewModel{
 
   final _socketResponse = StreamController<Room>.broadcast();
   late final Socket socket;
@@ -23,12 +24,12 @@ class RoomViewModel implements IRoomViewModel{
   final Room room;
   final User user;
   final focusNode = FocusNode();
-  final Message message = Message.withoutParameters();
-
+   // Message message = Message.withoutParameters();
+   List<dynamic> dataMessagesList = [];
   Stream<Room> get getResponse => _socketResponse.stream;
 
   // final listEvents = RxList<Room>([]);
-  RoomViewModel(this.room, this.user){
+  RoomViewModel(this.room, this.user) : super(InicialRoomState()){
     _initClientServer();
   }
 
@@ -61,7 +62,7 @@ class RoomViewModel implements IRoomViewModel{
 
   void sendMessage() {
     String textMessage = textController.text;
-    message.setTextMessage(textMessage);
+    // message.setTextMessage(textMessage);
     if (textMessage.isNotEmpty) {
       this.user.setIdUser(randomNumber.nextInt(100));
       for(int i = 0;i < room.getUsersList.length; i++){
@@ -70,8 +71,8 @@ class RoomViewModel implements IRoomViewModel{
         }
       }
 
-      // room.setMessagesList([]);
-      room.addMessages(
+      dataMessagesList = [];
+      dataMessagesList.add(
           Message(
               createdAt: DateTime.now().toString(),
               idMessage: randomNumber.nextInt(100),
@@ -86,8 +87,8 @@ class RoomViewModel implements IRoomViewModel{
         print('lista usuarios: ${jsonCodeUsersList[i]}');
       }
 
-      for(int i = 0; i < room.getMessagesList.length; i++){
-        jsonCodeMessagesList.add(room.getMessagesList[i].toMap());
+      for(int i = 0; i < dataMessagesList.length; i++){
+        jsonCodeMessagesList.add(dataMessagesList[i].toMap());
         print('lista mensagens: ${jsonCodeMessagesList[i]}');
       }
 
@@ -112,6 +113,10 @@ class RoomViewModel implements IRoomViewModel{
     socket.dispose();
     textController.dispose();
     focusNode.dispose();
+  }
+
+  void getData(AsyncSnapshot<Room> snapshot) {
+    dataMessagesList = snapshot.data!.getMessagesList.map((message) => Message.fromMap(message)).toList();
   }
 
 }

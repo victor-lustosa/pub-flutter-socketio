@@ -54,11 +54,11 @@ class _MessageBoxWidgetState extends State<MessageBoxWidget> {
                 case ConnectionState.active:
 
                 case ConnectionState.done:
-                List<dynamic> dataMessagesList = snapshot.data!.getMessagesList.map((message) => Message.fromMap(message)).toList();
-                print(dataMessagesList.toString());
+                 instance.getData(snapshot);
+                print(instance.dataMessagesList.toString());
                 return ListView.builder(
                     controller: _scrollController,
-                    itemCount: dataMessagesList.length,
+                    itemCount: instance.dataMessagesList.length,
                     itemBuilder: (_,index){
                   if (snapshot.data!.getType == 'enter_room') {
                     return ListTile(title: Text('${userAux.getNickname} entrou na sala'));
@@ -68,7 +68,7 @@ class _MessageBoxWidgetState extends State<MessageBoxWidget> {
                   // }
 
                    return Align(
-                      alignment: dataMessagesList[index].getUser != widget.user.getNickname ?
+                      alignment: instance.dataMessagesList[index].getUser != widget.user.getNickname ?
                       Alignment.centerLeft : Alignment.centerRight ,
                       child: Padding(
                         padding: const EdgeInsets.all(6),
@@ -76,10 +76,10 @@ class _MessageBoxWidgetState extends State<MessageBoxWidget> {
                           width: MediaQuery.of(context).size.width * 0.8,
                           padding: const EdgeInsets.all(14),
                           decoration: BoxDecoration(
-                              color: dataMessagesList[index].getUser != widget.user.getNickname ?
+                              color: instance.dataMessagesList[index].getUser != widget.user.getNickname ?
                               Colors.white : Color(0xffdcd9d9),
                               borderRadius: BorderRadius.all(Radius.circular(8))),
-                          child: Text('${dataMessagesList[index].getUser} - ${dataMessagesList[index].getTextMessage}',
+                          child: Text('${instance.dataMessagesList[index].getUser} - ${instance.dataMessagesList[index].getTextMessage}',
                             style: GoogleFonts.inter(fontSize: 14),
                           ),
                         ),
