@@ -1,5 +1,6 @@
 
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:pub/app/models/message.dart';
@@ -16,7 +17,7 @@ abstract class IRoomViewModel{
   // sendMessage();
 }
 
-class RoomViewModel extends ValueNotifier <RoomState> implements IRoomViewModel{
+class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
 
   final _socketResponse = StreamController<Room>.broadcast();
   late final Socket socket;
@@ -25,9 +26,19 @@ class RoomViewModel extends ValueNotifier <RoomState> implements IRoomViewModel{
   final User user;
   final focusNode = FocusNode();
 
+  List<dynamic> _usersList = [];
+  List<dynamic> _messagesList = [];
+ get getUsersList => _usersList;
+
+  set usersList(List<dynamic> value) {
+    _usersList = value;
+  }
+
+  ScrollController scrollController = ScrollController();
   Stream<Room> get getResponse => _socketResponse.stream;
 
-  RoomViewModel(this.room, this.user) : super(InicialRoomState()){
+  RoomViewModel(this.room, this.user){
+    room.addUsers(this.user);
     _initClientServer();
   }
 
@@ -41,6 +52,7 @@ class RoomViewModel extends ValueNotifier <RoomState> implements IRoomViewModel{
     socket.on('message',(data){
       final event = Room.fromJson(data);
       _socketResponse.sink.add(event);
+      notifyListeners();
     });
   }
 
@@ -60,34 +72,14 @@ class RoomViewModel extends ValueNotifier <RoomState> implements IRoomViewModel{
 
   void sendMessage() {
     String textMessage = textController.text;
-    // message.setTextMessage(textMessage);
     if (textMessage.isNotEmpty) {
-      this.user.setIdUser(randomNumber.nextInt(100));
-      for(int i = 0;i < room.getUsersList.length; i++){
-        if(room.getUsersList[i].getNickname != this.user.getNickname){
-          room.addUsers(this.user);
-        }
-      }
+      this.user.setIdUser(0);
 
-      room.setMessagesList([]);
-      room.addMessages(
-          Message(
-              createdAt: DateTime.now().toString(),
-              idMessage: randomNumber.nextInt(100),
-              textMessage: textMessage,
-              user: this.user.getNickname)
-      );
       List jsonCodeUsersList = [];
-      List jsonCodeMessagesList = [];
-      print('oiii  ${room.getUsersList.toString()}');
+
       for(int i = 0; i < room.getUsersList.length; i++){
         jsonCodeUsersList.add(room.getUsersList[i].toMap());
         print('lista usuarios: ${jsonCodeUsersList[i]}');
-      }
-
-      for(int i = 0; i < room.getMessagesList.length; i++){
-        jsonCodeMessagesList.add(room.getMessagesList[i].toMap());
-        print('lista mensagens: ${jsonCodeMessagesList[i]}');
       }
 
       final event = Room(
@@ -96,15 +88,21 @@ class RoomViewModel extends ValueNotifier <RoomState> implements IRoomViewModel{
           userNickName: user.getNickname,
           isPublic: true,
           usersList: jsonCodeUsersList,
-          messagesList: jsonCodeMessagesList,
+          message: Message(
+              createdAt: DateTime.now().toString(),
+              idMessage: randomNumber.nextInt(100),
+              textMessage: textMessage,
+              user: this.user.getNickname).toMap(),
           type: 'message');
 
       socket.emit('message', event.toMap());
       _socketResponse.sink.add(event);
       textController.clear();
       focusNode.requestFocus();
+      notifyListeners();
     }
   }
+
   void dispose(){
     _socketResponse.close();
     socket.clearListeners();
@@ -114,7 +112,14 @@ class RoomViewModel extends ValueNotifier <RoomState> implements IRoomViewModel{
   }
 
   void getData(AsyncSnapshot<Room> snapshot) {
-    room.setMessagesList(snapshot.data!.getMessagesList.map((message) => Message.fromMap(message)).toList());
+
+    setMessagesList(jsonDecode(snapshot.data!.getMessage));
+    notifyListeners();
+    Timer(Duration(microseconds: 100 ), (){scrollController.jumpTo(scrollController.position.maxScrollExtent);});
   }
+
+  get getMessagesList => _messagesList;
+
+  setMessagesList(List<dynamic> messagesList) => _messagesList = messagesList;
 
 }

@@ -10,29 +10,18 @@ class Room {
   late String _icon;
   late bool _isPublic;
   List<dynamic> _usersList = [];
-  List<dynamic> _messagesList = [];
+  late dynamic _message;
   late String _type;
 
-
   Room.withoutParameters();
-
   void addUsers(User user) {
     getUsersList.add(user);
-  }
-  void addMessages(Message message) {
-    getMessagesList.add(message);
-  }
-  void removeMessages(){
-    setMessagesList([]);
-  }
-  void removeUsers(){
-    setMessagesList([]);
   }
   //GETTERS
   get getUserNickName => _userNickName;
   get getRoomName => _roomName;
   get getUsersList => _usersList;
-  get getMessagesList => _messagesList;
+  get getMessage => _message;
   get getIdRoom => _idRoom;
   get getIcon => _icon;
   get getIsPublic => _isPublic;
@@ -44,7 +33,7 @@ class Room {
   setUserNickName(String userNickName) => _userNickName = userNickName;
   setRoomName(String roomName) => _roomName = roomName;
   setUsersList(List<dynamic> usersList) => _usersList = usersList;
-  setMessagesList(List<dynamic> messagesList) => _messagesList = messagesList;
+  setMessage(Message message) => _message = message;
   setIcon(String icon) => _icon = icon;
   setIdRoom(int idRoom) => _idRoom = idRoom;
   setIsPublic(bool isPublic) => _isPublic = isPublic;
@@ -55,7 +44,7 @@ class Room {
       'userNickName': _userNickName,
       'isPublic': _isPublic,
       'usersList': _usersList,
-      'messagesList': _messagesList,
+      'message': _message,
       'type':_type
     };
   }
@@ -67,25 +56,27 @@ class Room {
       roomName: map['roomName'],
       isPublic: map['isPublic'],
       usersList: map['usersList'],
-      messagesList: map['messagesList'],
+      message: map['message'],
       type: map['type']
     );
   }
 
   Room({
-    required type,
     required idRoom,
+    required  roomName,
     required userNickName,
-    required roomName,
-    required isPublic,
+    required  isPublic,
     required usersList,
-    required messagesList,
-  })  : _idRoom = idRoom,
-        _userNickName = userNickName,
+    required  message,
+    required  type,
+  })
+      : _idRoom = idRoom,
         _roomName = roomName,
+        _userNickName = userNickName,
         _isPublic = isPublic,
         _usersList = usersList,
-        _messagesList = messagesList,
+        _message = message,
         _type = type;
 }
+
 enum SocketEventType { enter_room, leave_room, message }
