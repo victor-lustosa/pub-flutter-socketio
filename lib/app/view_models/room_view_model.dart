@@ -119,7 +119,7 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
 
   void getData(AsyncSnapshot<Room> snapshot) {
 
-    addMessages(snapshot.data!.getMessage);
+    addMessages(Message.fromMap(snapshot.data!.getMessage));
     notifyListeners();
     Timer(Duration(microseconds: 100 ), (){scrollController.jumpTo(scrollController.position.maxScrollExtent);});
   }

@@ -23,7 +23,7 @@ class Message {
   setCreatedAt(String createdAt) => _createdAt = createdAt;
   setTextMessage(String textMessage) => _textMessage = textMessage;
 
-  Map toMap() {
+  Map<String, dynamic> toMap() {
     return {
       'idMessage': this._idMessage,
       'createdAt': this._createdAt,

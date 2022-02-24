@@ -55,7 +55,7 @@ class Room {
         _message = message,
         _type = type;
 
-  Map toMap() {
+  Map<String, dynamic> toMap() {
     return {
       'idRoom': this._idRoom,
       'roomName': this._roomName,

@@ -106,7 +106,7 @@ class _MessageBoxWidgetState extends State<MessageBoxWidget> {
                     });
                   },
                   focusNode: instance.focusNode,
-                  onSubmitted: (_) => instance.sendMessage(),
+                  onSubmitted: (_) {instance.sendMessage();},
                   controller: instance.textController,
                   autofocus: true,
                   keyboardType: TextInputType.multiline,
