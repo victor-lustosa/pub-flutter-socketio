@@ -9,14 +9,14 @@ import 'package:pub/app/shared/config/app_routes.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 import '../models/room.dart';
-import '../states/room_state.dart';
+
 
 
 abstract class IRoomViewModel{
   // sendMessage();
 }
 
-class RoomViewModel extends ValueNotifier <RoomState> implements IRoomViewModel{
+class RoomViewModel  implements IRoomViewModel{
 
   final _socketResponse = StreamController<Room>.broadcast();
   late final Socket socket;
@@ -27,7 +27,7 @@ class RoomViewModel extends ValueNotifier <RoomState> implements IRoomViewModel{
 
   Stream<Room> get getResponse => _socketResponse.stream;
 
-  RoomViewModel(this.room, this.user) : super(InicialRoomState()){
+  RoomViewModel(this.room, this.user){
     _initClientServer();
   }
 
