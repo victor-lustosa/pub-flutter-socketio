@@ -10,7 +10,7 @@ import 'package:pub/app/shared/config/app_routes.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 import '../models/room.dart';
-import '../states/room_state.dart';
+
 
 
 abstract class IRoomViewModel{
@@ -39,6 +39,10 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
 
   RoomViewModel(this.room, this.user){
     room.addUsers(this.user);
+    room.setMessage(new Message(user: '',textMessage: '',idMessage: 0,createdAt: ''));
+    room.setIcon('');
+    room.setUserNickName(this.user.getNickname);
+    room.setIsPublic(true);
     _initClientServer();
   }
 
@@ -47,11 +51,12 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
     socket = io(urlServer, OptionBuilder().setTransports(['websocket']).build());
     socket.connect();
     socket.onConnect((_){
-      socket.emit('enter_room',{'room':this.room.getRoomName,'nickName':this.user.getNickname});
+      socket.emit('enter_room',{'roomName':this.room.getRoomName,'userNickName':this.user.getNickname});
     });
     socket.on('message',(data){
-      final event = Room.fromJson(data);
+      final event = Room.fromMap(data);
       _socketResponse.sink.add(event);
+      // _messagesList.add(event.getMessage);
       notifyListeners();
     });
   }
@@ -77,22 +82,23 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
 
       List jsonCodeUsersList = [];
 
-      for(int i = 0; i < room.getUsersList.length; i++){
-        jsonCodeUsersList.add(room.getUsersList[i].toMap());
-        print('lista usuarios: ${jsonCodeUsersList[i]}');
-      }
+      // for(int i = 0; i < room.getUsersList.length; i++){
+      //   jsonCodeUsersList.add(room.getUsersList[i].toMap());
+      //   print('lista usuarios: ${jsonCodeUsersList[i]}');
+      // }
+      var  mes = Message(
+          createdAt: DateTime.now().toString(),
+          idMessage: 0,
+          textMessage: textMessage,
+          user: this.user.getNickname).toMap();
 
       final event = Room(
-          idRoom:randomNumber.nextInt(100),
+          idRoom:0,
           roomName:room.getRoomName,
           userNickName: user.getNickname,
           isPublic: true,
           usersList: jsonCodeUsersList,
-          message: Message(
-              createdAt: DateTime.now().toString(),
-              idMessage: randomNumber.nextInt(100),
-              textMessage: textMessage,
-              user: this.user.getNickname).toMap(),
+          message: mes,
           type: 'message');
 
       socket.emit('message', event.toMap());
@@ -113,13 +119,12 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
 
   void getData(AsyncSnapshot<Room> snapshot) {
 
-    setMessagesList(jsonDecode(snapshot.data!.getMessage));
+    addMessages(snapshot.data!.getMessage);
     notifyListeners();
     Timer(Duration(microseconds: 100 ), (){scrollController.jumpTo(scrollController.position.maxScrollExtent);});
   }
-
+  void addMessages(Message message) {
+    getMessagesList.add(message);
+  }
   get getMessagesList => _messagesList;
-
-  setMessagesList(List<dynamic> messagesList) => _messagesList = messagesList;
-
 }
