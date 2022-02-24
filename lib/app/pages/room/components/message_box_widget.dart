@@ -18,10 +18,10 @@ class MessageBoxWidget extends StatefulWidget {
 }
 
 class _MessageBoxWidgetState extends State<MessageBoxWidget> {
-  User userAux = User.withoutParameters();
+
   late final RoomViewModel instance;
   String _enteredText = '';
-  ScrollController _scrollController = ScrollController();
+
 
   @override
   initState() {
@@ -41,54 +41,57 @@ class _MessageBoxWidgetState extends State<MessageBoxWidget> {
     return Column(
       children: <Widget>[
         Expanded(
-        child: StreamBuilder<Room>(
-            stream: instance.getResponse,
-            builder: (context,AsyncSnapshot<Room> snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.none:
-                case ConnectionState.waiting:
-                  return Center(
-                    child: CircularProgressIndicator(color:AppColors.brown),
-                  );
-                  break;
-                case ConnectionState.active:
+            child: StreamBuilder<Room>(
+                stream: instance.getResponse,
+                builder: (context,AsyncSnapshot<Room> snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.none:
+                    case ConnectionState.waiting:
+                      return Center(
+                        child: CircularProgressIndicator(color:AppColors.brown),
+                      );
+                      break;
+                    case ConnectionState.active:
 
-                case ConnectionState.done:
-                 instance.getData(snapshot);
-                return ListView.builder(
-                    controller: _scrollController,
-                    itemCount: instance.room.getMessagesList.length,
-                    itemBuilder: (_,index){
-                  if (snapshot.data!.getType == 'enter_room') {
-                    return ListTile(title: Text('${userAux.getNickname} entrou na sala'));
+                    case ConnectionState.done:
+                      instance.getData(snapshot);
+                      return ListView.builder(
+                          controller: instance.scrollController,
+                          itemCount: instance.getMessagesList.length,
+                          itemBuilder: (_,index){
+                            if (snapshot.data!.getType == 'enter_room') {
+                              return ListTile(title: Text('${instance.room.getUserNickName} entrou na sala'));
+                            }
+                            // else if(snapshot.data!.getType == 'leave_room'){
+                            //   return ListTile(title: Text('${userAux.getNickname} saiu da sala'));
+                            // }
+                            return Align(
+                              alignment: instance.getMessagesList[index].getUser != widget.user.getNickname ?
+                              Alignment.centerLeft : Alignment.centerRight ,
+                              child: Padding(
+                                padding: const EdgeInsets.all(6),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width * 0.8,
+                                  padding: const EdgeInsets.all(14),
+                                  decoration: BoxDecoration(
+                                      color: instance.getMessagesList[index].getUser != widget.user.getNickname ?
+                                      Colors.white : Color(0xffdcd9d9),
+                                      borderRadius: BorderRadius.all(Radius.circular(8))),
+                                  child:AnimatedBuilder(
+                                      animation: instance,
+                                      builder: (context,child) {
+                                        return Text('${instance.getMessagesList[index].getUser} - ${instance.getMessagesList[index].getTextMessage}',
+                                            style: GoogleFonts.inter(fontSize: 14));
+                                      }
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
+                      );
                   }
-                  // else if(snapshot.data!.getType == 'leave_room'){
-                  //   return ListTile(title: Text('${userAux.getNickname} saiu da sala'));
-                  // }
-
-                   return Align(
-                      alignment: instance.room.getMessagesList[index].getUser != widget.user.getNickname ?
-                      Alignment.centerLeft : Alignment.centerRight ,
-                      child: Padding(
-                        padding: const EdgeInsets.all(6),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.8,
-                          padding: const EdgeInsets.all(14),
-                          decoration: BoxDecoration(
-                              color: instance.room.getMessagesList[index].getUser != widget.user.getNickname ?
-                              Colors.white : Color(0xffdcd9d9),
-                              borderRadius: BorderRadius.all(Radius.circular(8))),
-                          child: Text('${instance.room.getMessagesList[index].getUser} - ${instance.room.getMessagesList[index].getTextMessage}',
-                            style: GoogleFonts.inter(fontSize: 14),
-                          ),
-                        ),
-                      ),
-                    );
-                  }
-                  );
                 }
-               },
-          )
+            )
         ),
         Row(
           children: [

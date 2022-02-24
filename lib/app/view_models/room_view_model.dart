@@ -1,5 +1,6 @@
 
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:pub/app/models/message.dart';
@@ -16,7 +17,7 @@ abstract class IRoomViewModel{
   // sendMessage();
 }
 
-class RoomViewModel  implements IRoomViewModel{
+class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
 
   final _socketResponse = StreamController<Room>.broadcast();
   late final Socket socket;
@@ -25,9 +26,23 @@ class RoomViewModel  implements IRoomViewModel{
   final User user;
   final focusNode = FocusNode();
 
+  List<dynamic> _usersList = [];
+  List<dynamic> _messagesList = [];
+ get getUsersList => _usersList;
+
+  set usersList(List<dynamic> value) {
+    _usersList = value;
+  }
+
+  ScrollController scrollController = ScrollController();
   Stream<Room> get getResponse => _socketResponse.stream;
 
   RoomViewModel(this.room, this.user){
+    room.addUsers(this.user);
+    room.setMessage(new Message(user: '',textMessage: '',idMessage: 0,createdAt: ''));
+    room.setIcon('');
+    room.setUserNickName(this.user.getNickname);
+    room.setIsPublic(true);
     _initClientServer();
   }
 
@@ -36,11 +51,13 @@ class RoomViewModel  implements IRoomViewModel{
     socket = io(urlServer, OptionBuilder().setTransports(['websocket']).build());
     socket.connect();
     socket.onConnect((_){
-      socket.emit('enter_room',{'room':this.room.getRoomName,'nickName':this.user.getNickname});
+      socket.emit('enter_room',{'roomName':this.room.getRoomName,'userNickName':this.user.getNickname});
     });
     socket.on('message',(data){
-      final event = Room.fromJson(data);
+      final event = Room.fromMap(data);
       _socketResponse.sink.add(event);
+      // _messagesList.add(event.getMessage);
+      notifyListeners();
     });
   }
 
@@ -60,51 +77,38 @@ class RoomViewModel  implements IRoomViewModel{
 
   void sendMessage() {
     String textMessage = textController.text;
-    // message.setTextMessage(textMessage);
     if (textMessage.isNotEmpty) {
-      this.user.setIdUser(randomNumber.nextInt(100));
-      for(int i = 0;i < room.getUsersList.length; i++){
-        if(room.getUsersList[i].getNickname != this.user.getNickname){
-          room.addUsers(this.user);
-        }
-      }
+      this.user.setIdUser(0);
 
-      room.setMessagesList([]);
-      room.addMessages(
-          Message(
-              createdAt: DateTime.now().toString(),
-              idMessage: randomNumber.nextInt(100),
-              textMessage: textMessage,
-              user: this.user.getNickname)
-      );
       List jsonCodeUsersList = [];
-      List jsonCodeMessagesList = [];
-      print('oiii  ${room.getUsersList.toString()}');
-      for(int i = 0; i < room.getUsersList.length; i++){
-        jsonCodeUsersList.add(room.getUsersList[i].toMap());
-        print('lista usuarios: ${jsonCodeUsersList[i]}');
-      }
 
-      for(int i = 0; i < room.getMessagesList.length; i++){
-        jsonCodeMessagesList.add(room.getMessagesList[i].toMap());
-        print('lista mensagens: ${jsonCodeMessagesList[i]}');
-      }
+      // for(int i = 0; i < room.getUsersList.length; i++){
+      //   jsonCodeUsersList.add(room.getUsersList[i].toMap());
+      //   print('lista usuarios: ${jsonCodeUsersList[i]}');
+      // }
+      var  mes = Message(
+          createdAt: DateTime.now().toString(),
+          idMessage: 0,
+          textMessage: textMessage,
+          user: this.user.getNickname).toMap();
 
       final event = Room(
-          idRoom:randomNumber.nextInt(100),
+          idRoom:0,
           roomName:room.getRoomName,
           userNickName: user.getNickname,
           isPublic: true,
           usersList: jsonCodeUsersList,
-          messagesList: jsonCodeMessagesList,
+          message: mes,
           type: 'message');
 
       socket.emit('message', event.toMap());
       _socketResponse.sink.add(event);
       textController.clear();
       focusNode.requestFocus();
+      notifyListeners();
     }
   }
+
   void dispose(){
     _socketResponse.close();
     socket.clearListeners();
@@ -114,7 +118,13 @@ class RoomViewModel  implements IRoomViewModel{
   }
 
   void getData(AsyncSnapshot<Room> snapshot) {
-    room.setMessagesList(snapshot.data!.getMessagesList.map((message) => Message.fromMap(message)).toList());
-  }
 
+    addMessages(snapshot.data!.getMessage);
+    notifyListeners();
+    Timer(Duration(microseconds: 100 ), (){scrollController.jumpTo(scrollController.position.maxScrollExtent);});
+  }
+  void addMessages(Message message) {
+    getMessagesList.add(message);
+  }
+  get getMessagesList => _messagesList;
 }

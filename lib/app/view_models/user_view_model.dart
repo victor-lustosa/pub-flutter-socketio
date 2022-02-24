@@ -65,7 +65,10 @@ class UserViewModel implements IUserViewModel{
   //     },
   //   );
   // }
-  User validateUser(TextEditingController _nickNameController, TextEditingController _ageController, String _selectedGenre, List<String> _listGenres){
+  User validateUser(TextEditingController _nickNameController,
+                    TextEditingController _ageController,
+                    String _selectedGenre,
+                    List<String> _listGenres){
 
     this.user.setNickname(_nickNameController.text);
     _age = double.tryParse(_ageController.text)!;
