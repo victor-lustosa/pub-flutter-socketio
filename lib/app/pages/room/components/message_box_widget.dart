@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pub/app/models/user.dart';
 import 'package:pub/app/view_models/room_view_model.dart';
-
-import '../../../models/message.dart';
 import '../../../models/room.dart';
 import '../../../shared/config/app_colors.dart';
 
 class MessageBoxWidget extends StatefulWidget {
-  Room room;
-  User user;
+  final Room room;
+  final User user;
 
   MessageBoxWidget(this.room, this.user);
 
@@ -20,7 +18,7 @@ class MessageBoxWidget extends StatefulWidget {
 class _MessageBoxWidgetState extends State<MessageBoxWidget> {
 
   late final RoomViewModel instance;
-  String _enteredText = '';
+  // String _enteredText = '';
 
 
   @override
@@ -44,17 +42,17 @@ class _MessageBoxWidgetState extends State<MessageBoxWidget> {
             child: StreamBuilder<Room>(
                 stream: instance.getResponse,
                 builder: (context,AsyncSnapshot<Room> snapshot) {
+                  instance.getData(snapshot);
                   switch (snapshot.connectionState) {
                     case ConnectionState.none:
                     case ConnectionState.waiting:
                       return Center(
                         child: CircularProgressIndicator(color:AppColors.brown),
                       );
-                      break;
                     case ConnectionState.active:
 
                     case ConnectionState.done:
-                      instance.getData(snapshot);
+
                       return ListView.builder(
                           controller: instance.scrollController,
                           itemCount: instance.getMessagesList.length,
@@ -101,16 +99,22 @@ class _MessageBoxWidgetState extends State<MessageBoxWidget> {
                 child: TextField(
                   onEditingComplete: () {},
                   onChanged: (String value) {
-                    setState(() {
-                      _enteredText = value;
-                    });
+                      // if(value.length < 30) {
+                      //   instance.lineNumbers = 1;
+                      // } else if(value.length < 60){
+                      //   instance.lineNumbers = 2;
+                      // } else if(value.length < 100){
+                      //   instance.lineNumbers = 3;
+                      // } else{
+                      //   instance.lineNumbers = 5;
+                      // }
                   },
                   focusNode: instance.focusNode,
                   onSubmitted: (_) {instance.sendMessage();},
                   controller: instance.textController,
                   autofocus: true,
                   keyboardType: TextInputType.multiline,
-                  maxLines: instance.sizeBoxMessage(_enteredText) ,
+                  maxLines: instance.lineNumbers,
                   style: GoogleFonts.inter(fontSize: 15),
                   decoration: InputDecoration(
                       contentPadding: EdgeInsets.fromLTRB(20, 6, 20, 6),

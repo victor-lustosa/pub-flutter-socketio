@@ -15,7 +15,7 @@ class HomeBarWidget extends PreferredSize {
             child: Column(children: <Widget>[
               Padding(
                   padding: EdgeInsets.only(top: 90),
-                  child: Image.asset(AppImages.dark_logo,
+                  child: Image.asset(AppImages.darkLogo,
                       width: 100, height: 100)),
               Padding(
                   padding: EdgeInsets.only(top: 15),

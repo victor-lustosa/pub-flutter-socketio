@@ -5,8 +5,8 @@ class DropdownWidget extends StatefulWidget{
 
   DropdownWidget(this.list, this.callback,this.name);
   final Function(String) callback;
-  List<String> list;
-  String name;
+  final List<String> list;
+  final String name;
   _DropdownWidgetState createState() => _DropdownWidgetState();
 }
 class _DropdownWidgetState extends State<DropdownWidget> {

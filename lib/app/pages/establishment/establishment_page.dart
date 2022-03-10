@@ -6,16 +6,15 @@ import 'package:pub/app/shared/config/app_colors.dart';
 import 'package:pub/app/models/user.dart';
 import 'package:pub/app/pages/establishment/components/establishment_tab_bar_sliver_widget.dart';
 
-import '../../repositories/establishment_repository.dart';
 import '../../view_models/establishment_view_model.dart';
 import 'components/establishment_flexible_space_bar_widget.dart';
 import 'components/establishment_page_one_widget.dart';
 import 'components/establishment_page_two_widget.dart';
-// import '../../components/establishment_page_two_widget.dart';
-import 'package:dio/dio.dart';
+
 class EstablishmentPage extends StatefulWidget {
-  User user;
-  Establishment establishment;
+
+ final User user;
+ final Establishment establishment;
 
   EstablishmentPage( this.user, this.establishment);
 

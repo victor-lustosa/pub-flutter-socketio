@@ -1,4 +1,4 @@
-import 'package:pub/app/models/establishment.dart';
+
 import 'package:pub/app/models/room.dart';
 
 import '../user.dart';
@@ -8,15 +8,15 @@ class RoomDTO {
 
   RoomDTO(this._user, this._room);
 
-  User get user => _user;
+  User get getUser => _user;
 
-  set user(User value) {
+  setUser(User value) {
     _user = value;
   }
 
-  Room get room => _room;
+  Room get getRoom => _room;
 
-  set room(Room value) {
+  setRoom(Room value) {
     _room = value;
   }
 }

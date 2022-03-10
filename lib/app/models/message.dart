@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-import 'package:pub/app/models/user.dart';
 
 class Message {
   late int _idMessage;

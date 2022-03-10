@@ -11,10 +11,9 @@ import '../../../view_models/establishment_view_model.dart';
 
 class EstablishmentPageOneWidget extends StatelessWidget {
   EstablishmentPageOneWidget(this.user,this._establishmentViewModel);
-  User user;
 
-  EstablishmentViewModel _establishmentViewModel;
-
+  final User user;
+  final EstablishmentViewModel _establishmentViewModel;
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +87,7 @@ class EstablishmentPageOneWidget extends StatelessWidget {
                                           offset: Offset(1, 3,), // changes position of shadow
                                         ),
                                       ],
-                                      ),child: Image.asset(AppImages.light_logo,width: 20,height: 20),)),
+                                      ),child: Image.asset(AppImages.lightLogo,width: 20,height: 20),)),
                                 title: Padding(
                                     padding: EdgeInsets.only(bottom: 10) ,
                                     child: Text(

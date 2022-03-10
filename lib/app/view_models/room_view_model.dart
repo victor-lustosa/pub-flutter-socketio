@@ -1,6 +1,5 @@
 
 import 'dart:async';
-import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:pub/app/models/message.dart';
@@ -25,17 +24,11 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
   final Room room;
   final User user;
   final focusNode = FocusNode();
-
+  int lineNumbers = 1;
   List<dynamic> _usersList = [];
   List<dynamic> _messagesList = [];
- get getUsersList => _usersList;
-
-  set usersList(List<dynamic> value) {
-    _usersList = value;
-  }
-
+  final textController = TextEditingController(text: '');
   ScrollController scrollController = ScrollController();
-  Stream<Room> get getResponse => _socketResponse.stream;
 
   RoomViewModel(this.room, this.user){
     room.addUsers(this.user);
@@ -61,23 +54,12 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
     });
   }
 
-
-  final textController = TextEditingController(text: '');
-  sizeBoxMessage(String value){
-    if(value.length < 30) {
-      return 1;
-    } else if(value.length < 60){
-      return 2;
-    } else if(value.length < 100){
-      return 3;
-    } else{
-      return 5;
-    }
-  }
-
   void sendMessage() {
+
     String textMessage = textController.text;
+
     if (textMessage.isNotEmpty) {
+
       this.user.setIdUser(0);
 
       List jsonCodeUsersList = [];
@@ -102,14 +84,19 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
           type: 'message');
 
       socket.emit('message', event.toMap());
+
       _socketResponse.sink.add(event);
+
       textController.clear();
+
       focusNode.requestFocus();
+
       notifyListeners();
     }
   }
 
   void dispose(){
+    super.dispose();
     _socketResponse.close();
     socket.clearListeners();
     socket.dispose();
@@ -126,5 +113,12 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
   void addMessages(Message message) {
     getMessagesList.add(message);
   }
+  get getUsersList => _usersList;
+
+  set usersList(List<dynamic> value) {
+  _usersList = value;
+}
   get getMessagesList => _messagesList;
+
+  Stream<Room> get getResponse => _socketResponse.stream;
 }

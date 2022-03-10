@@ -5,8 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 class FormFieldWidget extends StatelessWidget {
   FormFieldWidget(this.formFieldController, this.name);
 
-  late TextEditingController formFieldController;
-  late String name;
+  final TextEditingController formFieldController;
+  final String name;
 
 
   String? validateAgeFormField(value) {
@@ -49,7 +49,7 @@ class FormFieldWidget extends StatelessWidget {
                 contentPadding:
                 EdgeInsets.symmetric(vertical: 16, horizontal: 30),
                 focusColor: Colors.black12,
-                hintText: '${name}',
+                hintText: '$name',
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     borderSide: BorderSide(color: Colors.black12)

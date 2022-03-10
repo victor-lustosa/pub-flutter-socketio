@@ -5,7 +5,7 @@ import '../../../shared/config/app_colors.dart';
 
 class EstablishmentTabBarSliverWidget extends  PreferredSize{
 
-  TabController tabController;
+  final TabController tabController;
 
    EstablishmentTabBarSliverWidget(this.tabController) : super(
        preferredSize: Size.fromHeight(0),

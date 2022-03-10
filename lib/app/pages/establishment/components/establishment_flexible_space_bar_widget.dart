@@ -7,7 +7,8 @@ import '../../../models/user.dart';
 
 class EstablishmentFlexibleSpaceBarWidget extends StatelessWidget {
   EstablishmentFlexibleSpaceBarWidget(this.user);
-  User user;
+
+  final User user;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +43,7 @@ class EstablishmentFlexibleSpaceBarWidget extends StatelessWidget {
                 },
                 iconSize: 45,
                 icon: ClipOval(
-                  child: Image.asset(AppImages.user_avatar, width: 45, height: 45),
+                  child: Image.asset(AppImages.userAvatar, width: 45, height: 45),
                 ),
               ),
             ),

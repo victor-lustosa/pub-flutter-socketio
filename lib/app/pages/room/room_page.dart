@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pub/app/models/establishment.dart';
+
 import 'package:pub/app/models/user.dart';
 import 'package:pub/app/pages/room/components/message_box_widget.dart';
 import 'package:pub/app/shared/config/app_colors.dart';
@@ -8,8 +8,8 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../models/room.dart';
 
 class RoomPage extends StatefulWidget {
-  Room room;
-  User user;
+ final Room room;
+ final User user;
 
   RoomPage(this.room, this.user);
 

@@ -10,10 +10,11 @@ import 'establishment_tab_bar_sliver_widget.dart';
 
 class EstablishmentAlwaysScrollableWidget extends  StatelessWidget{
   EstablishmentAlwaysScrollableWidget(this._tabController, this._scrollViewController, this._user);
-  TabController _tabController;
-  ScrollController _scrollViewController;
 
-  User _user;
+  final TabController _tabController;
+  final ScrollController _scrollViewController;
+  final User _user;
+
   @override
   Widget build(BuildContext context) {
     return NestedScrollView(

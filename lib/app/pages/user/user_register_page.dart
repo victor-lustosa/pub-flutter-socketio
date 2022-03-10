@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pub/app/shared/config/app_colors.dart';
 import 'package:pub/app/models/user.dart';
-import 'package:pub/app/pages/establishment/establishment_page.dart';
 import 'package:pub/app/view_models/user_view_model.dart';
 import 'package:pub/app/shared/components/form_field_widget.dart';
 import 'package:pub/app/pages/user/components/user_register_bar_widget.dart';
@@ -29,8 +28,8 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
 
   List<String> _listGenres = ['não informado','masculino', 'feminino'];
   String _selectedGenre = '';
-  late String _latitude;
-  late String _longitude;
+  // late String _latitude;
+  // late String _longitude;
   bool isEnabled = true;
   double age = 0;
 
