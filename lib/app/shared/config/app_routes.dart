@@ -55,6 +55,7 @@ class AppRoutes{
       default:
         _erroRota();
     }
+    return null;
   }
   static Route<dynamic>_erroRota(){
     return MaterialPageRoute(builder: (_){

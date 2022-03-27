@@ -85,7 +85,7 @@ class Room {
         this._userNickName = json['userNickName'],
         this._isPublic = json['isPublic'],
         this._usersList = json['usersList'],
-        this._message = Message.fromMap(json['message']),
+        this._message = json['message'],
         this._type = json['type'];
 }
 

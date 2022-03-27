@@ -1,16 +1,16 @@
 import 'package:pub/app/models/establishment.dart';
 import 'package:pub/app/repositories/establishment_repository.dart';
-import 'package:dio/dio.dart';
-
 import '../models/dto/establishment_repository_dto.dart';
+
 abstract class IEstablishmentViewModel{
   Future<List<Establishment>> getListEstablishments(EstablishmentRepositoryDTO establishment);
 }
 
 class EstablishmentViewModel implements IEstablishmentViewModel{
-  EstablishmentViewModel._(this.repository, this.establishmentList);
-  static final EstablishmentViewModel instance = EstablishmentViewModel._(DioEstablishmentRepository(Dio()),[]);
-  final IEstablishmentRepository repository;
+
+  EstablishmentViewModel(this.repository, this.establishmentList);
+
+  final DioEstablishmentRepository repository;
   List establishmentList;
 
   Future<List<Establishment>> getListEstablishments(EstablishmentRepositoryDTO establishment) async{

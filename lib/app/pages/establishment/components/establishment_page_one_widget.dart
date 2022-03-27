@@ -8,17 +8,17 @@ import '../../../shared/config/app_colors.dart';
 import '../../../shared/config/app_images.dart';
 import '../../../shared/config/app_routes.dart';
 import '../../../view_models/establishment_view_model.dart';
+import 'package:provider/provider.dart';
 
 class EstablishmentPageOneWidget extends StatelessWidget {
-  EstablishmentPageOneWidget(this.user,this._establishmentViewModel);
+  EstablishmentPageOneWidget(this.user);
 
   final User user;
-  final EstablishmentViewModel _establishmentViewModel;
+  late final EstablishmentViewModel _establishmentViewModel;
 
   @override
   Widget build(BuildContext context) {
-
-
+    _establishmentViewModel = context.watch<EstablishmentViewModel>();
     return Container(
       decoration: BoxDecoration(
           color: AppColors.darkBrown

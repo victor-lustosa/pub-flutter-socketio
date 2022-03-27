@@ -7,7 +7,6 @@ import 'package:pub/app/pages/user/components/user_register_bar_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pub/app/shared/components/dropdown_widget.dart';
 import 'package:location/location.dart';
-
 import '../../models/dto/establishment_dto.dart';
 import '../../models/establishment.dart';
 import '../../shared/config/app_routes.dart';
@@ -18,13 +17,17 @@ class UserRegisterPage extends StatefulWidget  {
 
 class _UserRegisterPageState extends State<UserRegisterPage> {
 
-  _UserRegisterPageState(){
+  late final UserViewModel _userViewModel;
+
+ @override
+  void initState() {
+    super.initState();
+
+    _userViewModel = UserViewModel(Location(), User.withoutParameters());
     _userViewModel.checkLocation();
   }
-
   final TextEditingController _nickNameController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
-  UserViewModel _userViewModel = UserViewModel(Location(), User.withoutParameters());
 
   List<String> _listGenres = ['não informado','masculino', 'feminino'];
   String _selectedGenre = '';

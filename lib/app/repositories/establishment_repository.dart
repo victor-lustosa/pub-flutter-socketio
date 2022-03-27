@@ -1,6 +1,4 @@
-
 import 'package:dio/dio.dart';
-
 import '../models/dto/establishment_repository_dto.dart';
 import '../shared/config/app_routes.dart';
 import 'repository.dart';
@@ -13,8 +11,10 @@ import 'repository.dart';
 }
 
 class DioEstablishmentRepository  implements IEstablishmentRepository{
-  Dio dio;
+
   DioEstablishmentRepository(this.dio);
+
+  final Dio dio;
 
   @override
   Future create(Object T) {
