@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pub/app/core/config/app_colors.dart';
+import 'package:pub/app/core/configs/app_colors.dart';
 import 'package:pub/app/pages/user/models/user.dart';
 import 'package:pub/app/pages/establishment/establishment_page.dart';
 import 'package:pub/app/pages/user/components/enterprise_register_bar_widget.dart';

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pub/app/pages/home/home_page.dart';
 import 'package:pub/app/core/components/interceptor_server.dart';
-import 'package:pub/app/core/config/app_routes.dart';
-import 'package:pub/app/core/config/no_glow_behavior.dart';
+import 'package:pub/app/core/configs/app_routes.dart';
+import 'package:pub/app/core/configs/no_glow_behavior.dart';
 import 'package:pub/app/pages/room/view_models/room_view_model.dart';
 
 class AppWidget extends StatefulWidget {

@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:pub/app/pages/room/states/room_state.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:flutter/material.dart';
-import '../config/app_routes.dart';
+import '../configs/app_routes.dart';
 import '../models/data/data.dart';
 import '../models/data/enter_public_room_data.dart';
 import '../models/data/initial_message_data.dart';

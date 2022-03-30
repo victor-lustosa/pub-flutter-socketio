@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pub/app/pages/establishment/models/establishment.dart';
-import 'package:pub/app/core/config/app_colors.dart';
+import 'package:pub/app/core/configs/app_colors.dart';
 import 'package:pub/app/pages/user/models/user.dart';
 import 'package:pub/app/pages/establishment/components/establishment_tab_bar_sliver_widget.dart';
 import 'components/establishment_flexible_space_bar_widget.dart';

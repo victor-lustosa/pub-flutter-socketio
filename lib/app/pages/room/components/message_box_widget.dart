@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pub/app/pages/user/models/user.dart';
 import 'package:pub/app/pages/room/view_models/room_view_model.dart';
 import '../models/room.dart';
-import '../../../core/config/app_colors.dart';
+import '../../../core/configs/app_colors.dart';
 
 class MessageBoxWidget extends StatefulWidget {
   final Room room;

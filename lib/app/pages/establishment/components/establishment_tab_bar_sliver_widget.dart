@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../core/config/app_colors.dart';
+import '../../../core/configs/app_colors.dart';
 
 class EstablishmentTabBarSliverWidget extends  PreferredSize{
 

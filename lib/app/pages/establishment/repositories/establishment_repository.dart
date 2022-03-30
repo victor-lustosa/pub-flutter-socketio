@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import '../models/dto/establishment_repository_dto.dart';
-import '../../../core/config/app_routes.dart';
+import '../../../core/configs/app_routes.dart';
 import '../../../core/repositories/repository.dart';
 
  abstract class IEstablishmentRepository implements Repository{

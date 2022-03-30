@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pub/app/core/config/app_colors.dart';
+import 'package:pub/app/core/configs/app_colors.dart';
 import 'package:pub/app/pages/user/models/user.dart';
 import 'package:pub/app/pages/user/view_models/user_view_model.dart';
 import 'package:pub/app/core/components/form_field_widget.dart';
@@ -9,7 +9,7 @@ import 'package:pub/app/core/components/dropdown_widget.dart';
 import 'package:location/location.dart';
 import '../establishment/models/dto/establishment_dto.dart';
 import '../establishment/models/establishment.dart';
-import '../../core/config/app_routes.dart';
+import '../../core/configs/app_routes.dart';
 
 class UserRegisterPage extends StatefulWidget  {
   _UserRegisterPageState createState() => _UserRegisterPageState();

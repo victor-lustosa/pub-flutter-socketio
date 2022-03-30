@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/config/app_colors.dart';
+import '../../../core/configs/app_colors.dart';
 // import '../../repositories/establishment_repository_dto.dart';
 // import '../../view_models/establishment_view_model.dart';
 

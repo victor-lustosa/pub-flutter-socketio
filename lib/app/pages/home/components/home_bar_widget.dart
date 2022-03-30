@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pub/app/core/config/app_colors.dart';
+import 'package:pub/app/core/configs/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/config/app_images.dart';
+import '../../../core/configs/app_images.dart';
 
 class HomeBarWidget extends PreferredSize {
   HomeBarWidget(BuildContext context)
