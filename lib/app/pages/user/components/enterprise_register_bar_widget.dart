@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pub/app/shared/config/app_colors.dart';
+import 'package:pub/app/core/config/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 class EnterpriseRegisterBarWidget extends PreferredSize {
 

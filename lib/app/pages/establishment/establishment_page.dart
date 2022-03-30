@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pub/app/models/establishment.dart';
-import 'package:pub/app/shared/config/app_colors.dart';
-import 'package:pub/app/models/user.dart';
+import 'package:pub/app/pages/establishment/models/establishment.dart';
+import 'package:pub/app/core/config/app_colors.dart';
+import 'package:pub/app/pages/user/models/user.dart';
 import 'package:pub/app/pages/establishment/components/establishment_tab_bar_sliver_widget.dart';
 import 'components/establishment_flexible_space_bar_widget.dart';
 import 'components/establishment_page_one_widget.dart';
@@ -64,8 +64,8 @@ class _EstablishmentPageState extends State<EstablishmentPage>
               )];},
           body: TabBarView(
               controller: _tabController, children: <Widget>[
-            EstablishmentPageOneWidget(this.widget.user),
-            EstablishmentPageTwoWidget()
+                EstablishmentPageOneWidget(this.widget.user),
+                EstablishmentPageTwoWidget()
           ])),
       floatingActionButton: SizedBox(
           height: 32,

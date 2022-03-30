@@ -1,12 +1,10 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pub/app/pages/home/home_page.dart';
-import 'package:pub/app/repositories/establishment_repository.dart';
-import 'package:pub/app/shared/components/interceptor_server.dart';
-import 'package:pub/app/shared/config/app_routes.dart';
-import 'package:pub/app/shared/config/no_glow_behavior.dart';
-import 'package:pub/app/view_models/establishment_view_model.dart';
+import 'package:pub/app/core/components/interceptor_server.dart';
+import 'package:pub/app/core/config/app_routes.dart';
+import 'package:pub/app/core/config/no_glow_behavior.dart';
+import 'package:pub/app/pages/room/view_models/room_view_model.dart';
 
 class AppWidget extends StatefulWidget {
   const AppWidget({Key? key}) : super(key: key);
@@ -21,11 +19,8 @@ class _AppWidgetState extends State<AppWidget> {
     return MultiProvider(
         providers: [
 
-
-          Provider<Dio>(create: (_)=> Dio()),
-          Provider<EstablishmentViewModel>(create: (_)=> EstablishmentViewModel(context.read(),context.read())),
-          Provider<DioEstablishmentRepository>(create: (_)=> DioEstablishmentRepository(context.read())),
-          ChangeNotifierProvider<InterceptorServer>(create: (context) => InterceptorServer(socket: context.read()))
+            Provider<RoomViewModel>(create: (context)=> RoomViewModel(context.read(),context.read(),context.read())),
+            ChangeNotifierProvider<InterceptorServer>(create: (_) => InterceptorServer()),
         ],
         child:MaterialApp(
           builder: (context, Widget? child) {

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:pub/app/shared/config/app_colors.dart';
-import 'package:pub/app/models/user.dart';
-import 'package:pub/app/view_models/user_view_model.dart';
-import 'package:pub/app/shared/components/form_field_widget.dart';
+import 'package:pub/app/core/config/app_colors.dart';
+import 'package:pub/app/pages/user/models/user.dart';
+import 'package:pub/app/pages/user/view_models/user_view_model.dart';
+import 'package:pub/app/core/components/form_field_widget.dart';
 import 'package:pub/app/pages/user/components/user_register_bar_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pub/app/shared/components/dropdown_widget.dart';
+import 'package:pub/app/core/components/dropdown_widget.dart';
 import 'package:location/location.dart';
-import '../../models/dto/establishment_dto.dart';
-import '../../models/establishment.dart';
-import '../../shared/config/app_routes.dart';
+import '../establishment/models/dto/establishment_dto.dart';
+import '../establishment/models/establishment.dart';
+import '../../core/config/app_routes.dart';
 
 class UserRegisterPage extends StatefulWidget  {
   _UserRegisterPageState createState() => _UserRegisterPageState();

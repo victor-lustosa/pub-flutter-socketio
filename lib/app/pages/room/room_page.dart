@@ -1,15 +1,20 @@
+
 import 'package:flutter/material.dart';
 
-import 'package:pub/app/models/user.dart';
+import 'package:pub/app/pages/user/models/user.dart';
 import 'package:pub/app/pages/room/components/message_box_widget.dart';
-import 'package:pub/app/shared/config/app_colors.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:pub/app/pages/room/components/messages_area_widget.dart';
 
-import '../../models/room.dart';
+import 'package:provider/provider.dart';
+import 'models/room.dart';
+import '../../core/components/interceptor_server.dart';
+
+import 'view_models/room_view_model.dart';
+import 'components/room_bar_widget.dart';
 
 class RoomPage extends StatefulWidget {
- final Room room;
- final User user;
+  final Room room;
+  final User user;
 
   RoomPage(this.room, this.user);
 
@@ -18,66 +23,48 @@ class RoomPage extends StatefulWidget {
 }
 
 class _RoomPageState extends State<RoomPage> {
-
-@override
+  late final RoomViewModel instance;
+  @override
   void initState() {
-
     super.initState();
-
+    instance = RoomViewModel(this.widget.room, this.widget.user,InterceptorServer());
+    final interceptor = context.read<InterceptorServer>();
+    interceptor.addListener(() {
+      context.read<InterceptorServer>().getResponse;
+    });
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    instance.dispose();
   }
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar(automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
-        title: Row(
-          children: <Widget>[
-            // CircleAvatar(
-            //     maxRadius: 20,
-            //     backgroundColor: Colors.grey,
-            //     backgroundImage: widget.contato.urlImagem != null
-            //         ? NetworkImage(widget.contato.urlImagem)
-            //         : null),
-            Padding(
-                padding: EdgeInsets.only(top: 0, right: 0),
-                child: IconButton(
-                    iconSize: 30,
-                    icon: Icon(
-                      Icons.navigate_before_rounded,
-                      color: AppColors.darkBrown,
-                    ),
-                    color: AppColors.darkBrown,
-                    onPressed: () {
-                      Navigator.pop(context);
-                    }
+        appBar:AppBar(automaticallyImplyLeading: false,
+            backgroundColor: Colors.white,
+            title:RoomBarWidget(this.widget.room)),
+        body: Container(
+          decoration: BoxDecoration(color: Colors.white),
+          width: MediaQuery.of(context).size.width,
+          // decoration: BoxDecoration(
+          //     image: DecorationImage(
+          //         image: AssetImage("imagens/bg.png"), fit: BoxFit.cover)),
+          child: SafeArea(
+            child: Container(
+                padding: EdgeInsets.all(8),
+                child:Column(
+                    children: <Widget>[
+                      MessagesArea(instance, this.widget.room, this.widget.user),
+                      MessageBoxWidget(instance, this.widget.room, this.widget.user),
+                    ]
                 )
             ),
-            Padding(
-                padding: EdgeInsets.only(left: 8),
-                child: Text(
-
-                  widget.room.getRoomName,
-                  style:
-                      GoogleFonts.inter(fontSize: 17, color: AppColors.darkBrown),
-                )
-            )
-          ],
-        ),
-      ),
-      body: Container(
-        decoration: BoxDecoration(color: Colors.white),
-        width: MediaQuery.of(context).size.width,
-        // decoration: BoxDecoration(
-        //     image: DecorationImage(
-        //         image: AssetImage("imagens/bg.png"), fit: BoxFit.cover)),
-        child: SafeArea(
-            child: Container(
-          padding: EdgeInsets.all(8),
-          child: MessageBoxWidget(this.widget.room, this.widget.user),
+          ),
         )
-       ),
-      ),
     );
   }
+
+
 }

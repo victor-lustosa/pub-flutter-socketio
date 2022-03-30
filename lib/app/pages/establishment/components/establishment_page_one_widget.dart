@@ -1,24 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pub/app/models/dto/establishment_repository_dto.dart';
-import '../../../models/dto/room_dto.dart';
-import '../../../models/room.dart';
-import '../../../models/user.dart';
-import '../../../shared/config/app_colors.dart';
-import '../../../shared/config/app_images.dart';
-import '../../../shared/config/app_routes.dart';
-import '../../../view_models/establishment_view_model.dart';
-import 'package:provider/provider.dart';
+import 'package:pub/app/pages/establishment/models/dto/establishment_repository_dto.dart';
+import '../../room/models/dto/room_dto.dart';
+import '../../room/models/room.dart';
+import '../../user/models/user.dart';
+import '../repositories/establishment_repository.dart';
+import '../../../core/config/app_colors.dart';
+import '../../../core/config/app_images.dart';
+import '../../../core/config/app_routes.dart';
+import '../view_models/establishment_view_model.dart';
+import 'package:dio/dio.dart';
 
-class EstablishmentPageOneWidget extends StatelessWidget {
+class EstablishmentPageOneWidget extends StatefulWidget {
+
   EstablishmentPageOneWidget(this.user);
 
   final User user;
-  late final EstablishmentViewModel _establishmentViewModel;
 
   @override
+  State<EstablishmentPageOneWidget> createState() => _EstablishmentPageOneWidgetState();
+}
+
+class _EstablishmentPageOneWidgetState extends State<EstablishmentPageOneWidget> {
+  late final EstablishmentViewModel _establishmentViewModel;
+  @override
+  void initState() {
+    super.initState();
+    _establishmentViewModel = EstablishmentViewModel(DioEstablishmentRepository(Dio()),[]);
+  }
+  @override
   Widget build(BuildContext context) {
-    _establishmentViewModel = context.watch<EstablishmentViewModel>();
+
     return Container(
       decoration: BoxDecoration(
           color: AppColors.darkBrown
@@ -109,7 +121,7 @@ class EstablishmentPageOneWidget extends StatelessWidget {
                                   Room room = Room.withoutParameters();
                                   room.setRoomName(_establishmentViewModel.establishmentList[index].getName);
                                   Navigator.pushNamed(context,AppRoutes.PUBLIC_ROOM_ROUTE,
-                                      arguments:RoomDTO(this.user, room));
+                                      arguments:RoomDTO(this.widget.user, room));
                                 }
                             ),
                           );
@@ -123,3 +135,4 @@ class EstablishmentPageOneWidget extends StatelessWidget {
     );
   }
 }
+
