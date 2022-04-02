@@ -28,8 +28,7 @@ class _RoomPageState extends State<RoomPage> {
   void initState() {
     super.initState();
     instance = RoomViewModel(this.widget.room, this.widget.user,InterceptorServer());
-    final interceptor = context.read<InterceptorServer>();
-    interceptor.addListener(() {
+    instance.interceptor.addListener(() {
       context.read<InterceptorServer>().getResponse;
     });
   }

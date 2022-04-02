@@ -1,42 +1,30 @@
 
+// import 'package:rx_notifier/rx_notifier.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:pub/app/core/components/interceptor_server.dart';
 import 'package:pub/app/pages/user/models/user.dart';
 
-// import 'package:rx_notifier/rx_notifier.dart';
-
+import '../../../core/models/data/data.dart';
 import '../models/room.dart';
-import '../../../core/components/interceptor_server.dart';
 
 abstract class IRoomViewModel{
   // sendMessage();
 }
 
 class RoomViewModel implements IRoomViewModel{
-
-  RoomViewModel(this.room,this.user, this.interceptor){
-    interceptor.initClientServer(this.room.getRoomName,this.user.getNickname);
-    // room.addUsers(this.user);
-    // room.setMessage(new Message(user: '',textMessage: '',idMessage: 0,createdAt: ''));
-    // room.setIcon('');
-    // room.setUserNickName(this.user.getNickname);
-    // room.setIsPublic(true);
+  RoomViewModel(this.room, this.user, this.interceptor){
+    interceptor.initClientServer(this.room.getRoomName, this.user.getNickname);
   }
-
-  late final InterceptorServer interceptor;
+  InterceptorServer interceptor;
+  final focusNode = FocusNode();
   List<dynamic> _usersList = [];
   List<dynamic> _messagesList = [];
   late final Room room;
   late final User user;
-  final focusNode = FocusNode();
   int lineNumbers = 1;
 
   final textController = TextEditingController(text: '');
-
-  dispose(){
-    interceptor.dispose();
-    textController.dispose();
-    focusNode.dispose();
-  }
 
   void sendMessage() {
 
@@ -49,16 +37,28 @@ class RoomViewModel implements IRoomViewModel{
     }
   }
 
-get getUsersList => _usersList;
+  get getUsersList => _usersList;
 
-set usersList(List<dynamic> value) {
-  _usersList = value;
+  set usersList(List<dynamic> value) {
+    _usersList = value;
+  }
+  get getMessagesList => _messagesList;
+  addMessage(Data initialMessageData) {
+    _messagesList.add(initialMessageData);
+  }
+
+  dispose(){
+    interceptor.dispose();
+    textController.dispose();
+    focusNode.dispose();
+  }
+
+  static dynamic comparetor(dynamic object){
+
+  }
+
+  void enterRoom(String getRoomName,String getNickname) {
+
+  }
+
 }
-get getMessagesList => _messagesList;
-
-}
-
-// for(int i = 0; i < room.getUsersList.length; i++){
-//   jsonCodeUsersList.add(room.getUsersList[i].toMap());
-//   print('lista usuarios: ${jsonCodeUsersList[i]}');
-// }

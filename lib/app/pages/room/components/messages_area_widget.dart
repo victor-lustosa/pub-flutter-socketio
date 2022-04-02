@@ -26,68 +26,70 @@ class _MessagesAreaState extends State<MessagesArea> {
   }
   @override
   Widget build(BuildContext context) {
+
     final interceptorServer = context.watch<InterceptorServer>();
     final state = interceptorServer.value;
-    if (state is LoadingRoomState) {
 
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-
-    } else if (state is ErrorRoomState) {
-
+    if (state is ErrorRoomState) {
       return Center(
         child: Text(state.message),
       );
-
     } else if (state is InicialRoomState) {
 
-      return Expanded(child:Container());
+      return Expanded(
+          child: Container()
+       );
 
-    } else if (state is SuccessInitialRoomState) {
+    } else if (state is SendMessageState || state is ReceiveMessageState) {
 
-      return  Expanded(
-          child: ListView.builder(
-              controller: widget.instance.interceptor.scrollController,
-              itemCount: widget.instance.getMessagesList.length,
-              itemBuilder: (_, index) {
-                // if (snapshot.data!.getType == 'enter_room') {
-                //   return ListTile(title: Text('${instance.room.getUserNickName} entrou na sala'));
-                // }
-                // else if(snapshot.data!.getType == 'leave_room'){
-                //   return ListTile(title: Text('${userAux.getNickname} saiu da sala'));
-                // }
-                return Align(
-                  alignment: widget.instance.getMessagesList[index].getUser !=
-                      widget.user.getNickname ?
-                  Alignment.centerLeft : Alignment.centerRight,
-                  child: Padding(
-                    padding: const EdgeInsets.all(6),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      padding: const EdgeInsets.all(14),
-                      decoration: BoxDecoration(
-                          color: widget.instance.getMessagesList[index].getUser != widget.user.getNickname ?
-                          Colors.white : Color(0xffdcd9d9),
-                          borderRadius: BorderRadius.all(Radius.circular(
-                              8))),
-                      child: AnimatedBuilder(
-                          animation: widget.instance.interceptor,
-                          builder: (context, child) {
-                            return Text('${widget.instance.getMessagesList[index]
-                                .getUser} - ${widget.instance
-                                .getMessagesList[index].getTextMessage}',
-                                style: GoogleFonts.inter(fontSize: 14));
-                          }
-                      ),
-                    ),
-                  ),
-                );
-              }
-          ));
-    }   else {
+      return  StreamBuilder( stream: widget.instance.interceptor.getResponse,
+          initialData: [],
+          builder:(_, AsyncSnapshot snapshot){
 
-      return Container();
+            widget.instance.interceptor.getData(snapshot);
+
+            return Expanded(
+                child: ListView.builder(
+                    controller: widget.instance.interceptor.scrollController,
+                    itemCount: widget.instance.getMessagesList.length,
+                    itemBuilder: (_, index) {
+                      // if (snapshot.data!.getType == 'enter_room') {
+                      //   return ListTile(title: Text('${instance.room.getUserNickName} entrou na sala'));
+                      // }
+                      // else if(snapshot.data!.getType == 'leave_room'){
+                      //   return ListTile(title: Text('${userAux.getNickname} saiu da sala'));
+                      // }
+                      return Align(
+                        alignment: widget.instance.getMessagesList[index].getUser !=
+                            widget.user.getNickname ?
+                        Alignment.centerLeft : Alignment.centerRight,
+                        child: Padding(
+                          padding: const EdgeInsets.all(6),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            padding: const EdgeInsets.all(14),
+                            decoration: BoxDecoration(
+                                color: widget.instance.getMessagesList[index].getUser != widget.user.getNickname ?
+                                Colors.white : Color(0xffdcd9d9),
+                                borderRadius: BorderRadius.all(Radius.circular(
+                                    8))),
+                            child: AnimatedBuilder(
+                                animation: widget.instance.interceptor,
+                                builder: (context, child) {
+                                  return Text('${widget.instance.getMessagesList[index]
+                                      .getUser} - ${widget.instance
+                                      .getMessagesList[index].getTextMessage}',
+                                      style: GoogleFonts.inter(fontSize: 14));
+                                }
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                ));
+          });
+         } else {
+      return Container(child: Text("Errooo!!!"),);
     }
   }
 }

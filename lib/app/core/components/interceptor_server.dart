@@ -26,54 +26,70 @@ class InterceptorServer extends ValueNotifier <RoomState> {
     socket.onConnect((_){
       socket.emit('enter_public_room',
           EnterPublicRoomData(roomName: getRoomName,userNickName: getNickname,type: 'enter_public_room').toMap());
+
+      socket.on('message',(data){
+        final event = InitialMessageData.fromMap(data);
+        _socketResponse.sink.add(event.toMap());
+        notifyListeners();
+      });
     });
 
   }
 
   void sendMessage(String textMessage,String getNickname) {
-    var mes = SendMessageData(
-        createdAt: DateTime.now().toString(),
-        idMessage: 0,
-        textMessage: textMessage,
-        user: getNickname,
-        code:44,
-        type: "message").toMap();
+      if (textMessage.isNotEmpty) {
+        var mes = SendMessageData(
+            createdAt: DateTime.now().toString(),
+            idMessage: 0,
+            textMessage: textMessage,
+            user: getNickname,
+            code:44,
+            type: "message");
 
-    socket.emit('message', mes);
-    _socketResponse.sink.add(mes);
-    notifyListeners();
-  }
-  dispose(){
+        socket.emit('message', mes.toMap());
+        ReceiveMessageState(mes);
+        _socketResponse.sink.add(mes.toMap());
+        notifyListeners();
+        focusNode.requestFocus();
+      }
+    }
+
+    dispose(){
     super.dispose();
     _socketResponse.close();
     socket.clearListeners();
     socket.dispose();
+    focusNode.dispose();
+    scrollController.dispose();
   }
   // socket.on('initial_message',(data){
   //   final event = InitialMessageData.fromMap(data);
   //   _socketResponse.sink.add(event);
   //   notifyListeners();
   // });
-  Future getData() async {
-    AsyncSnapshot response = getResponse as AsyncSnapshot;
-    Data data = Data.fromMap(response.data);
+  getData(AsyncSnapshot snapshot) async {
+
+    Data data = Data.fromMap(snapshot.data);
     switch(data.type){
       case 'enter_public_room':
-        var event = InitialMessageData.fromMap(response.data);
-        SuccessInitialRoomState(event);
+        var event = InitialMessageData.fromMap(snapshot.data);
+        ReceiveMessageState(event);
         _socketResponse.sink.add(event.toMap());
         notifyListeners();
+        return Container();
         break;
-      // case 'initial_message':
-      // case 'initial_message':
-      // case 'initial_message':
-      // case 'initial_message':
-      // case 'initial_message':
-      // case 'initial_message':
+    // case 'initial_message':
+    // case 'initial_message':
+    // case 'initial_message':
+    // case 'initial_message':
+    // case 'initial_message':
+    // case 'initial_message':
       default:
         print("oi");
         break;
     }
+
+
     notifyListeners();
     Timer(Duration(microseconds: 100 ), (){
       scrollController.jumpTo(scrollController.position.maxScrollExtent);
@@ -88,16 +104,15 @@ class InterceptorServer extends ValueNotifier <RoomState> {
 
   }
 }
-    // try{
-    //
-    //
-    //
-    //   value = SuccessInitialRoomState(products);
-    //
-    // } catch(e) {
-    //
-    //   value = ErrorProductState(e.toString());
-    //
-    // }
-    // SuccessRoomState(Message.fromMap(snapshot.data!.getMessage));
-
+// try{
+//
+//
+//
+//   value = SuccessInitialRoomState(products);
+//
+// } catch(e) {
+//
+//   value = ErrorProductState(e.toString());
+//
+// }
+// SuccessRoomState(Message.fromMap(snapshot.data!.getMessage));

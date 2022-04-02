@@ -19,7 +19,7 @@ class _AppWidgetState extends State<AppWidget> {
     return MultiProvider(
         providers: [
 
-            Provider<RoomViewModel>(create: (context)=> RoomViewModel(context.read(),context.read(),context.read())),
+            Provider(create: (context)=> RoomViewModel(context.read(),context.read(),context.read())),
             ChangeNotifierProvider<InterceptorServer>(create: (_) => InterceptorServer()),
         ],
         child:MaterialApp(

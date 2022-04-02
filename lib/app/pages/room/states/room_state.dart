@@ -1,6 +1,7 @@
 
 
 
+import '../../../core/models/data/data.dart';
 import '../../../core/models/data/initial_message_data.dart';
 import '../../../core/models/data/send_message_data.dart';
 
@@ -11,17 +12,24 @@ class InicialRoomState extends RoomState{
 
 }
 
-class SuccessInitialRoomState extends RoomState{
+class InitialMessageState extends RoomState{
 
-  SuccessInitialRoomState(this.initialMessage);
+  InitialMessageState(this.initialMessage);
 
   final InitialMessageData initialMessage;
 
 }
+class  ReceiveMessageState extends RoomState{
 
-class NewMessageState extends RoomState{
+  ReceiveMessageState(this.initialMessage);
 
-  NewMessageState(this.message);
+  final Data initialMessage;
+
+}
+
+class SendMessageState extends RoomState{
+
+  SendMessageState(this.message);
 
   final SendMessageData message;
 
@@ -33,5 +41,3 @@ class ErrorRoomState extends RoomState{
 
   ErrorRoomState(this.message);
 }
-
-class LoadingRoomState extends RoomState{}
