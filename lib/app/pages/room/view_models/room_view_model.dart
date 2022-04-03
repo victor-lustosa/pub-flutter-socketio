@@ -35,9 +35,6 @@ class RoomViewModel implements IRoomViewModel{
   late final Socket socket;
   final ScrollController scrollController = ScrollController();
 
-  final _socketResponse = StreamController<Map<String,dynamic>>.broadcast();
-  Stream<Map<String,dynamic>> get getResponse => _socketResponse.stream;
-
   initClientServer(){
     socket = io(urlServer, OptionBuilder().setTransports(['websocket']).build());
     socket.connect();
@@ -47,7 +44,7 @@ class RoomViewModel implements IRoomViewModel{
 
       socket.on('message',(data){
         final event = InitialMessageData.fromMap(data);
-        _socketResponse.sink.add(event.toMap());
+        bloc.inputMessage.add(SendMessageEvent(event.toMap()));
       });
     });
   }
@@ -74,7 +71,6 @@ class RoomViewModel implements IRoomViewModel{
   }
 
   dispose(){
-    _socketResponse.close();
     socket.clearListeners();
     socket.dispose();
     focusNode.dispose();
@@ -92,9 +88,7 @@ class RoomViewModel implements IRoomViewModel{
     switch(data.type){
       case 'enter_public_room':
         var event = InitialMessageData.fromMap(snapshot.data);
-        // ReceiveMessageState(event);
-        _socketResponse.sink.add(event.toMap());
-
+        bloc.inputMessage.add(SendMessageEvent(event.toMap()));
         return Container();
         break;
     // case 'initial_message':

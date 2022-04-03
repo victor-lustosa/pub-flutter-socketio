@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pub/app/pages/user/user_register_page.dart';
+import 'package:pub/app/pages/user/views/user_register_page.dart';
 
 import 'package:pub/app/core/configs/app_colors.dart';
 
-import '../../core/configs/app_routes.dart';
-import 'components/home_bar_widget.dart';
+import '../../../core/configs/app_routes.dart';
+import '../components/home_bar_widget.dart';
 
 class HomePage extends StatelessWidget {
   @override

@@ -1,39 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:pub/app/core/configs/app_colors.dart';
 import 'package:pub/app/pages/user/models/user.dart';
+import 'package:pub/app/pages/establishment/views/establishment_page.dart';
+import 'package:pub/app/pages/user/components/enterprise_register_bar_widget.dart';
 import 'package:pub/app/pages/user/view_models/user_view_model.dart';
 import 'package:pub/app/core/components/form_field_widget.dart';
-import 'package:pub/app/pages/user/components/user_register_bar_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pub/app/core/components/dropdown_widget.dart';
 import 'package:location/location.dart';
-import '../establishment/models/dto/establishment_dto.dart';
-import '../establishment/models/establishment.dart';
-import '../../core/configs/app_routes.dart';
 
-class UserRegisterPage extends StatefulWidget  {
-  _UserRegisterPageState createState() => _UserRegisterPageState();
+import '../../establishment/models/establishment.dart';
+class EnterpriseRegisterPage extends StatefulWidget  {
+  _EnterpriseRegisterPageState createState() => _EnterpriseRegisterPageState();
 }
 
-class _UserRegisterPageState extends State<UserRegisterPage> {
+class _EnterpriseRegisterPageState extends State<EnterpriseRegisterPage> {
 
-  late final UserViewModel _userViewModel;
-
- @override
-  void initState() {
-    super.initState();
-
-    _userViewModel = UserViewModel(Location(), User.withoutParameters());
+  _EnterpriseRegisterPageState(){
     _userViewModel.checkLocation();
   }
-  final TextEditingController _nickNameController = TextEditingController();
-  final TextEditingController _ageController = TextEditingController();
 
-  List<String> _listGenres = ['não informado','masculino', 'feminino'];
+  TextEditingController _nickNameController = TextEditingController();
+  TextEditingController _ageController = TextEditingController();
+  UserViewModel _userViewModel = UserViewModel(Location(), User.withoutParameters());
+
+  List<String> _listGenres = ['Não informado','Masculino', 'Feminino'];
   String _selectedGenre = '';
-  // late String _latitude;
-  // late String _longitude;
-  bool isEnabled = true;
+
   double age = 0;
 
   @override
@@ -47,16 +40,12 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
           }
         },
         child: Scaffold(
-            appBar:  UserRegisterBarWidget(),
+            appBar:  EnterpriseRegisterBarWidget(),
             body: SingleChildScrollView(
-              physics: NeverScrollableScrollPhysics(),
                 child:Container(
                     alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: AppColors.white, borderRadius: BorderRadius.only(
-                      topLeft: const Radius.circular(10.0),
-                      topRight: const Radius.circular(10.0),
-                    ),),
+                    decoration: BoxDecoration(color: AppColors.white),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
                     child: Column(
@@ -65,17 +54,17 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                               padding: EdgeInsets.only(top: 60),
                               child:  FormFieldWidget(
                                   _nickNameController,
-                                  'nickname',)
+                                  'nickname')
                           ),
                           Padding(
-                              padding: EdgeInsets.only(top: 0),
+                              padding: EdgeInsets.only(top: 28),
                               child:  FormFieldWidget(
                                   _ageController,
                                   'idade')
 
                           ),
                           Padding(
-                              padding: EdgeInsets.only(top: 0),
+                              padding: EdgeInsets.only(top: 28),
                               child:Container(
                                   decoration: BoxDecoration(
                                     color: Colors.white,
@@ -88,49 +77,43 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                                         width: 1.0,
                                         style: BorderStyle.solid
                                     ),
-                                  ), width: 350, height: 55,
+                                  ), width: 280, height: 38,
                                   child: Form(
                                       autovalidateMode: AutovalidateMode.always,
-                                      child: DropdownWidget(_listGenres, (String retorno){
+                                      child: DropdownWidget(_listGenres, (String dropdownReturn){
                                         setState(() {
-                                          _selectedGenre = retorno;
+                                          _selectedGenre = dropdownReturn;
                                         });
                                       }, "gênero",))
                               )),
                           Padding(
-                            padding: EdgeInsets.only(top: 95),
-                            child: ElevatedButton.icon(
+                            padding: EdgeInsets.only(top: 144),
+                            child: ElevatedButton(
                                 onPressed: (){
                                   Establishment establishment = Establishment();
                                   age = double.tryParse(_ageController.text) == null ? 0 : double.tryParse(_ageController.text)!;
                                   if(_ageController.text.isNotEmpty && _nickNameController.text.isNotEmpty) {
-                                    User user = _userViewModel.validateUser(_nickNameController, _ageController, _selectedGenre, _listGenres);
-                                    establishment.setLatitude(_userViewModel.locationData.latitude!);
-                                    establishment.setLongitude(_userViewModel.locationData.longitude!);
-                                    if(age >= 18){
-                                      Navigator.pushReplacementNamed(context,AppRoutes.ESTABLISHMENT_ROUTE,
-                                          arguments:EstablishmentDTO(user,establishment));
-                                    }
-                                  }
-                                },
-                                icon: Icon(
-                              Icons.navigate_next_rounded,
-                              color: AppColors.white,
-                            ),
-                                label: Text("Avançar",
-                                    style:GoogleFonts.inter( fontSize: 14, color: Colors.white)
+                                  User user = _userViewModel.validateUser(_nickNameController, _ageController, _selectedGenre, _listGenres);
+                                  establishment.setLatitude(_userViewModel.locationData.latitude!);
+                                  establishment.setLongitude(_userViewModel.locationData.longitude!);
+                                  Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) => EstablishmentPage(user, establishment)));
+                                  }},
+                                child: Text("Avançar",
+                                    style:GoogleFonts.inter( fontSize: 15, color: Colors.white)
                                 ),
                                 style: ButtonStyle(
                                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                       RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10),
+                                          borderRadius: BorderRadius.only(
+                                              bottomLeft: Radius.circular(10),
                                               bottomRight: Radius.circular(10),
                                               topLeft: Radius.circular(10),
                                               topRight: Radius.circular(10))
                                       )
                                   ),
                                   backgroundColor: MaterialStateProperty.all(AppColors.lightBrown),
-                                  padding:MaterialStateProperty.all(EdgeInsets.symmetric(horizontal: 100,vertical: 9)
+                                  padding:MaterialStateProperty.all(EdgeInsets.symmetric(horizontal: 60)
                                   ),
                                 )
                             ),
@@ -139,7 +122,8 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                     )
                 )
             )
-        ));
+        )
+    );
   }
 }
 

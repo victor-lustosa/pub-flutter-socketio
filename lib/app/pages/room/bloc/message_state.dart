@@ -11,20 +11,20 @@ class InitialMessageState extends MessageState{
 
   InitialMessageState(this.initialMessage);
 
-  final InitialMessageData initialMessage;
+  final Map<String,dynamic> initialMessage;
 }
 class  ReceiveMessageState extends MessageState{
 
   ReceiveMessageState(this.initialMessage);
 
-  final Data initialMessage;
+  final Map<String,dynamic> initialMessage;
 }
 
 class SendMessageState extends MessageState{
 
   SendMessageState(this.message);
 
-  final SendMessageData message;
+  final Map<String,dynamic> message;
 }
 
 class ErrorRoomState extends MessageState{

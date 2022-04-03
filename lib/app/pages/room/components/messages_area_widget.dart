@@ -16,7 +16,7 @@ class MessagesArea extends StatefulWidget {
 }
 
 class _MessagesAreaState extends State<MessagesArea> {
-
+  final MessageBloc messageBloc = MessageBloc(RoomViewModel.withoutInstance());
 
   @override
   initState() {
@@ -26,30 +26,19 @@ class _MessagesAreaState extends State<MessagesArea> {
 
   @override
   void dispose() {
+    messageBloc.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
 
-    // if (state is ErrorRoomState) {
-    //   return Center(
-    //     child: Text(state.message),
-    //   );
-    // } else if (state is InicialRoomState) {
-    //
-    //   return Expanded(
-    //       child: Container()
-    //    );
-    //
-    // } else if (state is SendMessageState || state is ReceiveMessageState) {
-    //
       return  StreamBuilder<Map<String, dynamic>>(
-          stream: widget.instanceMessageArea.getResponse,
+          stream: messageBloc.server,
           builder:(context, AsyncSnapshot<Map<String, dynamic>> snapshot){
-
-            widget.instanceMessageArea.getData(snapshot);
-
+            if(snapshot.hasData) {
+              widget.instanceMessageArea.getData(snapshot);
+            }
             return Expanded(
                 child: ListView.builder(
                     controller: widget.instanceMessageArea.scrollController,
@@ -79,7 +68,6 @@ class _MessagesAreaState extends State<MessagesArea> {
                                       .getUser} - ${widget.instanceMessageArea
                                       .getMessagesList[index].getTextMessage}',
                                       style: GoogleFonts.inter(fontSize: 14))
-
                             ),
                           ),
                         // ),

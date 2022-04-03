@@ -4,9 +4,9 @@ import 'package:pub/app/pages/establishment/models/establishment.dart';
 import 'package:pub/app/core/configs/app_colors.dart';
 import 'package:pub/app/pages/user/models/user.dart';
 import 'package:pub/app/pages/establishment/components/establishment_tab_bar_sliver_widget.dart';
-import 'components/establishment_flexible_space_bar_widget.dart';
-import 'components/establishment_page_one_widget.dart';
-import 'components/establishment_page_two_widget.dart';
+import '../components/establishment_flexible_space_bar_widget.dart';
+import '../components/establishment_page_one_widget.dart';
+import '../components/establishment_page_two_widget.dart';
 
 class EstablishmentPage extends StatefulWidget {
 

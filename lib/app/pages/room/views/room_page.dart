@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:pub/app/pages/user/models/user.dart';
 import 'package:pub/app/pages/room/components/message_box_widget.dart';
 import 'package:pub/app/pages/room/components/messages_area_widget.dart';
-import 'bloc/message_bloc.dart';
-import 'models/room.dart';
-import '../../core/components/interceptor_server.dart';
-import 'view_models/room_view_model.dart';
-import 'components/room_bar_widget.dart';
+import '../bloc/message_bloc.dart';
+import '../models/room.dart';
+import '../../../core/components/interceptor_server.dart';
+import '../view_models/room_view_model.dart';
+import '../components/room_bar_widget.dart';
 
 class RoomPage extends StatefulWidget {
 
@@ -31,8 +31,8 @@ class _RoomPageState extends State<RoomPage> {
   }
   @override
   void dispose() {
-    super.dispose();
     instanceRoom.dispose();
+    super.dispose();
   }
   @override
   Widget build(BuildContext context) {

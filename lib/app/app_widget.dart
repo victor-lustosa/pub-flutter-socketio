@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pub/app/core/configs/app_routes.dart';
 import 'package:pub/app/core/configs/no_glow_behavior.dart';
-import 'package:pub/app/pages/home/home_page.dart';
+import 'package:pub/app/pages/home/views/home_page.dart';
 
 class AppWidget extends StatefulWidget {
   const AppWidget({Key? key}) : super(key: key);
