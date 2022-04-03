@@ -4,15 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:pub/app/pages/user/models/user.dart';
 import 'package:pub/app/pages/room/components/message_box_widget.dart';
 import 'package:pub/app/pages/room/components/messages_area_widget.dart';
-
-import 'package:provider/provider.dart';
+import 'bloc/message_bloc.dart';
 import 'models/room.dart';
 import '../../core/components/interceptor_server.dart';
-
 import 'view_models/room_view_model.dart';
 import 'components/room_bar_widget.dart';
 
 class RoomPage extends StatefulWidget {
+
   final Room room;
   final User user;
 
@@ -23,23 +22,20 @@ class RoomPage extends StatefulWidget {
 }
 
 class _RoomPageState extends State<RoomPage> {
-  late final RoomViewModel instance;
+  late final RoomViewModel instanceRoom;
+
   @override
   void initState() {
+    instanceRoom = RoomViewModel(room:this.widget.room,user: this.widget.user,bloc: MessageBloc(RoomViewModel.withoutInstance()));
     super.initState();
-    instance = RoomViewModel(this.widget.room, this.widget.user,InterceptorServer());
-    instance.interceptor.addListener(() {
-      context.read<InterceptorServer>().getResponse;
-    });
   }
   @override
   void dispose() {
     super.dispose();
-    instance.dispose();
+    instanceRoom.dispose();
   }
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         appBar:AppBar(automaticallyImplyLeading: false,
             backgroundColor: Colors.white,
@@ -55,8 +51,8 @@ class _RoomPageState extends State<RoomPage> {
                 padding: EdgeInsets.all(8),
                 child:Column(
                     children: <Widget>[
-                      MessagesArea(instance, this.widget.room, this.widget.user),
-                      MessageBoxWidget(instance, this.widget.room, this.widget.user),
+                      MessagesArea(this.instanceRoom, this.widget.room, this.widget.user),
+                      MessageBoxWidget(this.instanceRoom, this.widget.room, this.widget.user),
                     ]
                 )
             ),
@@ -64,6 +60,4 @@ class _RoomPageState extends State<RoomPage> {
         )
     );
   }
-
-
 }

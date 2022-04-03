@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:pub/app/pages/home/home_page.dart';
-import 'package:pub/app/core/components/interceptor_server.dart';
 import 'package:pub/app/core/configs/app_routes.dart';
 import 'package:pub/app/core/configs/no_glow_behavior.dart';
-import 'package:pub/app/pages/room/view_models/room_view_model.dart';
+import 'package:pub/app/pages/home/home_page.dart';
 
 class AppWidget extends StatefulWidget {
   const AppWidget({Key? key}) : super(key: key);
@@ -16,13 +13,7 @@ class AppWidget extends StatefulWidget {
 class _AppWidgetState extends State<AppWidget> {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-        providers: [
-
-            Provider(create: (context)=> RoomViewModel(context.read(),context.read(),context.read())),
-            ChangeNotifierProvider<InterceptorServer>(create: (_) => InterceptorServer()),
-        ],
-        child:MaterialApp(
+    return MaterialApp(
           builder: (context, Widget? child) {
             return ScrollConfiguration(
               behavior: NoGlowBehavior(),
@@ -34,7 +25,6 @@ class _AppWidgetState extends State<AppWidget> {
           debugShowCheckedModeBanner: false,
           title: 'Pub',
           home: HomePage(),
-        )
     );
   }
 }

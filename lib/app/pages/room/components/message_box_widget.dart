@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pub/app/pages/user/models/user.dart';
 import 'package:pub/app/pages/room/view_models/room_view_model.dart';
+import '../bloc/message_bloc.dart';
 import '../models/room.dart';
 import '../../../core/configs/app_colors.dart';
 
@@ -9,6 +10,7 @@ class MessageBoxWidget extends StatefulWidget {
   final Room room;
   final User user;
   final RoomViewModel instance;
+
   MessageBoxWidget(this.instance, this.room, this.user);
 
   @override
@@ -53,6 +55,7 @@ class _MessageBoxWidgetState extends State<MessageBoxWidget> {
               focusNode: widget.instance.focusNode,
               onSubmitted: (_) {
                 widget.instance.sendMessage();
+
               },
               controller: widget.instance.textController,
               autofocus: true,

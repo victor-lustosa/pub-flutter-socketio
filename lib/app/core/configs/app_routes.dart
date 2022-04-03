@@ -8,10 +8,10 @@ import '../../pages/home/home_page.dart';
 import '../../pages/room/room_page.dart';
 import '../../pages/user/enterprise_register_page.dart';
 import '../../pages/user/user_register_page.dart';
-// const urlEstablishments = 'https://powerful-bayou-46345.herokuapp.com/establishments';
-const urlEstablishments = 'http://localhost:4000/establishments';
-// const urlServer = 'https://powerful-bayou-46345.herokuapp.com';
-const urlServer = 'http://localhost:4000';
+const urlEstablishments = 'https://powerful-bayou-46345.herokuapp.com/establishments';
+// const urlEstablishments = 'http://localhost:4000/establishments';
+const urlServer = 'https://powerful-bayou-46345.herokuapp.com';
+// const urlServer = 'http://localhost:4000';
 class AppRoutes{
   static const String INICIAL_ROUTE = "/";
   static const String HOME_ROUTE = "/home";

@@ -11,14 +11,6 @@ class RoomDTO {
 
   User get getUser => _user;
 
-  setUser(User value) {
-    _user = value;
-  }
-
   Room get getRoom => _room;
-
-  setRoom(Room value) {
-    _room = value;
-  }
 }
 
