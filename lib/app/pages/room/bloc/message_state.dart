@@ -1,35 +1,34 @@
 part of 'message_bloc.dart';
 
 @immutable
-abstract class MessageState {}
+abstract class MessageState {
 
-class MessageInitial extends MessageState {}
+  late final List<Data> messages;
 
-class MessageSuccessState extends MessageState {}
+  MessageState(this.messages);
+}
+
+class MessageInitial extends MessageState {
+  MessageInitial(List<Data> messages) : super(messages);
+}
 
 class InitialMessageState extends MessageState{
 
-  InitialMessageState(this.initialMessage);
+  InitialMessageState(List<Data> messages) : super([]);
 
-  final Map<String,dynamic> initialMessage;
-}
-class  ReceiveMessageState extends MessageState{
-
-  ReceiveMessageState(this.initialMessage);
-
-  final Map<String,dynamic> initialMessage;
 }
 
-class SendMessageState extends MessageState{
 
-  SendMessageState(this.message);
+class ReceiveMessageState extends MessageState{
 
-  final Map<String,dynamic> message;
+  ReceiveMessageState(List<Data> messages) : super(messages);
+
+
 }
 
 class ErrorRoomState extends MessageState{
 
   final String message;
 
-  ErrorRoomState(this.message);
+  ErrorRoomState(this.message) : super([]);
 }

@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 import 'package:pub/app/pages/room/view_models/room_view_model.dart';
 
+import '../../../core/models/data/data.dart';
 import '../../../core/models/data/initial_message_data.dart';
 import '../../../core/models/data/send_message_data.dart';
 
@@ -25,29 +27,24 @@ class MessageBloc{
   final StreamController<Map<String,dynamic>> _socketResponse  = StreamController<Map<String,dynamic>>.broadcast();
 
   Sink<MessageEvent> get inputMessage => _inputMessageController.sink;
-  Stream<Map<String,dynamic>> get stream => _socketResponse.stream;
+  Stream<MessageState> get stream => _outputMessageController.stream;
   Stream<Map<String,dynamic>> get server => _socketResponse.stream;
 
   _mapEventToState(MessageEvent event){
-
+    List<Data> listMessages = [];
     if(event is InitialMessageEvent){
 
-      print('initial data: '+ InitialMessageData.fromMap(event.initialMessage).toString());
+      print('initial data: ' + InitialMessageData.fromMap(event.initialMessage).toString());
 
-    } else if(event is SendMessageEvent){
-
-      _roomViewModel.addMessage(SendMessageData.fromMap(event.message));
-
-    } else if(event is ReceiveMessageEvent){
-
-      _roomViewModel.addMessage(SendMessageData.fromMap(event.initialMessage));
+    } else if(event is SendMessageEvent) {
+      listMessages.add(SendMessageData.fromMap(event.message));
+      _outputMessageController.add(ReceiveMessageState(listMessages));
 
     }
-
   }
 
-
   dispose(){
+    _outputMessageController.close();
     _inputMessageController.close();
     _socketResponse.close();
   }

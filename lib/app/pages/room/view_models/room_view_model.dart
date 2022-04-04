@@ -16,7 +16,7 @@ abstract class IRoomViewModel{
   // sendMessage();
 }
 
-class RoomViewModel implements IRoomViewModel{
+class RoomViewModel  extends ChangeNotifier implements IRoomViewModel{
 
   RoomViewModel({required this.room,required this.user,required this.bloc}) {
     initClientServer();
@@ -25,8 +25,6 @@ class RoomViewModel implements IRoomViewModel{
 
   late final MessageBloc bloc;
   late final focusNode = FocusNode();
-  List<dynamic> _usersList = [];
-  List<dynamic> _messagesList = [];
   late final Room room;
   late final User user;
   int lineNumbers = 1;
@@ -70,7 +68,8 @@ class RoomViewModel implements IRoomViewModel{
     }
   }
 
-  dispose(){
+  dispose(){super.dispose();
+
     socket.clearListeners();
     socket.dispose();
     focusNode.dispose();
@@ -82,38 +81,18 @@ class RoomViewModel implements IRoomViewModel{
   //   _socketResponse.sink.add(event);
   //   notifyListeners();
   // });
-  getData(AsyncSnapshot snapshot) async {
+  // Future<List<Data>> getData(AsyncSnapshot snapshot) async {
+  //
+  //     notifyListeners();
+  //     return messageList;
+  //   } else{
+  //     return [];
+  //   }
+  // }
 
-    Data data = Data.fromMap(snapshot.data);
-    switch(data.type){
-      case 'enter_public_room':
-        var event = InitialMessageData.fromMap(snapshot.data);
-        bloc.inputMessage.add(SendMessageEvent(event.toMap()));
-        return Container();
-        break;
-    // case 'initial_message':
-    // case 'initial_message':
-    // case 'initial_message':
-    // case 'initial_message':
-    // case 'initial_message':
-    // case 'initial_message':
-      default:
-        print("oi");
-        break;
-    }
 
-    Timer(Duration(microseconds: 100 ), (){
-      scrollController.jumpTo(scrollController.position.maxScrollExtent);
-    });
-  }
-
-  get getUsersList => _usersList;
-
-  set usersList(List<dynamic> value) {
-    _usersList = value;
-  }
-  get getMessagesList => _messagesList;
   addMessage(Data initialMessageData) {
-    _messagesList.add(initialMessageData);
+    // _messagesList.add(initialMessageData);
+    notifyListeners();
   }
 }

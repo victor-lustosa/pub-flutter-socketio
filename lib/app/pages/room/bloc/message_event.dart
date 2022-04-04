@@ -10,12 +10,6 @@ class InitialMessageEvent extends MessageEvent{
 
   final Map<String,dynamic> initialMessage;
 }
-class  ReceiveMessageEvent extends MessageEvent{
-
-  ReceiveMessageEvent(this.initialMessage);
-
-  final Map<String,dynamic> initialMessage;
-}
 
 class SendMessageEvent extends MessageEvent{
 

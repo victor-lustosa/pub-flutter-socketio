@@ -10,10 +10,10 @@ class Room {
   late String _icon;
   late bool _isPublic;
   List<dynamic> _usersList = [];
-  late dynamic _message;
-  late String _type;
+  List<dynamic> _messagesList = [];
 
   Room.withoutParameters();
+
   void addUsers(User user) {
     getUsersList.add(user);
   }
@@ -22,18 +22,17 @@ class Room {
   get getUserNickName => _userNickName;
   get getRoomName => _roomName;
   get getUsersList => _usersList;
-  get getMessage => _message;
+  get getMessagesList => _messagesList;
   get getIdRoom => _idRoom;
   get getIcon => _icon;
   get getIsPublic => _isPublic;
-  get getType => _type;
 
 
 //SETTERS
   setUserNickName(String userNickName) => _userNickName = userNickName;
   setRoomName(String roomName) => _roomName = roomName;
   setUsersList(List<User> usersList) => _usersList = usersList;
-  setMessage(Message message) => _message = message;
+  setMessage(List<dynamic> messagesList) => _messagesList = messagesList;
   setIcon(String icon) => _icon = icon;
   setIdRoom(int idRoom) => _idRoom = idRoom;
   setIsPublic(bool isPublic) => _isPublic = isPublic;
@@ -45,15 +44,13 @@ class Room {
     required userNickName,
     required isPublic,
     required usersList,
-    required message,
-    required type,
+    required messagesList,
   })  : _idRoom = idRoom,
         _roomName = roomName,
         _userNickName = userNickName,
         _isPublic = isPublic,
         _usersList = usersList,
-        _message = message,
-        _type = type;
+        _messagesList = messagesList;
 
   Map<String, dynamic> toMap() {
     return {
@@ -62,30 +59,16 @@ class Room {
       'userNickName': this._userNickName,
       'isPublic': this._isPublic,
       'usersList': this._usersList,
-      'message': this._message,
-      'type': this._type,
+      'messagesList': this._messagesList
     };
   }
 
-  // factory Room.fromMap(Map<String, dynamic> map) {
-  //   return Room(
-  //     idRoom: map['idRoom'],
-  //     roomName: map['roomName'],
-  //     userNickName: map['userNickName'],
-  //     isPublic: map['isPublic'],
-  //     usersList: map['usersList'],
-  //     message: map['message'] as Message,
-  //     type: map['type']
-  //   );
-  //
-  // }
   Room.fromMap(json)
       : this._idRoom = json['idRoom'],
         this._roomName = json['roomName'],
         this._userNickName = json['userNickName'],
         this._isPublic = json['isPublic'],
         this._usersList = json['usersList'],
-        this._message = json['message'],
-        this._type = json['type'];
+        this._messagesList = json['messagesList'];
 }
 
