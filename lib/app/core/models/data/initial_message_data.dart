@@ -1,3 +1,4 @@
+import '../../../pages/room/models/bloc_events.dart';
 import 'data.dart';
 
 class InitialMessageData extends Data{
@@ -17,7 +18,7 @@ class InitialMessageData extends Data{
 //SETTERS
   setUser(String user) => _user = user;
   setCode(int code) => _code = code;
-  setType(String type) => super.type = type;
+  setType(BlocEventType type) => super.type = type;
   setIdMessage(int idMessage) => _idMessage = idMessage;
   setCreatedAt(String createdAt) => _createdAt = createdAt;
   setTextMessage(String textMessage) => _textMessage = textMessage;
@@ -27,7 +28,7 @@ class InitialMessageData extends Data{
       'idMessage': this._idMessage,
       'createdAt': this._createdAt,
       'textMessage': this._textMessage,
-      'type': super.type,
+      'type': super.type.toString(),
       'code': this._code,
       'user': this._user
     };
@@ -40,8 +41,7 @@ class InitialMessageData extends Data{
         textMessage: map['textMessage'],
         user: map['user'],
         code: map['code'],
-        type: map['type']
-    );
+        type: BlocEventType.values.firstWhere((element) => element.toString() == map['type']));
   }
 
   InitialMessageData({

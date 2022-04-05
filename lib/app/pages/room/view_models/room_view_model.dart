@@ -1,15 +1,14 @@
 
-import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pub/app/pages/user/models/user.dart';
 import 'package:socket_io_client/socket_io_client.dart';
+
 import '../../../core/configs/app_routes.dart';
-import '../../../core/models/data/data.dart';
 import '../../../core/models/data/enter_public_room_data.dart';
-import '../../../core/models/data/initial_message_data.dart';
 import '../../../core/models/data/send_message_data.dart';
 import '../bloc/message_bloc.dart';
+import '../models/bloc_events.dart';
 import '../models/room.dart';
 
 abstract class IRoomViewModel{
@@ -37,7 +36,7 @@ class RoomViewModel  implements IRoomViewModel{
     socket.connect();
     socket.onConnect((_){
       socket.emit('enter_public_room',
-          EnterPublicRoomData(roomName: room.getRoomName,userNickName: user.getNickname,type: 'enter_public_room').toMap());
+          EnterPublicRoomData(roomName: room.getRoomName,userNickName: user.getNickname,type: BlocEventType.enter_public_room).toMap());
 
       // socket.on('message',(data){
       //   final event = InitialMessageData.fromMap(data);
@@ -54,7 +53,7 @@ class RoomViewModel  implements IRoomViewModel{
           textMessage: textMessage,
           user: this.user.getNickname,
           code:44,
-          type: "message");
+          type: BlocEventType.send_message);
 
       socket.emit('message', mes.toMap());
       read.add(SendMessageEvent(mes.toMap()));
@@ -68,21 +67,14 @@ class RoomViewModel  implements IRoomViewModel{
     //   _socketResponse.sink.add(event);
     //   notifyListeners();
     // });
-    // Future<List<Data>> getData(AsyncSnapshot snapshot) async {
+
+
+
+    // addMessage(List<SendMessageData> initialMessageData) {
+    //   List<SendMessageData> list =  initialMessageData;
     //
-    //     notifyListeners();
-    //     return messageList;
-    //   } else{
-    //     return [];
-    //   }
+    //   return list;
     // }
-
-
-    addMessage(List<SendMessageData> initialMessageData) {
-      List<SendMessageData> list =  initialMessageData;
-
-      return list;
-    }
   }
 
   void dispose() {

@@ -9,10 +9,10 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../models/room.dart';
 
 class MessagesAreaWidget extends StatefulWidget {
-  MessagesAreaWidget(this.instanceMessageArea, this.room, this.user);
+  MessagesAreaWidget(this.instance, this.room, this.user);
   final Room room;
   final User user;
-  final RoomViewModel instanceMessageArea;
+  final RoomViewModel instance;
 
   @override
   State<MessagesAreaWidget> createState() => _MessagesAreaWidgetState();
@@ -33,28 +33,28 @@ class _MessagesAreaWidgetState extends State<MessagesAreaWidget> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MessageBloc,MessageState>(
-        buildWhen: (previous, current) => previous != current && current is ReceiveMessageState,
-        builder:(context, snapshot){
-          if(snapshot is InitialMessageState) {
+        builder:(context, state){
+          if(state is InitialMessageState) {
             return Expanded( child: Container());
-          } else if(snapshot is ReceiveMessageState) {
-            messagesList =  snapshot.messages;
+          }
+         else if(state is ReceiveEnterPublicRoomMessageState){
+            return ListTile(title: Text('${state.message.userNickName} entrou na sala'));
+          }
+          else if(state is ReceiveLeavePublicRoomMessageState ){
+            return ListTile(title: Text('${state.message.userNickName} saiu da sala'));
+          }
+           else if(state is ReceiveSendMessageState) {
+            messagesList.add(state.message);
             Timer(Duration(microseconds: 100), (){
-              this.widget.instanceMessageArea.scrollController.jumpTo(
-                  this.widget.instanceMessageArea.scrollController.position.maxScrollExtent
+              this.widget.instance.scrollController.jumpTo(
+                  this.widget.instance.scrollController.position.maxScrollExtent
               );
             });
             return Expanded(
                 child: ListView.builder(
-                    controller: this.widget.instanceMessageArea.scrollController,
+                    controller: this.widget.instance.scrollController,
                     itemCount:messagesList.length,
                     itemBuilder: (context, index) {
-                      // if (snapshot.data!.getType == 'enter_room') {
-                      //   return ListTile(title: Text('${instance.room.getUserNickName} entrou na sala'));
-                      // }
-                      // else if(snapshot.data!.getType == 'leave_room'){
-                      //   return ListTile(title: Text('${userAux.getNickname} saiu da sala'));
-                      // }
                       return Align(
                         alignment: messagesList[index].getUser != widget.user.getNickname ? Alignment.centerLeft : Alignment.centerRight,
                         child: Padding(
