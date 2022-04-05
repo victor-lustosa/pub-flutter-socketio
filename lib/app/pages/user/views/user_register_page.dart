@@ -3,7 +3,7 @@ import 'package:pub/app/core/configs/app_colors.dart';
 import 'package:pub/app/pages/user/models/user.dart';
 import 'package:pub/app/pages/user/view_models/user_view_model.dart';
 import 'package:pub/app/core/components/form_field_widget.dart';
-import 'package:pub/app/pages/user/components/user_register_bar_widget.dart';
+import 'components/user_register_bar_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pub/app/core/components/dropdown_widget.dart';
 import 'package:location/location.dart';
@@ -19,7 +19,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
 
   late final UserViewModel _userViewModel;
 
- @override
+  @override
   void initState() {
     super.initState();
 
@@ -49,7 +49,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
         child: Scaffold(
             appBar:  UserRegisterBarWidget(),
             body: SingleChildScrollView(
-              physics: NeverScrollableScrollPhysics(),
+                physics: NeverScrollableScrollPhysics(),
                 child:Container(
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
@@ -64,8 +64,8 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                           Padding(
                               padding: EdgeInsets.only(top: 60),
                               child:  FormFieldWidget(
-                                  _nickNameController,
-                                  'nickname',)
+                                _nickNameController,
+                                'nickname',)
                           ),
                           Padding(
                               padding: EdgeInsets.only(top: 0),
@@ -114,9 +114,9 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                                   }
                                 },
                                 icon: Icon(
-                              Icons.navigate_next_rounded,
-                              color: AppColors.white,
-                            ),
+                                  Icons.navigate_next_rounded,
+                                  color: AppColors.white,
+                                ),
                                 label: Text("Avançar",
                                     style:GoogleFonts.inter( fontSize: 14, color: Colors.white)
                                 ),

@@ -42,8 +42,8 @@ class _DropdownWidgetState extends State<DropdownWidget> {
       hint: Row(
           children: [
             Padding(
-                  padding: EdgeInsets.only(top:5,left: 25),
-                  child:Text("${this.widget.name}")),
+                padding: EdgeInsets.only(top:5,left: 25),
+                child:Text("${this.widget.name}")),
 
           ]
       ),

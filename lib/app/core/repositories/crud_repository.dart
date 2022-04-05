@@ -15,9 +15,9 @@ abstract class  CrudRepository<T> implements Repository{
     throw UnimplementedError();
   }
 
-  // @override
-  // Future<List<Object T>> getAll(dynamic obj) async {
-  //   dio.options.headers['content-Type'] = 'application/json, charset=utf-8';
-  //   return response = await dio.get(baseUrl + obj);
-  // }
+// @override
+// Future<List<Object T>> getAll(dynamic obj) async {
+//   dio.options.headers['content-Type'] = 'application/json, charset=utf-8';
+//   return response = await dio.get(baseUrl + obj);
+// }
 }

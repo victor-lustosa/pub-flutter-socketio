@@ -6,8 +6,8 @@ import 'package:pub/app/pages/user/models/user.dart';
 abstract class IUserViewModel{
   checkLocation();
   User validateUser(TextEditingController _nickNameController,
-                        TextEditingController _ageController,
-                        String _selectedGenre, List<String> _listGenres);
+      TextEditingController _ageController,
+      String _selectedGenre, List<String> _listGenres);
 }
 
 class UserViewModel implements IUserViewModel{
@@ -66,9 +66,9 @@ class UserViewModel implements IUserViewModel{
   //   );
   // }
   User validateUser(TextEditingController _nickNameController,
-                    TextEditingController _ageController,
-                    String _selectedGenre,
-                    List<String> _listGenres){
+      TextEditingController _ageController,
+      String _selectedGenre,
+      List<String> _listGenres){
 
     this.user.setNickname(_nickNameController.text);
     _age = double.tryParse(_ageController.text)!;

@@ -10,8 +10,8 @@ class UserRegisterBarWidget extends PreferredSize {
         height: 325,
         decoration: BoxDecoration(color: AppColors.darkBrown),
         child:Stack(
-          fit: StackFit.loose,
-          alignment: AlignmentDirectional.center,
+            fit: StackFit.loose,
+            alignment: AlignmentDirectional.center,
             children: <Widget> [
               Padding(padding: EdgeInsets.only(bottom: 100),
                   child: Text("Primeiro acesso",

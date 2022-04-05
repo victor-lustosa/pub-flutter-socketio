@@ -7,6 +7,8 @@ class SendMessageData extends Data{
   late String _user;
   late int _code;
 
+  SendMessageData.withoutParameters():super(type: '');
+
   get getUser => _user;
   get getCreatedAt => _createdAt;
   get getTextMessage => _textMessage;
@@ -33,7 +35,7 @@ class SendMessageData extends Data{
     };
   }
 
-  factory SendMessageData.fromMap(Map<String, dynamic> map) {
+  factory SendMessageData.fromMap(Map<String,dynamic> map) {
     return SendMessageData(
         idMessage: map['idMessage'],
         createdAt: map['createdAt'],

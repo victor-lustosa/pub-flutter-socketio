@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../core/configs/app_colors.dart';
-import '../../../core/configs/app_images.dart';
-import '../../user/models/user.dart';
+import '../../../../core/configs/app_colors.dart';
+import '../../../../core/configs/app_images.dart';
+import '../../../user/models/user.dart';
 
 class EstablishmentFlexibleSpaceBarWidget extends StatelessWidget {
   EstablishmentFlexibleSpaceBarWidget(this.user);
@@ -15,8 +15,7 @@ class EstablishmentFlexibleSpaceBarWidget extends StatelessWidget {
       fit: StackFit.loose,
       alignment: AlignmentDirectional.center,
       children: [
-        Row(
-          children: [
+        Row( children: [
             Padding(
                 padding: EdgeInsets.only(top: 25, right: 360),
                 child: IconButton(

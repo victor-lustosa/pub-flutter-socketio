@@ -1,26 +1,26 @@
 part of 'message_bloc.dart';
 
 @immutable
-abstract class MessageEvent {}
-class InitialEvent extends MessageEvent{}
+abstract class MessageEvent {
+
+}
+class InitialEvent extends MessageEvent{
+
+  InitialEvent();
+}
 
 class InitialMessageEvent extends MessageEvent{
+  InitialMessageEvent();
 
-  InitialMessageEvent(this.initialMessage);
-
-  final Map<String,dynamic> initialMessage;
 }
 
 class SendMessageEvent extends MessageEvent{
 
-  SendMessageEvent(this.message);
-
   final Map<String,dynamic> message;
+  SendMessageEvent(this.message);
 }
 
 class ErrorMessageEvent extends MessageEvent{
+  ErrorMessageEvent();
 
-  final String message;
-
-  ErrorMessageEvent(this.message);
 }

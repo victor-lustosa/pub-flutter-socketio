@@ -3,7 +3,7 @@ import '../models/dto/establishment_repository_dto.dart';
 import '../../../core/configs/app_routes.dart';
 import '../../../core/repositories/repository.dart';
 
- abstract class IEstablishmentRepository implements Repository{
+abstract class IEstablishmentRepository implements Repository{
 
   Future<List> fetchEstablishments(EstablishmentRepositoryDTO establishment){
     throw UnimplementedError();

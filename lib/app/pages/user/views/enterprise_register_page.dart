@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pub/app/core/configs/app_colors.dart';
 import 'package:pub/app/pages/user/models/user.dart';
 import 'package:pub/app/pages/establishment/views/establishment_page.dart';
-import 'package:pub/app/pages/user/components/enterprise_register_bar_widget.dart';
+import 'components/enterprise_register_bar_widget.dart';
 import 'package:pub/app/pages/user/view_models/user_view_model.dart';
 import 'package:pub/app/core/components/form_field_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -93,11 +93,11 @@ class _EnterpriseRegisterPageState extends State<EnterpriseRegisterPage> {
                                   Establishment establishment = Establishment();
                                   age = double.tryParse(_ageController.text) == null ? 0 : double.tryParse(_ageController.text)!;
                                   if(_ageController.text.isNotEmpty && _nickNameController.text.isNotEmpty) {
-                                  User user = _userViewModel.validateUser(_nickNameController, _ageController, _selectedGenre, _listGenres);
-                                  establishment.setLatitude(_userViewModel.locationData.latitude!);
-                                  establishment.setLongitude(_userViewModel.locationData.longitude!);
-                                  Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => EstablishmentPage(user, establishment)));
+                                    User user = _userViewModel.validateUser(_nickNameController, _ageController, _selectedGenre, _listGenres);
+                                    establishment.setLatitude(_userViewModel.locationData.latitude!);
+                                    establishment.setLongitude(_userViewModel.locationData.longitude!);
+                                    Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) => EstablishmentPage(user, establishment)));
                                   }},
                                 child: Text("Avançar",
                                     style:GoogleFonts.inter( fontSize: 15, color: Colors.white)

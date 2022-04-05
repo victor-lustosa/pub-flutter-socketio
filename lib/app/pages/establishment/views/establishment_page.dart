@@ -3,15 +3,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pub/app/pages/establishment/models/establishment.dart';
 import 'package:pub/app/core/configs/app_colors.dart';
 import 'package:pub/app/pages/user/models/user.dart';
-import 'package:pub/app/pages/establishment/components/establishment_tab_bar_sliver_widget.dart';
-import '../components/establishment_flexible_space_bar_widget.dart';
-import '../components/establishment_page_one_widget.dart';
-import '../components/establishment_page_two_widget.dart';
+import 'components/establishment_page_two_widget.dart';
+import 'components/establishment_tab_bar_sliver_widget.dart';
+import 'components/establishment_flexible_space_bar_widget.dart';
+import 'components/establishment_page_one_widget.dart';
+
 
 class EstablishmentPage extends StatefulWidget {
 
- final User user;
- final Establishment establishment;
+  final User user;
+  final Establishment establishment;
 
   EstablishmentPage( this.user, this.establishment);
 
@@ -24,7 +25,6 @@ class _EstablishmentPageState extends State<EstablishmentPage>
 
   late TabController _tabController;
   late ScrollController _scrollViewController;
-
 
   @override
   void initState() {
@@ -64,8 +64,8 @@ class _EstablishmentPageState extends State<EstablishmentPage>
               )];},
           body: TabBarView(
               controller: _tabController, children: <Widget>[
-                EstablishmentPageOneWidget(this.widget.user),
-                EstablishmentPageTwoWidget()
+            EstablishmentPageOneWidget(this.widget.user),
+            EstablishmentPageTwoWidget()
           ])),
       floatingActionButton: SizedBox(
           height: 32,

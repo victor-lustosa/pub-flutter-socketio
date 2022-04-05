@@ -16,22 +16,21 @@ abstract class IRoomViewModel{
   // sendMessage();
 }
 
-class RoomViewModel  extends ChangeNotifier implements IRoomViewModel{
+class RoomViewModel  implements IRoomViewModel{
 
-  RoomViewModel({required this.room,required this.user,required this.bloc}) {
+  RoomViewModel({required this.room,required this.user}) {
     initClientServer();
   }
   RoomViewModel.withoutInstance();
+  final ScrollController scrollController = ScrollController();
+  final focusNode = FocusNode();
+  final textController = TextEditingController(text: '');
 
-  late final MessageBloc bloc;
-  late final focusNode = FocusNode();
   late final Room room;
   late final User user;
   int lineNumbers = 1;
 
-  final textController = TextEditingController(text: '');
   late final Socket socket;
-  final ScrollController scrollController = ScrollController();
 
   initClientServer(){
     socket = io(urlServer, OptionBuilder().setTransports(['websocket']).build());
@@ -40,15 +39,13 @@ class RoomViewModel  extends ChangeNotifier implements IRoomViewModel{
       socket.emit('enter_public_room',
           EnterPublicRoomData(roomName: room.getRoomName,userNickName: user.getNickname,type: 'enter_public_room').toMap());
 
-      socket.on('message',(data){
-        final event = InitialMessageData.fromMap(data);
-        bloc.inputMessage.add(SendMessageEvent(event.toMap()));
-      });
+      // socket.on('message',(data){
+      //   final event = InitialMessageData.fromMap(data);
+      //   bloc.add(SendMessageEvent(event.toMap()));
+      // });
     });
   }
-
-  void sendMessage() {
-
+  sendMessage(MessageBloc read){
     String textMessage = textController.text;
     if (textMessage.isNotEmpty) {
       var mes = SendMessageData(
@@ -60,39 +57,41 @@ class RoomViewModel  extends ChangeNotifier implements IRoomViewModel{
           type: "message");
 
       socket.emit('message', mes.toMap());
-      // ReceiveMessageState(mes);
-      bloc.inputMessage.add(SendMessageEvent(mes.toMap()));
+      read.add(SendMessageEvent(mes.toMap()));
       focusNode.requestFocus();
       textController.clear();
       focusNode.requestFocus();
     }
+
+    // socket.on('initial_message',(data){
+    //   final event = InitialMessageData.fromMap(data);
+    //   _socketResponse.sink.add(event);
+    //   notifyListeners();
+    // });
+    // Future<List<Data>> getData(AsyncSnapshot snapshot) async {
+    //
+    //     notifyListeners();
+    //     return messageList;
+    //   } else{
+    //     return [];
+    //   }
+    // }
+
+
+    addMessage(List<SendMessageData> initialMessageData) {
+      List<SendMessageData> list =  initialMessageData;
+
+      return list;
+    }
   }
 
-  dispose(){super.dispose();
-
+  void dispose() {
+    textController.dispose();
+    focusNode.dispose();
+    scrollController.dispose();
     socket.clearListeners();
     socket.dispose();
-    focusNode.dispose();
-    textController.dispose();
-    scrollController.dispose();
-  }
-  // socket.on('initial_message',(data){
-  //   final event = InitialMessageData.fromMap(data);
-  //   _socketResponse.sink.add(event);
-  //   notifyListeners();
-  // });
-  // Future<List<Data>> getData(AsyncSnapshot snapshot) async {
-  //
-  //     notifyListeners();
-  //     return messageList;
-  //   } else{
-  //     return [];
-  //   }
-  // }
-
-
-  addMessage(Data initialMessageData) {
-    // _messagesList.add(initialMessageData);
-    notifyListeners();
   }
 }
+
+

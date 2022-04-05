@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pub/app/core/configs/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../models/room.dart';
 
-import '../models/room.dart';
 class RoomBarWidget  extends  StatefulWidget {
   RoomBarWidget(this.room);
   final Room room;
@@ -38,7 +38,6 @@ class _RoomBarWidgetState extends State<RoomBarWidget> {
           Padding(
               padding: EdgeInsets.only(left: 8),
               child: Text(
-
                 widget.room.getRoomName,
                 style:
                 GoogleFonts.inter(fontSize: 17, color: AppColors.darkBrown),
