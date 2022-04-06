@@ -21,22 +21,13 @@ class MessageBloc extends Bloc<MessageEvent,MessageState>{
 
   bool updateShouldNotify(InheritedWidget oldWidget) => true;
   MessageBloc() : super(InitialMessageState()){
-    on<MessageEvent>((event, emit) {
-      if(event is SendMessageEvent){
-        eventToState(event, emit);
-      }
-
-      else if(event is DontBuildEvent) {
-        dontBuild(event, emit);
-      }
-    },transformer: sequential()
-    );
+    on<MessageEvent>(eventToState);
   }
   eventToState( event, Emitter<MessageState> emit) async{
     Data data = Data.fromMap(event.message);
     switch(data.type){
       case BlocEventType.enter_public_room:
-        return emit(ReceiveEnterPublicRoomMessageState(EnterPublicRoomData.fromMap(event.message)));
+        return emit(ReceiveEnterPublicRoomMessageState(message:EnterPublicRoomData.fromMap(event.message)));
       case BlocEventType.leave_public_room:
         return emit(ReceiveLeavePublicRoomMessageState(LeavePublicRoomData.fromMap(event.message)));
       case BlocEventType.typing:

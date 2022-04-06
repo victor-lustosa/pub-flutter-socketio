@@ -1,48 +1,60 @@
 part of 'message_bloc.dart';
 
 @immutable
-abstract class MessageState {
+abstract class MessageState <T>{
+  final T message;
+
+  MessageState(this.message);
 }
 
 class InitialMessageState extends MessageState{
-  InitialMessageState();
+  InitialMessageState() : super(null);
 }
+
 class DontBuildState extends MessageState{
-  DontBuildState();
+  DontBuildState() : super(null);
 }
+
 class ReceiveInitialMessageState extends MessageState{
-  final InitialMessageData message;
-  ReceiveInitialMessageState(this.message);
+
+  ReceiveInitialMessageState(InitialMessageData message) : super(message);
 }
+
 class ReceiveTypingMessageState extends MessageState{
-  final TypingData message;
-  ReceiveTypingMessageState(this.message);
+
+  ReceiveTypingMessageState(TypingData message) : super(message);
 }
+
 class ReceiveStoppedTypingMessageState extends MessageState{
-  final StoppedTypingData message;
-  ReceiveStoppedTypingMessageState(this.message);
+
+  ReceiveStoppedTypingMessageState(StoppedTypingData message) : super(message);
 }
+
 class ReceiveSendMessageState extends MessageState{
-  final SendMessageData message;
-  ReceiveSendMessageState(this.message);
+
+  ReceiveSendMessageState(SendMessageData message): super(message);
 }
+
 class ReceiveEditMessageState extends MessageState{
-  final EditMessageData message;
-  ReceiveEditMessageState(this.message);
+
+  ReceiveEditMessageState(EditMessageData message): super(message);
 }
+
 class ReceiveDeleteMessageState extends MessageState{
-  final DeleteMessageData message;
-  ReceiveDeleteMessageState(this.message);
+
+  ReceiveDeleteMessageState(DeleteMessageData message): super(message);
 }
+
 class ReceiveEnterPublicRoomMessageState extends MessageState{
-  final EnterPublicRoomData message;
-  ReceiveEnterPublicRoomMessageState(this.message);
+
+  ReceiveEnterPublicRoomMessageState({required EnterPublicRoomData message}): super(message);
 }
+
 class ReceiveLeavePublicRoomMessageState extends MessageState{
-  final LeavePublicRoomData message;
-  ReceiveLeavePublicRoomMessageState(this.message);
+  ReceiveLeavePublicRoomMessageState(LeavePublicRoomData message): super(message);
 }
-class ErrorRoomState extends MessageState{
-  final String message;
-  ErrorRoomState(this.message);
-}
+
+// class ErrorRoomState extends MessageState{
+//   final String message;
+//   ErrorRoomState(this.message);
+// }
