@@ -1,11 +1,9 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:pub/app/core/models/data/enter_public_room_data.dart';
 import 'package:pub/app/pages/user/models/user.dart';
 import '../../../core/configs/app_colors.dart';
 import '../../../core/models/data/data.dart';
-import '../../../core/models/data/leave_public_room_data.dart';
 import '../../../core/models/data/send_message_data.dart';
 import '../bloc/message_bloc.dart';
 import '../models/bloc_events.dart';
@@ -25,24 +23,27 @@ class RoomPage extends StatefulWidget {
 }
 
 class _RoomPageState extends State<RoomPage> {
-  List<SendMessageData> messagesList = [];
+
   late final RoomViewModel instance;
-  late final MessageBloc bloc;
+
   @override
   void initState() {
     instance = RoomViewModel(room:this.widget.room,user: this.widget.user);
-    bloc = MessageBloc();
     super.initState();
-
   }
   @override
   void dispose() {
     instance.dispose();
-    bloc.close();
+    context.read<MessageBloc>().close();
     super.dispose();
 
   }
+  @override
+  void didUpdateWidget(covariant RoomPage oldWidget) {
 
+    super.didUpdateWidget(oldWidget);
+    context.read<MessageBloc>().add(DontBuildEvent());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,80 +63,54 @@ class _RoomPageState extends State<RoomPage> {
                 padding: EdgeInsets.all(8),
                 child:Column(
                   children: <Widget>[
-                    StreamBuilder<MessageState>(
-                        stream: bloc.stream,
-                        builder:(context,AsyncSnapshot<MessageState> snapshot){
-                          if(!snapshot.hasData) {
+                    BlocBuilder<MessageBloc,MessageState>(
+                        buildWhen: (context, current) => context != current  && !(current is DontBuildState),
+                        builder:(context, state){
+                          if(state is InitialMessageState) {
                             return Expanded( child: Container());
                           }
-                          else if(snapshot.hasData){
-                            Data data = snapshot.data!.message;
-                            switch(data.type){
-                              case BlocEventType.enter_public_room:
-                                return ListTile(title: Text('${snapshot.data!.message.userNickName} entrou na sala'));
-                              case BlocEventType.leave_public_room:
-                                return ListTile(title: Text('${snapshot.data!.message.userNickName} saiu da sala'));
-                            // case BlocEventType.typing:
-                            //   return
-                            // case BlocEventType.stopped_typing:
-                            //   return
-                              case BlocEventType.send_message:
-                                messagesList.add(snapshot.data!.message);
-                                Timer(Duration(microseconds: 100), (){
-                                  this.instance.scrollController.jumpTo(
-                                      this.instance.scrollController.position.maxScrollExtent
-                                  );
-                                });
-                                return Expanded(
-                                    child: ListView.builder(
-                                        controller: this.instance.scrollController,
-                                        itemCount:messagesList.length,
-                                        itemBuilder: (context, index) {
-                                          return Align(
-                                            alignment: messagesList[index].getUser != widget.user.getNickname ? Alignment.centerLeft : Alignment.centerRight,
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(6),
-                                              child: Container(
-                                                  width: MediaQuery.of(context).size.width * 0.8,
-                                                  padding: const EdgeInsets.all(14),
-                                                  decoration: BoxDecoration(
-                                                      color: messagesList[index].getUser != widget.user.getNickname ? Colors.white : Color(0xffdcd9d9),
-                                                      borderRadius: BorderRadius.all(Radius.circular(8))),
-                                                  child: Text('${messagesList[index].getUser} - ${messagesList[index].getTextMessage}',
-                                                      style: GoogleFonts.inter(fontSize: 14))
-                                              ),
-                                            ),
-                                          );
-                                        }
-                                    ));
-
-                            // case BlocEventType.delete_message:
-                            //   return
-                            // case BlocEventType.edit_message:
-                            //   return
-                              case BlocEventType.receive_initial:
-                                break;
-                              case BlocEventType.dont_typing:
-                                break;
-                              case BlocEventType.initial:
-                                break;
-                              case BlocEventType.dont_build:
-                                break;
-                              case BlocEventType.typing:
-                                break;
-                              case BlocEventType.stopped_typing:
-                                break;
-                              case BlocEventType.delete_message:
-                                break;
-                              case BlocEventType.edit_message:
-                                break;
-                              case BlocEventType.error_message:
-                                break;
-                              default:
-                                return Expanded( child: Container(child: Text("Errro!!")));
+                          else if(state is ReceiveEnterPublicRoomMessageState){
+                            return ListTile(title: Text('${state.message.userNickName} entrou na sala'));
+                          }
+                          else if(state is ReceiveLeavePublicRoomMessageState ){
+                            return ListTile(title: Text('${state.message.userNickName} saiu da sala'));
+                          }
+                          else if(state is ReceiveSendMessageState) {
+                            if(instance.boolAdd == true){
+                              instance.room.getMessagesList.add(state.message);
+                              instance.boolAdd = false;
                             }
-                          }  return Expanded( child: Container(child: Text("Errro!!")));
-                        }
+
+                            Timer(Duration(microseconds: 100), (){
+                              this.instance.scrollController.jumpTo(
+                                  this.instance.scrollController.position.maxScrollExtent
+                              );
+                            });
+                            return Expanded(
+                                child: ListView.builder(
+                                    controller: this.instance.scrollController,
+                                    itemCount:instance.room.getMessagesList.length,
+                                    itemBuilder: (context, index) {
+                                      return Align(
+                                        alignment: instance.room.getMessagesList[index].getUser != widget.user.getNickname ? Alignment.centerLeft : Alignment.centerRight,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(6),
+                                          child: Container(
+                                              width: MediaQuery.of(context).size.width * 0.8,
+                                              padding: const EdgeInsets.all(14),
+                                              decoration: BoxDecoration(
+                                                  color: instance.room.getMessagesList[index].getUser != widget.user.getNickname ? Colors.white : Color(0xffdcd9d9),
+                                                  borderRadius: BorderRadius.all(Radius.circular(8))),
+                                              child: Text('${instance.room.getMessagesList[index].getUser} - ${instance.room.getMessagesList[index].getTextMessage}',
+                                                  style: GoogleFonts.inter(fontSize: 14))
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                ));
+                          }else  {
+                            return Expanded( child: Container(child: Text("Errro!!")));
+                          }}
                     ),
                     Row( children:[
                       Expanded(
@@ -156,7 +131,7 @@ class _RoomPageState extends State<RoomPage> {
                             },
                             focusNode: this.instance.focusNode,
                             onSubmitted: (_) {
-                              this.instance.sendMessage(bloc);
+                              this.instance.sendMessage(context.read<MessageBloc>());
                             },
                             controller: this.instance.textController,
                             autofocus: true,
@@ -186,7 +161,7 @@ class _RoomPageState extends State<RoomPage> {
                               ),
                               mini: true,
                               onPressed: () {
-                                this.instance.sendMessage(bloc);
+                                this.instance.sendMessage(context.read<MessageBloc>());
                               }
                           ),
                         ),

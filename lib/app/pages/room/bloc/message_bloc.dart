@@ -19,15 +19,14 @@ part 'message_state.dart';
 
 class MessageBloc extends Bloc<MessageEvent,MessageState>{
 
-  bool updateShouldNotify(InheritedWidget oldWidget) => true;
   MessageBloc() : super(InitialMessageState()){
     on<MessageEvent>(eventToState);
   }
-  eventToState( event, Emitter<MessageState> emit) async{
+  eventToState(event, Emitter<MessageState> emit) async{
     Data data = Data.fromMap(event.message);
     switch(data.type){
       case BlocEventType.enter_public_room:
-        return emit(ReceiveEnterPublicRoomMessageState(message:EnterPublicRoomData.fromMap(event.message)));
+        return emit(ReceiveEnterPublicRoomMessageState(message:EnterPublicRoomData.fromMap( event.message)));
       case BlocEventType.leave_public_room:
         return emit(ReceiveLeavePublicRoomMessageState(LeavePublicRoomData.fromMap(event.message)));
       case BlocEventType.typing:

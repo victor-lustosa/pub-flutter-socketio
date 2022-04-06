@@ -2,6 +2,7 @@
 
 import 'package:pub/app/pages/user/models/user.dart';
 
+import '../../../core/models/data/send_message_data.dart';
 import 'message.dart';
 class Room {
   late int _idRoom;
@@ -17,7 +18,9 @@ class Room {
   void addUsers(User user) {
     getUsersList.add(user);
   }
-
+  addMessages(SendMessageData initialMessageData) {
+    _messagesList.add(initialMessageData);
+  }
   //GETTERS
   get getUserNickName => _userNickName;
   get getRoomName => _roomName;

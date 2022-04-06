@@ -24,7 +24,7 @@ class RoomViewModel  implements IRoomViewModel{
   final ScrollController scrollController = ScrollController();
   final focusNode = FocusNode();
   final textController = TextEditingController(text: '');
-
+  late bool boolAdd;
   late final Room room;
   late final User user;
   int lineNumbers = 1;
@@ -32,6 +32,7 @@ class RoomViewModel  implements IRoomViewModel{
   late final Socket socket;
 
   initClientServer(){
+    boolAdd = true;
     socket = io(urlServer, OptionBuilder().setTransports(['websocket']).build());
     socket.connect();
     socket.onConnect((_){
@@ -57,6 +58,7 @@ class RoomViewModel  implements IRoomViewModel{
 
       socket.emit('message', mes.toMap());
       read.add(SendMessageEvent(mes.toMap()));
+      boolAdd = true;
       focusNode.requestFocus();
       textController.clear();
       focusNode.requestFocus();
@@ -70,11 +72,7 @@ class RoomViewModel  implements IRoomViewModel{
 
 
 
-    // addMessage(List<SendMessageData> initialMessageData) {
-    //   List<SendMessageData> list =  initialMessageData;
-    //
-    //   return list;
-    // }
+
   }
 
   void dispose() {
