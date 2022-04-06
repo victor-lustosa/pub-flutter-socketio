@@ -1,8 +1,9 @@
+import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:pub/app/pages/room/views/components/messages_area_widget.dart';
 import 'package:pub/app/pages/user/models/user.dart';
 import '../../../core/configs/app_colors.dart';
+import '../../../core/models/data/send_message_data.dart';
 import '../bloc/message_bloc.dart';
 import 'components/room_bar_widget.dart';
 import '../models/room.dart';
@@ -20,20 +21,32 @@ class RoomPage extends StatefulWidget {
 }
 
 class _RoomPageState extends State<RoomPage> {
+  List<SendMessageData> messagesList = [];
   late final RoomViewModel instance;
 
   @override
   void initState() {
     instance = RoomViewModel(room:this.widget.room,user: this.widget.user);
     super.initState();
+
   }
   @override
   void dispose() {
     instance.dispose();
+    context.read<MessageBloc>().close();
     super.dispose();
+
   }
   @override
+  void didUpdateWidget(covariant RoomPage oldWidget) {
+
+    super.didUpdateWidget(oldWidget);
+    context.read<MessageBloc>().add(DontBuildEvent());
+  }
+
+  @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar:AppBar(automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
@@ -49,7 +62,51 @@ class _RoomPageState extends State<RoomPage> {
                 padding: EdgeInsets.all(8),
                 child:Column(
                   children: <Widget>[
-                    MessagesAreaWidget(instance, this.widget.room, this.widget.user),
+                    BlocBuilder<MessageBloc,MessageState>(
+                    buildWhen: (context, current) => context != current  && !(current is DontBuildState),
+                    builder:(context, state){
+                      if(state is InitialMessageState) {
+                        return Expanded( child: Container());
+                      }
+                      else if(state is ReceiveEnterPublicRoomMessageState){
+                        return ListTile(title: Text('${state.message.userNickName} entrou na sala'));
+                      }
+                      else if(state is ReceiveLeavePublicRoomMessageState ){
+                        return ListTile(title: Text('${state.message.userNickName} saiu da sala'));
+                      }
+                      else if(state is ReceiveSendMessageState) {
+                        messagesList.add(state.message);
+                        Timer(Duration(microseconds: 100), (){
+                          this.instance.scrollController.jumpTo(
+                              this.instance.scrollController.position.maxScrollExtent
+                          );
+                        });
+                        return Expanded(
+                            child: ListView.builder(
+                                controller: this.instance.scrollController,
+                                itemCount:messagesList.length,
+                                itemBuilder: (context, index) {
+                                  return Align(
+                                    alignment: messagesList[index].getUser != widget.user.getNickname ? Alignment.centerLeft : Alignment.centerRight,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(6),
+                                      child: Container(
+                                          width: MediaQuery.of(context).size.width * 0.8,
+                                          padding: const EdgeInsets.all(14),
+                                          decoration: BoxDecoration(
+                                              color: messagesList[index].getUser != widget.user.getNickname ? Colors.white : Color(0xffdcd9d9),
+                                              borderRadius: BorderRadius.all(Radius.circular(8))),
+                                          child: Text('${messagesList[index].getUser} - ${messagesList[index].getTextMessage}',
+                                              style: GoogleFonts.inter(fontSize: 14))
+                                      ),
+                                    ),
+                                  );
+                                }
+                            ));
+                      }else  {
+                        return Expanded( child: Container(child: Text("Errro!!")));
+                      }}
+                ),
                     Row( children:[
                       Expanded(
                         child: Padding(

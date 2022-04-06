@@ -39,6 +39,7 @@ dev_dependencies:
   location: ^4.2.0
   flutter_lints: ^1.0.0
   bloc: ^8.0.3
+  bloc_concurrency: <=0.2.0-dev.1
   flutter_bloc: ^8.0.1
 #  dartz: 0.9.1
 #  geolocator: 6.1.1

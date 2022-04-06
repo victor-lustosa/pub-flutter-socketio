@@ -7,6 +7,9 @@ abstract class MessageState {
 class InitialMessageState extends MessageState{
   InitialMessageState();
 }
+class DontBuildState extends MessageState{
+  DontBuildState();
+}
 class ReceiveInitialMessageState extends MessageState{
   final InitialMessageData message;
   ReceiveInitialMessageState(this.message);

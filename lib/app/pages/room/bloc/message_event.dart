@@ -13,7 +13,10 @@ class InitialMessageEvent extends MessageEvent{
   InitialMessageEvent();
 
 }
+class DontBuildEvent extends MessageEvent{
+  DontBuildEvent();
 
+}
 class SendMessageEvent extends MessageEvent{
 
   final Map<String,dynamic> message;
