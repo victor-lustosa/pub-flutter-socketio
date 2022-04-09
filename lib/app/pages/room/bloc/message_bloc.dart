@@ -1,71 +1,78 @@
-import 'package:pub/app/pages/room/view_models/room_view_model.dart';
-import 'package:socket_io_client/socket_io_client.dart';
-
-import '../../../core/configs/app_routes.dart';
-import '../../../core/models/data/enter_public_room_data.dart';
-import '../../../core/models/data/initial_message_data.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 import 'package:pub/app/core/models/data/enter_public_room_data.dart';
 import 'package:pub/app/core/models/data/initial_message_data.dart';
-import '../../../core/models/data/data.dart';
+import 'package:socket_io_client/socket_io_client.dart';
+
+import '../../../core/configs/app_routes.dart';
 import '../../../core/models/data/delete_message_data.dart';
 import '../../../core/models/data/edit_message_data.dart';
+import '../../../core/models/data/enter_public_room_data.dart';
+import '../../../core/models/data/initial_message_data.dart';
 import '../../../core/models/data/leave_public_room_data.dart';
 import '../../../core/models/data/send_message_data.dart';
 import '../../../core/models/data/stopped_typing_data.dart';
 import '../../../core/models/data/typing_data.dart';
-import '../models/bloc_events.dart';
-import 'package:bloc_concurrency/bloc_concurrency.dart';
+import '../../user/models/user.dart';
+import '../models/room.dart';
 
 part 'message_event.dart';
 part 'message_state.dart';
 
 class MessageBloc extends Bloc<MessageEvent,MessageState>{
-  final RoomViewModel roomViewModel;
-  // socket.connect();
-  // socket.onConnect((_){
-  // socket.emit('enter_public_room',
-  // EnterPublicRoomData(roomName: room.getRoomName,userNickName: user.getNickname,type: BlocEventType.enter_public_room).toMap());
-  //
-  // socket.on('message',(data){
-  // bloc.add(ReceiveMessageEvent(data));
-  // });
-  // });
-  MessageBloc({required this.roomViewModel}) : super(InitialMessageState()){
+  late final Socket _socket;
+  late final Room room;
+  late final User user;
+
+  MessageBloc({required this.room,required this.user}) : super(InitialMessageState()){
+
+    _socket = io(urlServer, OptionBuilder().setTransports(['websocket']).build());
+    _socket.connect();
+    _socket.onConnect((_){
+      _socket.emit('enter_public_room',{'roomName':this.room.getRoomName,'userNickName':this.user.getNickname});
+    });
+
+    _socket.on('message',(data) => add(ReceiveMessageEvent(data)));
+    _socket.on('message',(data) => add(ReceiveMessageEvent(data)));
+    _socket.on('message',(data) => add(ReceiveMessageEvent(data)));
+    _socket.on('message',(data) => add(ReceiveMessageEvent(data)));
+    _socket.on('message',(data) => add(ReceiveMessageEvent(data)));
 
     on<SendMessageEvent>((event, emit) async{
-      roomViewModel.socket.emit('message',event.message);
+     _socket.emit('message',event.message);
       emit(SendMessageState());
     });
-    // on<SendingMessageEvent>((event, emit) async{
-    //   emit(SendingMessageState());
-    // });
+
     on<ReceiveMessageEvent>((event, emit) async{
       emit(ReceiveMessageState(SendMessageData.fromMap(event.message)));
     });
+    on<DontBuildEvent>((_, emit) async{
+      emit(DontBuildState());
+    });
   }
-  //
-  // eventToState(event, emit) async{
-  //   if(event is SendMessageEvent){
-  //
-  //   }
-  //   else if(event is ReceiveMessageEvent) {
-  //     // _socketResponse.sink.add(data);
-  //
-  //
-  // }}
+
   @override
   Future<void> close() {
+    _socket.close();
     return super.close();
   }
 }
+//
+// eventToState(event, emit) async{
+//   if(event is SendMessageEvent){
+//
+//   }
+//   else if(event is ReceiveMessageEvent) {
+//     // _socketResponse.sink.add(data);
+//
+//
+// }}
     // else if(event is DontBuildEvent) {
     //   dontBuild(event, emit);
     // }
 
-    // ,transformer: sequential()
+    // ,
 
     // async {
 

@@ -32,15 +32,7 @@ class _RoomPageState extends State<RoomPage> {
   void initState() {
     super.initState();
     instance = RoomViewModel(room:this.widget.room,user: this.widget.user);
-    bloc = MessageBloc(roomViewModel: instance);
-    instance.onConnect(bloc);
-
-    // bloc.add(InitialMessageEvent());
-    // sub = bloc.stream.listen((event) {
-    //   if(event is SendMessageEvent){
-    //
-    //   }
-    // });
+    bloc = MessageBloc(room:this.widget.room,user: this.widget.user);
   }
   @override
   void dispose() {
@@ -69,49 +61,7 @@ class _RoomPageState extends State<RoomPage> {
                 padding: EdgeInsets.all(8),
                 child:Column(
                   children: <Widget>[
-                    BlocBuilder<MessageBloc,MessageState>(
-                        bloc: bloc,
-                        buildWhen: (context, current) => context != current  && (current is ReceiveMessageState || current is SendMessageState),
-                        builder:(context, state){
-                          if(state is InitialMessageState) {
-                            return Expanded( child: Container());
-                          }
-                          else if(state is ReceiveEnterPublicRoomMessageState){
-                            return ListTile(title: Text('${state.message.userNickName} entrou na sala'));
-                          }
-                          else if(state is ReceiveLeavePublicRoomMessageState ){
-                            return ListTile(title: Text('${state.message.userNickName} saiu da sala'));
-                          }
-                          else if(state is ReceiveMessageState || state is SendMessageState) {
-                            if(state is ReceiveMessageState)
-                              this.instance.addMessage(state, bloc);
-
-                            return Expanded(
-                                child: ListView.builder(
-                                    controller: this.instance.scrollController,
-                                    itemCount:instance.room.getMessagesList.length,
-                                    itemBuilder: (context, index) {
-                                      return Align(
-                                        alignment: instance.room.getMessagesList[index].getUser != widget.user.getNickname ? Alignment.centerLeft : Alignment.centerRight,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(6),
-                                          child: Container(
-                                              width: MediaQuery.of(context).size.width * 0.8,
-                                              padding: const EdgeInsets.all(14),
-                                              decoration: BoxDecoration(
-                                                  color: instance.room.getMessagesList[index].getUser != widget.user.getNickname ? Colors.white : Color(0xffdcd9d9),
-                                                  borderRadius: BorderRadius.all(Radius.circular(8))),
-                                              child: Text('${instance.room.getMessagesList[index].getUser} - ${instance.room.getMessagesList[index].getTextMessage}',
-                                                  style: GoogleFonts.inter(fontSize: 14))
-                                          ),
-                                        ),
-                                      );
-                                    }
-                                ));
-                          }else  {
-                            return Expanded( child: Container(child: Text("Errro!!")));
-                          }}
-                    ),
+                    MessagesAreaWidget(instance,this.widget.room, this.widget.user, bloc),
                     Row( children:[
                       Expanded(
                         child: Padding(
