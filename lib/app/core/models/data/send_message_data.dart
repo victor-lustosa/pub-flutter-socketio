@@ -29,7 +29,7 @@ class SendMessageData extends Data{
       'idMessage': this._idMessage,
       'createdAt': this._createdAt,
       'textMessage': this._textMessage,
-      'type': super.type.toString(),
+      'type': super.type.name.toString(),
       'code': this._code,
       'user': this._user
     };
@@ -38,11 +38,11 @@ class SendMessageData extends Data{
   factory SendMessageData.fromMap(Map<String,dynamic> map) {
     return SendMessageData(
         idMessage: map['idMessage'],
-        createdAt: map['createdAt'],
+        createdAt: map['createAt'],
         textMessage: map['textMessage'],
         user: map['user'],
         code: map['code'],
-        type: BlocEventType.values.firstWhere((element) => element.toString() == map['type']));
+        type: BlocEventType.values.firstWhere((element) => element.name.toString() == map['type']));
   }
 
   SendMessageData({

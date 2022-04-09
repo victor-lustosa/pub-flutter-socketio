@@ -4,10 +4,6 @@ part of 'message_bloc.dart';
 abstract class MessageEvent {
 
 }
-class InitialEvent extends MessageEvent{
-
-  InitialEvent();
-}
 
 class InitialMessageEvent extends MessageEvent{
   InitialMessageEvent();
@@ -21,6 +17,15 @@ class SendMessageEvent extends MessageEvent{
 
   final Map<String,dynamic> message;
   SendMessageEvent(this.message);
+}
+class SendingMessageEvent extends MessageEvent{
+
+  SendingMessageEvent();
+}
+class ReceiveMessageEvent extends MessageEvent{
+
+  final Map<String,dynamic> message;
+  ReceiveMessageEvent(this.message);
 }
 
 class ErrorMessageEvent extends MessageEvent{

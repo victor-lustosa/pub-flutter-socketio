@@ -4,6 +4,7 @@ import 'package:pub/app/core/configs/no_glow_behavior.dart';
 import 'package:pub/app/pages/home/views/home_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pub/app/pages/room/bloc/message_bloc.dart';
+import 'package:pub/app/pages/room/view_models/room_view_model.dart';
 
 class AppWidget extends StatefulWidget {
   const AppWidget({Key? key}) : super(key: key);
@@ -15,12 +16,7 @@ class AppWidget extends StatefulWidget {
 class _AppWidgetState extends State<AppWidget> {
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-        providers: [
-          BlocProvider<MessageBloc>(
-            create: (context) => MessageBloc(),
-          ),
-        ], child: MaterialApp(
+    return  MaterialApp(
       builder: (context, Widget? child) {
         return ScrollConfiguration(
           behavior: NoGlowBehavior(),
@@ -32,7 +28,6 @@ class _AppWidgetState extends State<AppWidget> {
       debugShowCheckedModeBanner: false,
       title: 'Pub',
       home: HomePage(),
-    )
     );
   }
 }

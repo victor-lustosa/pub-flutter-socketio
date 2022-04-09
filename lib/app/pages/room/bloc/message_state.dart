@@ -30,9 +30,18 @@ class ReceiveStoppedTypingMessageState extends MessageState{
   ReceiveStoppedTypingMessageState(StoppedTypingData message) : super(message);
 }
 
-class ReceiveSendMessageState extends MessageState{
+class ReceiveMessageState extends MessageState{
 
-  ReceiveSendMessageState(SendMessageData message): super(message);
+  ReceiveMessageState(SendMessageData message): super(message);
+}
+
+class SendMessageState extends MessageState{
+
+  SendMessageState(): super(null);
+}
+class SendingMessageState extends MessageState{
+
+  SendingMessageState(): super(null);
 }
 
 class ReceiveEditMessageState extends MessageState{

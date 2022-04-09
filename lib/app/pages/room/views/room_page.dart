@@ -1,16 +1,18 @@
 import 'dart:async';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:pub/app/pages/room/views/components/messages_area_widget.dart';
 import 'package:pub/app/pages/user/models/user.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 import '../../../core/configs/app_colors.dart';
-import '../../../core/models/data/data.dart';
 import '../../../core/models/data/send_message_data.dart';
 import '../bloc/message_bloc.dart';
-import '../models/bloc_events.dart';
-import 'components/room_bar_widget.dart';
 import '../models/room.dart';
 import '../view_models/room_view_model.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'components/room_bar_widget.dart';
+
 class RoomPage extends StatefulWidget {
 
   final Room room;
@@ -23,26 +25,30 @@ class RoomPage extends StatefulWidget {
 }
 
 class _RoomPageState extends State<RoomPage> {
-
+  // late final StreamSubscription sub;
   late final RoomViewModel instance;
-
+  late final MessageBloc bloc;
   @override
   void initState() {
-    instance = RoomViewModel(room:this.widget.room,user: this.widget.user);
     super.initState();
+    instance = RoomViewModel(room:this.widget.room,user: this.widget.user);
+    bloc = MessageBloc(roomViewModel: instance);
+    instance.onConnect(bloc);
+
+    // bloc.add(InitialMessageEvent());
+    // sub = bloc.stream.listen((event) {
+    //   if(event is SendMessageEvent){
+    //
+    //   }
+    // });
   }
   @override
   void dispose() {
     instance.dispose();
-    context.read<MessageBloc>().close();
+    bloc.close();
+    // sub.cancel();
     super.dispose();
 
-  }
-  @override
-  void didUpdateWidget(covariant RoomPage oldWidget) {
-
-    super.didUpdateWidget(oldWidget);
-    context.read<MessageBloc>().add(DontBuildEvent());
   }
 
   @override
@@ -64,7 +70,8 @@ class _RoomPageState extends State<RoomPage> {
                 child:Column(
                   children: <Widget>[
                     BlocBuilder<MessageBloc,MessageState>(
-                        buildWhen: (context, current) => context != current  && !(current is DontBuildState),
+                        bloc: bloc,
+                        buildWhen: (context, current) => context != current  && (current is ReceiveMessageState || current is SendMessageState),
                         builder:(context, state){
                           if(state is InitialMessageState) {
                             return Expanded( child: Container());
@@ -75,17 +82,10 @@ class _RoomPageState extends State<RoomPage> {
                           else if(state is ReceiveLeavePublicRoomMessageState ){
                             return ListTile(title: Text('${state.message.userNickName} saiu da sala'));
                           }
-                          else if(state is ReceiveSendMessageState) {
-                            if(instance.boolAdd == true){
-                              instance.room.getMessagesList.add(state.message);
-                              instance.boolAdd = false;
-                            }
+                          else if(state is ReceiveMessageState || state is SendMessageState) {
+                            if(state is ReceiveMessageState)
+                              this.instance.addMessage(state, bloc);
 
-                            Timer(Duration(microseconds: 100), (){
-                              this.instance.scrollController.jumpTo(
-                                  this.instance.scrollController.position.maxScrollExtent
-                              );
-                            });
                             return Expanded(
                                 child: ListView.builder(
                                     controller: this.instance.scrollController,
@@ -131,7 +131,7 @@ class _RoomPageState extends State<RoomPage> {
                             },
                             focusNode: this.instance.focusNode,
                             onSubmitted: (_) {
-                              this.instance.sendMessage(context.read<MessageBloc>());
+                              this.instance.sendMessage(bloc);
                             },
                             controller: this.instance.textController,
                             autofocus: true,
@@ -161,7 +161,7 @@ class _RoomPageState extends State<RoomPage> {
                               ),
                               mini: true,
                               onPressed: () {
-                                this.instance.sendMessage(context.read<MessageBloc>());
+                                this.instance.sendMessage(bloc);
                               }
                           ),
                         ),
