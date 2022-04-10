@@ -16,7 +16,7 @@ class Room {
   void addUsers(User user) {
     getUsersList.add(user);
   }
-  addMessages(MessageData initialMessageData) {
+  addMessages(dynamic initialMessageData) {
     _messagesList.add(initialMessageData);
   }
   //GETTERS

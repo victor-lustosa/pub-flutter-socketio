@@ -27,7 +27,7 @@ class _RoomPageState extends State<RoomPage> {
   void initState() {
     instance = RoomViewModel(room:this.widget.room,user: this.widget.user);
     bloc = MessageBloc(room:this.widget.room,user: this.widget.user);
-    bloc.add(InitialEvent());
+    // bloc.add(InitialEvent());
     super.initState();
   }
   @override
@@ -57,6 +57,17 @@ class _RoomPageState extends State<RoomPage> {
                 child:Column(
                   children: <Widget>[
                     MessagesAreaWidget(instance,this.widget.room, this.widget.user, bloc),
+                    Visibility(visible: true,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: AppColors.brown,
+                              borderRadius: BorderRadius.all(const Radius.circular(10.0))),
+                          child: Row(mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(onPressed:() {}, icon: Icon(Icons.remove,size: 10,color: Color(0xFFFFFFFF),))
+                            ],
+                          ),
+                        )),
                     Row( children:[
                       Expanded(
                         child: Padding(

@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pub/app/core/configs/app_routes.dart';
 import 'package:pub/app/core/configs/no_glow_behavior.dart';
 import 'package:pub/app/pages/home/views/home_page.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pub/app/pages/room/bloc/message_bloc.dart';
-import 'package:pub/app/pages/room/view_models/room_view_model.dart';
 
 class AppWidget extends StatefulWidget {
   const AppWidget({Key? key}) : super(key: key);

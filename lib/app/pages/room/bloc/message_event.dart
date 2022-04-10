@@ -7,6 +7,10 @@ class InitialEvent extends MessageEvent{
 
   InitialEvent();
 }
+class DisconnectEvent extends MessageEvent{
+
+  DisconnectEvent();
+}
 class DontBuildEvent extends MessageEvent{
   DontBuildEvent();
 }

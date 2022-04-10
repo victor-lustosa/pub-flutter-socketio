@@ -9,9 +9,6 @@ abstract class MessageState <T>{
 class InitialState extends MessageState{
   InitialState() : super(null);
 }
-class EnterPublicRoomState extends MessageState{
-  EnterPublicRoomState(EnterPublicRoomData message) : super(message);
-}
 class DontBuildState extends MessageState{
   DontBuildState() : super(null);
 }

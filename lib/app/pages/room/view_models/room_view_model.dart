@@ -24,7 +24,7 @@ class RoomViewModel implements IRoomViewModel{
   late final Room room;
   late final User user;
   int lineNumbers = 1;
-
+  bool isVisibled = false;
   sendMessage(MessageBloc bloc){
     String textMessage = textController.text;
     if (textMessage.isNotEmpty) {
@@ -53,11 +53,10 @@ class RoomViewModel implements IRoomViewModel{
 
   void addMessage(state, MessageBloc bloc) {
     // if(boolAdd == true){
-    if(state is ReceiveMessageState){
       room.getMessagesList.add(state.message);
       // boolAdd = false;
-      // bloc.add(DontBuildEvent());
-    }
+      bloc.add(DontBuildEvent());
+
     Timer(Duration(microseconds: 100), (){
       this.scrollController.jumpTo(
           this.scrollController.position.maxScrollExtent

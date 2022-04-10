@@ -2,11 +2,10 @@
 import 'package:flutter/material.dart';
 
 import '../../pages/establishment/models/dto/establishment_dto.dart';
-import '../../pages/room/models/dto/room_dto.dart';
 import '../../pages/establishment/views/establishment_page.dart';
 import '../../pages/home/views/home_page.dart';
+import '../../pages/room/models/dto/room_dto.dart';
 import '../../pages/room/views/room_page.dart';
-import '../../pages/user/views/enterprise_register_page.dart';
 import '../../pages/user/views/user_register_page.dart';
 const urlEstablishments = 'https://powerful-bayou-46345.herokuapp.com/establishments';
 // const urlEstablishments = 'http://localhost:4000/establishments';
