@@ -4,23 +4,46 @@ import '../../../pages/room/models/bloc_events.dart';
 
 class EnterPublicRoomData extends Data{
 
- late String roomName;
- late String userNickName;
+  late String _roomName;
+  late String _userNickName;
+  late int _code;
 
- EnterPublicRoomData({required this.roomName, required this.userNickName,required BlocEventType type}) : super.withoutRequired(type);
+  String get userNickName => _userNickName;
+  get getRoomName => _roomName;
+  get getCode => _code;
+  get getType => super.type;
 
- Map<String, dynamic> toMap() {
+  setType(BlocEventType type) => super.type = type;
+  setRoomName(String roomName) => _roomName = roomName;
+  setUserNickName(String userNickName) => _userNickName = userNickName;
+  setCode(int code) => _code = code;
+
+  Map<String, dynamic> toMap() {
     return {
-      'roomName': this.roomName,
-      'userNickName': this.userNickName,
-      'type': super.type.toString(),
+      'roomName': this._roomName,
+      'userNickName': this._userNickName,
+      'code': this._code,
+      'type': super.type.name.toString()
     };
   }
 
   factory EnterPublicRoomData.fromMap(Map<String, dynamic> map) {
     return EnterPublicRoomData(
-      roomName: map['roomName'],
-      userNickName: map['userNickName'],
-        type: BlocEventType.values.firstWhere((element) => element.toString() == map['type']));
+        roomName: map['roomName'],
+        userNickName: map['userNickName'],
+        code: map['code'],
+        type: BlocEventType.values.firstWhere((element) => element.name.toString() == map['type']));
   }
+
+  EnterPublicRoomData({
+    required String roomName,
+    required String userNickName,
+    required int code,
+    required type,
+  })  : _roomName = roomName,
+        _userNickName = userNickName,
+        _code = code,
+        super.withoutRequired(type);
+
+
 }

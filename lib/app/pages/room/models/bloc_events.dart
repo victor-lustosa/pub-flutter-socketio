@@ -8,9 +8,8 @@ enum BlocEventType {
   typing,
   stopped_typing,
   send_message,
-  message,
   sending_message,
-  receive_message,
+  receive_public_message,
   delete_message,
   edit_message,
   error_message

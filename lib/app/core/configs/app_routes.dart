@@ -43,9 +43,9 @@ class AppRoutes{
         return MaterialPageRoute(
             builder: (_) =>  UserRegisterPage());
 
-      case ENTERPRISE_REGISTER_ROUTE:
-        return MaterialPageRoute(
-            builder: (_) =>  EnterpriseRegisterPage());
+      // case ENTERPRISE_REGISTER_ROUTE:
+      //   return MaterialPageRoute(
+      //       builder: (_) =>  EnterpriseRegisterPage());
 
       case PUBLIC_ROOM_ROUTE:
         RoomDTO roomDTO = arguments as RoomDTO;

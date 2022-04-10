@@ -1,14 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:pub/app/pages/user/models/user.dart';
-import '../../../core/models/data/send_message_data.dart';
+import '../../../core/models/data/message_data.dart';
 import '../bloc/message_bloc.dart';
 import '../models/bloc_events.dart';
 import '../models/room.dart';
 abstract class IRoomViewModel{
 
   sendMessage(MessageBloc bloc);
-
   addMessage(state, MessageBloc bloc);
 
 }
@@ -25,12 +24,11 @@ class RoomViewModel implements IRoomViewModel{
   late final Room room;
   late final User user;
   int lineNumbers = 1;
-  //     // _messagesList.add(event.getMessage);
 
   sendMessage(MessageBloc bloc){
     String textMessage = textController.text;
     if (textMessage.isNotEmpty) {
-      var mes = SendMessageData(
+      var mes = MessageData(
           createdAt: DateTime.now().toString(),
           idMessage: 0,
           textMessage: textMessage,
@@ -46,11 +44,7 @@ class RoomViewModel implements IRoomViewModel{
       focusNode.requestFocus();
     }
   }
-    // socket.on('initial_message',(data){
-    //   final event = InitialMessageData.fromMap(data);
-    //   _socketResponse.sink.add(event);
-    //   notifyListeners();
-    // });
+
   void dispose() {
     textController.dispose();
     focusNode.dispose();
@@ -62,7 +56,7 @@ class RoomViewModel implements IRoomViewModel{
     if(state is ReceiveMessageState){
       room.getMessagesList.add(state.message);
       // boolAdd = false;
-      bloc.add(DontBuildEvent());
+      // bloc.add(DontBuildEvent());
     }
     Timer(Duration(microseconds: 100), (){
       this.scrollController.jumpTo(

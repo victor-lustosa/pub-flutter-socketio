@@ -21,6 +21,6 @@ class DeleteMessageData extends Data{
     return DeleteMessageData(
         roomName: map['roomName'],
         userNickName: map['userNickName'],
-        type: BlocEventType.values.firstWhere((element) => element.toString() == map['type']));
+        type: BlocEventType.values.firstWhere((element) => element.name.toString() == map['type']));
   }
 }

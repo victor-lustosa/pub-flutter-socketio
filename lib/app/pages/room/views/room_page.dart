@@ -1,13 +1,8 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pub/app/pages/room/views/components/messages_area_widget.dart';
 import 'package:pub/app/pages/user/models/user.dart';
-import 'package:socket_io_client/socket_io_client.dart';
 import '../../../core/configs/app_colors.dart';
-import '../../../core/models/data/send_message_data.dart';
 import '../bloc/message_bloc.dart';
 import '../models/room.dart';
 import '../view_models/room_view_model.dart';
@@ -30,17 +25,17 @@ class _RoomPageState extends State<RoomPage> {
   late final MessageBloc bloc;
   @override
   void initState() {
-    super.initState();
     instance = RoomViewModel(room:this.widget.room,user: this.widget.user);
     bloc = MessageBloc(room:this.widget.room,user: this.widget.user);
+    bloc.add(InitialEvent());
+    super.initState();
   }
   @override
   void dispose() {
     instance.dispose();
-    bloc.close();
+
     // sub.cancel();
     super.dispose();
-
   }
 
   @override

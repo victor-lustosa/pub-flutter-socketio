@@ -13,7 +13,7 @@ class Data {
 
   factory Data.fromMap(Map<String, dynamic> map) {
     return Data(
-      type: BlocEventType.values.firstWhere((element) => element.toString() == map['type'])
+      type: BlocEventType.values.firstWhere((element) => element.name.toString() == map['type'])
     );
   }
 }

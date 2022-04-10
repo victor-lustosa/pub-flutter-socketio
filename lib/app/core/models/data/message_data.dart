@@ -1,7 +1,8 @@
-import '../../../pages/room/models/bloc_events.dart';
-import 'data.dart';
+import 'package:pub/app/core/models/data/data.dart';
 
-class InitialMessageData extends Data{
+import '../../../pages/room/models/bloc_events.dart';
+
+class MessageData extends Data{
   late int _idMessage;
   late String _createdAt;
   late String _textMessage;
@@ -28,23 +29,23 @@ class InitialMessageData extends Data{
       'idMessage': this._idMessage,
       'createdAt': this._createdAt,
       'textMessage': this._textMessage,
-      'type': super.type.toString(),
+      'type': super.type.name.toString(),
       'code': this._code,
       'user': this._user
     };
   }
 
-  factory InitialMessageData.fromMap(Map<String, dynamic> map) {
-    return InitialMessageData(
+  factory MessageData.fromMap(Map<String,dynamic> map) {
+    return MessageData(
         idMessage: map['idMessage'],
-        createdAt: map['createdAt'],
+        createdAt: map['createAt'],
         textMessage: map['textMessage'],
         user: map['user'],
         code: map['code'],
-        type: BlocEventType.values.firstWhere((element) => element.toString() == map['type']));
+        type: BlocEventType.values.firstWhere((element) => element.name.toString() == map['type']));
   }
 
-  InitialMessageData({
+  MessageData({
     required idMessage,
     required createdAt,
     required textMessage,

@@ -35,7 +35,7 @@ class _MessagesAreaWidgetState extends State<MessagesAreaWidget> {
         bloc: widget.bloc,
         buildWhen: (context, current) => context != current && !(current is DontBuildState),
         builder:(context, state){
-          if(state is InitialMessageState) {
+          if(state is InitialState) {
             return Expanded( child: Container());
           }
           else if(state is ReceiveEnterPublicRoomMessageState){

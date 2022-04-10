@@ -29,13 +29,14 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
   final TextEditingController _nickNameController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
 
-  List<String> _listGenres = ['não informado','masculino', 'feminino'];
+  final List<String> _listGenres = ['não informado','masculino', 'feminino'];
   String _selectedGenre = '';
   // late String _latitude;
   // late String _longitude;
   bool isEnabled = true;
   double age = 0;
-
+  late User user;
+  late Establishment establishment = Establishment();
   @override
   Widget build (BuildContext context) {
 
@@ -101,15 +102,15 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                             padding: EdgeInsets.only(top: 95),
                             child: ElevatedButton.icon(
                                 onPressed: (){
-                                  Establishment establishment = Establishment();
+
                                   age = double.tryParse(_ageController.text) == null ? 0 : double.tryParse(_ageController.text)!;
                                   if(_ageController.text.isNotEmpty && _nickNameController.text.isNotEmpty) {
-                                    User user = _userViewModel.validateUser(_nickNameController, _ageController, _selectedGenre, _listGenres);
+                                    user = _userViewModel.validateUser(_nickNameController, _ageController, _selectedGenre, _listGenres);
                                     establishment.setLatitude(_userViewModel.locationData.latitude!);
                                     establishment.setLongitude(_userViewModel.locationData.longitude!);
                                     if(age >= 18){
                                       Navigator.pushReplacementNamed(context,AppRoutes.ESTABLISHMENT_ROUTE,
-                                          arguments:EstablishmentDTO(user,establishment));
+                                          arguments:EstablishmentDTO(user, establishment));
                                     }
                                   }
                                 },

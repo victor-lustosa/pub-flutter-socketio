@@ -1,9 +1,7 @@
 
-
 import 'package:pub/app/pages/user/models/user.dart';
 
-import '../../../core/models/data/send_message_data.dart';
-import 'message.dart';
+import '../../../core/models/data/message_data.dart';
 class Room {
   late int _idRoom;
   late String _roomName;
@@ -18,7 +16,7 @@ class Room {
   void addUsers(User user) {
     getUsersList.add(user);
   }
-  addMessages(SendMessageData initialMessageData) {
+  addMessages(MessageData initialMessageData) {
     _messagesList.add(initialMessageData);
   }
   //GETTERS

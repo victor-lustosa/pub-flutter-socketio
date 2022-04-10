@@ -12,11 +12,11 @@ abstract class IUserViewModel{
 
 class UserViewModel implements IUserViewModel{
 
-  Location location;
-  late bool _serviceEnabled;
+  final Location location;
+  late final bool _serviceEnabled;
   PermissionStatus permissionGranted = PermissionStatus.denied;
-  User user;
-  late LocationData locationData;
+  final User user;
+  late final LocationData locationData;
   double _age = 0;
 
   UserViewModel(this.location, this.user);
