@@ -7,6 +7,7 @@ class EnterPublicRoomData extends Data{
   late String _roomName;
   late String _userNickName;
   late int _code;
+  late String _user = '';
   late String _textMessage;
 
   String get userNickName => _userNickName;
@@ -14,7 +15,9 @@ class EnterPublicRoomData extends Data{
   get getCode => _code;
   get getType => super.type;
   get getTextMessage => _textMessage;
+  get getUser => _user;
 
+  setUser(String user) => _user = user;
   setType(BlocEventType type) => super.type = type;
   setRoomName(String roomName) => _roomName = roomName;
   setUserNickName(String userNickName) => _userNickName = userNickName;
@@ -27,6 +30,7 @@ class EnterPublicRoomData extends Data{
       'userNickName': this._userNickName,
       'textMessage': this._textMessage,
       'code': this._code,
+      'user': this._user,
       'type': super.type.name.toString()
     };
   }
@@ -36,6 +40,7 @@ class EnterPublicRoomData extends Data{
         roomName: map['roomName'],
         userNickName: map['userNickName'],
         textMessage: map['textMessage'],
+        user: map['user'],
         code: map['code'],
         type: BlocEventType.values.firstWhere((element) => element.name.toString() == map['type']));
   }
@@ -44,6 +49,7 @@ class EnterPublicRoomData extends Data{
     required String roomName,
     required String userNickName,
     required String textMessage,
+    required user,
     required int code,
     required type,
   })  : _roomName = roomName,

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:pub/app/core/configs/app_colors.dart';
 import 'package:pub/app/pages/user/models/user.dart';
 import '../../../core/models/data/message_data.dart';
 import '../bloc/message_bloc.dart';
@@ -50,12 +51,33 @@ class RoomViewModel implements IRoomViewModel{
     focusNode.dispose();
     scrollController.dispose();
   }
-
+  Alignment alignment(index){
+    if(room.getMessagesList[index].getUser != ''){
+      if(room.getMessagesList[index].getUser != user.getNickname){
+        return  Alignment.centerLeft;
+      } else{
+        return Alignment.centerRight;
+      }
+    } else{
+      return Alignment.center;
+    }
+  }
+  Color color(index){
+    if(room.getMessagesList[index].getUser != ''){
+      if(room.getMessagesList[index].getUser != user.getNickname){
+        return  Colors.white;
+      } else{
+        return Color(0xffdcd9d9);
+      }
+    } else {
+      return AppColors.lightBrown;
+    }
+  }
   void addMessage(state, MessageBloc bloc) {
     // if(boolAdd == true){
-      room.getMessagesList.add(state.message);
-      // boolAdd = false;
-      bloc.add(DontBuildEvent());
+    room.getMessagesList.add(state.message);
+    // boolAdd = false;
+    bloc.add(DontBuildEvent());
 
     Timer(Duration(microseconds: 100), (){
       this.scrollController.jumpTo(

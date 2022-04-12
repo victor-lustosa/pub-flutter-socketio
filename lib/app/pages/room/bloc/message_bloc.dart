@@ -27,7 +27,7 @@ class MessageBloc extends Bloc<MessageEvent,MessageState>{
     _socket = io(urlServer, OptionBuilder().setTransports(['websocket']).build());
     _socket.connect();
 
-    _socket.on('public_message', (data) => add(ReceiveMessageEvent(data)));
+    _socket.on('public_message_data', (data) => add(ReceiveMessageEvent(data)));
     _socket.on('enter_public_room', (data) => add(ReceiveMessageEvent(data)));
     _socket.on('leave_public_room', (data) => add(ReceiveMessageEvent(data)));
 
@@ -37,20 +37,22 @@ class MessageBloc extends Bloc<MessageEvent,MessageState>{
     });
 
     on<InitialEvent>((event, emit) async{
+      _socket.emit('enter_public_room', {
+        'roomName': this.room.getRoomName,
+        'userNickName': this.user.getNickname
+      });
       _socket.onConnect((_) {
-        _socket.emit('enter_public_room', {
-          'roomName': this.room.getRoomName,
-          'userNickName': this.user.getNickname
-        });
+
       });
     });
 
     on<DisconnectEvent>((event, emit) async{
+      _socket.emit('leave_public_room', {
+        'roomName': this.room.getRoomName,
+        'userNickName': this.user.getNickname
+      });
       _socket.onDisconnect((_) {
-        _socket.emit('leave_public_room', {
-          'roomName': this.room.getRoomName,
-          'userNickName': this.user.getNickname
-        });
+
       });
     });
 
