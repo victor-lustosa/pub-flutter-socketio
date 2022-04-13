@@ -92,8 +92,8 @@ class _RoomPageState extends State<RoomPage>
                         //         ],
                         //       ),
                         //     )),
-                        SafeArea(child:
-                        Row(children: [
+                        SafeArea(top: false,child:
+                             Row(children: [
                           Expanded(
                             child: Padding(
                               padding: EdgeInsets.only(left: 4, right: 8),

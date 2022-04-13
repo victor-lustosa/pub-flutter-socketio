@@ -86,6 +86,7 @@ class MessageBloc extends Bloc<MessageEvent,MessageState>{
   }
   @override
   Future<void> close() {
+    _socket.clearListeners();
     _socket.close();
     return super.close();
   }
