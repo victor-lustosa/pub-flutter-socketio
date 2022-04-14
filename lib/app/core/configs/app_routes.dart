@@ -36,7 +36,8 @@ class AppRoutes{
       case ESTABLISHMENT_ROUTE:
         EstablishmentDTO establishmentDTO = arguments as EstablishmentDTO;
         return MaterialPageRoute(
-            builder: (_) => EstablishmentPage(establishmentDTO.getUser, establishmentDTO.getEstablishment));
+            // builder: (_) => EstablishmentPage(establishmentDTO.getUser, establishmentDTO.getEstablishment));
+            builder: (_) => EstablishmentPage.withoutEstablishment(establishmentDTO.getUser));
 
       case USER_REGISTER_ROUTE:
         return MaterialPageRoute(

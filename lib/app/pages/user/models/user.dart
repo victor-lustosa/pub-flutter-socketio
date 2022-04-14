@@ -1,5 +1,7 @@
+import 'dart:convert';
+
 class User {
-  late int _idUser;
+  late int _idUser = 0;
   late String _nickname;
   late double _age;
   late String _genre;
@@ -36,7 +38,7 @@ class User {
       genre: map['genre'],
     );
   }
-
+  String toJson() => json.encode(toMap());
   User({
     required idUser,
     required nickname,

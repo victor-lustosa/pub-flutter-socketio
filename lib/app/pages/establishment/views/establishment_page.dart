@@ -12,16 +12,16 @@ import 'components/establishment_page_one_widget.dart';
 class EstablishmentPage extends StatefulWidget {
 
   final User user;
-  final Establishment establishment;
+  // late final Establishment establishment;
 
-  EstablishmentPage( this.user, this.establishment);
+  EstablishmentPage.withoutEstablishment(this.user);
+  // EstablishmentPage(this.user, this.establishment);
 
   @override
   _EstablishmentPageState createState() => _EstablishmentPageState();
 }
 
-class _EstablishmentPageState extends State<EstablishmentPage>
-    with SingleTickerProviderStateMixin {
+class _EstablishmentPageState extends State<EstablishmentPage> with SingleTickerProviderStateMixin {
 
   late TabController _tabController;
   late ScrollController _scrollViewController;
@@ -29,6 +29,7 @@ class _EstablishmentPageState extends State<EstablishmentPage>
   @override
   void initState() {
     super.initState();
+
     _scrollViewController = ScrollController(initialScrollOffset: 0.0);
     _tabController = TabController(vsync: this, length: 2);
   }

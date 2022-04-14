@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pub/app/core/configs/app_routes.dart';
 import 'package:pub/app/core/configs/no_glow_behavior.dart';
-import 'package:pub/app/pages/home/views/home_page.dart';
+import 'package:pub/app/pages/splash/views/splash_page.dart';
 
 class AppWidget extends StatefulWidget {
   const AppWidget({Key? key}) : super(key: key);
@@ -11,6 +11,8 @@ class AppWidget extends StatefulWidget {
 }
 
 class _AppWidgetState extends State<AppWidget> {
+
+
   @override
   Widget build(BuildContext context) {
     return  MaterialApp(
@@ -20,11 +22,12 @@ class _AppWidgetState extends State<AppWidget> {
           child: child!,
         );
       },
+
       initialRoute: "/",
       onGenerateRoute: AppRoutes.onGenerateRoute,
       debugShowCheckedModeBanner: false,
       title: 'Pub',
-      home: HomePage(),
+      home: SplashPage(),
     );
   }
 }

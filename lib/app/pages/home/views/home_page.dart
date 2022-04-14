@@ -27,7 +27,7 @@ class HomePage extends StatelessWidget {
             child:  Column(
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(top: 170),
+                  padding: EdgeInsets.only(top: 250),
                   child:ElevatedButton.icon(
                     onPressed: () {
                       Navigator.push(
@@ -35,7 +35,7 @@ class HomePage extends StatelessWidget {
                           MaterialPageRoute(
                               builder: (context) => UserRegisterPage()));
                     },
-                    label: Text("Usuário",
+                    label: Text("Cadastrar",
                         style: GoogleFonts.inter(
                           color: AppColors.white,
                           fontSize: 14, /* fontWeight: FontWeight.w600,*/
@@ -50,31 +50,6 @@ class HomePage extends StatelessWidget {
                     ),
                     icon: Icon(
                       Icons.account_circle,
-                      color: AppColors.white,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 50),
-                  child:ElevatedButton.icon(
-                    onPressed: () {
-                      Navigator.pushNamed(context,AppRoutes.USER_REGISTER_ROUTE);
-                    },
-                    label: Text("Estabelecimento",
-                        style: GoogleFonts.inter(
-                          color: AppColors.white,
-                          fontSize: 14, /* fontWeight: FontWeight.w600,*/
-                        )),
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)))),
-                      backgroundColor: MaterialStateProperty.all(AppColors.lightBrown),
-                      padding: MaterialStateProperty.all(
-                          EdgeInsets.symmetric(horizontal: 70, vertical: 16)),
-                    ),
-                    icon: Icon(
-                      Icons.store,
                       color: AppColors.white,
                     ),
                   ),

@@ -5,6 +5,7 @@ class EstablishmentDTO {
   late Establishment _establishment;
 
   EstablishmentDTO(this._user, this._establishment);
+  EstablishmentDTO.withoutEstablishment(this._user);
 
   get getUser => _user;
 

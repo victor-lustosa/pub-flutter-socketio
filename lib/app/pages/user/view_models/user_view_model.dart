@@ -1,7 +1,13 @@
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:pub/app/pages/user/models/user.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../core/configs/app_routes.dart';
+import '../../establishment/models/dto/establishment_dto.dart';
+
 
 abstract class IUserViewModel{
   checkLocation();
@@ -12,15 +18,25 @@ abstract class IUserViewModel{
 
 class UserViewModel implements IUserViewModel{
 
-  final Location location;
+  late final Location location;
   late final bool _serviceEnabled;
   PermissionStatus permissionGranted = PermissionStatus.denied;
-  final User user;
+  late final User user;
   late final LocationData locationData;
   double _age = 0;
-
+  UserViewModel.instance();
   UserViewModel(this.location, this.user);
 
+  Future<void> checkUser(BuildContext context) async {
+    final shared = await SharedPreferences.getInstance();
+    final data = shared.getString('user');
+    if (data != null) {
+      User user = User.fromMap(jsonDecode(data));
+      Navigator.pushReplacementNamed(context,AppRoutes.ESTABLISHMENT_ROUTE, arguments:EstablishmentDTO.withoutEstablishment(user));
+    } else {
+      Navigator.pushReplacementNamed(context,AppRoutes.HOME_ROUTE);
+    }
+  }
   checkLocation() async{
     _serviceEnabled = await location.serviceEnabled();
     if (!_serviceEnabled) {
@@ -81,5 +97,17 @@ class UserViewModel implements IUserViewModel{
     }
     return this.user;
   }
+  saveUser(User user) async {
+    try{
+      SharedPreferences shared = await SharedPreferences.getInstance();
+      shared.setString('user',user.toJson());
+  } catch(e){
+      throw Exception("Erro ao salvar usuario: $e");
+    }
+  }
 
+  // void saveLocation() {
+  //   _userViewModel.locationData.latitude!;
+  //   _userViewModel.locationData.longitude!;
+  // }
 }

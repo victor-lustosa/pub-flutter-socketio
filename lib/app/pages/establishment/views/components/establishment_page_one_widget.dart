@@ -62,14 +62,12 @@ class _EstablishmentPageOneWidgetState extends State<EstablishmentPageOneWidget>
                     break;
                   case ConnectionState.done:
                     if (!snapshot.hasData) {
-                      return Column(mainAxisAlignment: MainAxisAlignment.center,
-                          children:[ Center(
-                              child: CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                      AppColors.darkBrown)
-                              )
+                      return Center(
+                          child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                  AppColors.darkBrown)
                           )
-                          ]);
+                      );
                     }
                     _establishmentViewModel.establishmentList = snapshot.data!;
                     return ListView.builder(
