@@ -68,15 +68,15 @@ class _EstablishmentPageState extends State<EstablishmentPage> with SingleTicker
             EstablishmentPageOneWidget(this.widget.user),
             EstablishmentPageTwoWidget()
           ])),
-      floatingActionButton: SizedBox(
-          height: 32,
-          width: 136,
-          child: FloatingActionButton.extended(
-              onPressed: () {},
-              label: Text("visão em mapa",
-                  style: GoogleFonts.inter(fontSize: 10.5, color: Colors.white)),
-              backgroundColor: AppColors.lightBrown,
-              icon: Icon(Icons.map, size: 15, color: Colors.white))),
+    //   floatingActionButton: SizedBox(
+    //       height: 32,
+    //       width: 136,
+    //       child: FloatingActionButton.extended(
+    //           onPressed: () {},
+    //           label: Text("visão em mapa",
+    //               style: GoogleFonts.inter(fontSize: 10.5, color: Colors.white)),
+    //           backgroundColor: AppColors.lightBrown,
+    //           icon: Icon(Icons.map, size: 15, color: Colors.white))),
     );
   }
 }

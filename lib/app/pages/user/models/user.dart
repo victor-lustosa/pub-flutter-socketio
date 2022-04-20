@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 class User {
-  late int _idUser = 0;
+  late String _idUser = '';
   late String _nickname;
-  late double _age;
+  late int _age;
   late String _genre;
 
   //GETTERS
@@ -13,10 +13,10 @@ class User {
   get getGenre => _genre;
 
 //SETTERS
-  setIdUser(int idUser) => _idUser = idUser;
+  setIdUser(String idUser) => _idUser = idUser;
 
   setNickname(String nickname) => _nickname = nickname;
-  setAge(double age) => _age = age;
+  setAge(int age) => _age = age;
   setGenre(String genre) => _genre = genre;
 
   Map<String, dynamic> toMap() {

@@ -23,7 +23,7 @@ class UserViewModel implements IUserViewModel{
   PermissionStatus permissionGranted = PermissionStatus.denied;
   late final User user;
   late final LocationData locationData;
-  double _age = 0;
+  int _age = 0;
   UserViewModel.instance();
   UserViewModel(this.location, this.user);
 
@@ -87,7 +87,7 @@ class UserViewModel implements IUserViewModel{
       List<String> _listGenres){
 
     this.user.setNickname(_nickNameController.text);
-    _age = double.tryParse(_ageController.text)!;
+    _age = int.tryParse(_ageController.text)!;
     this.user.setAge(_age);
     if(_selectedGenre == ''){
       _selectedGenre = _listGenres[0];

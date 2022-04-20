@@ -84,12 +84,8 @@ class _EstablishmentPageOneWidgetState extends State<EstablishmentPageOneWidget>
                                       width: 40,
                                       height: 40,
                                       decoration: BoxDecoration(
-                                        color: AppColors.white, borderRadius: BorderRadius.only(
-                                        topLeft: const Radius.circular(5.0),
-                                        topRight: const Radius.circular(5.0),
-                                        bottomLeft: const Radius.circular(5.0),
-                                        bottomRight:const Radius.circular(5.0),
-                                      ), boxShadow: [
+                                        color: AppColors.white, borderRadius: BorderRadius.all(const Radius.circular(5.0)),
+                                        boxShadow: [
                                         BoxShadow(
                                           color: Colors.grey.withOpacity(0.15),
                                           spreadRadius: 1,

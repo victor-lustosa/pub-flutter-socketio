@@ -1,23 +1,25 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:pub/app/core/configs/app_colors.dart';
+import 'package:pub/app/pages/room/models/data/enter_public_room_data.dart';
 import 'package:pub/app/pages/user/models/user.dart';
-import '../../../core/models/data/message_data.dart';
+import '../models/data/message_data.dart';
 import '../bloc/message_bloc.dart';
 import '../models/bloc_events.dart';
 import '../models/room.dart';
 abstract class IRoomViewModel{
-
   sendMessage(MessageBloc bloc);
-  addMessage(state, MessageBloc bloc);
-
+  addParticipant(state, MessageBloc bloc);
 }
 
-class RoomViewModel implements IRoomViewModel{
+class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
 
   RoomViewModel({required this.room,required this.user});
 
   RoomViewModel.withoutInstance();
+
+  List<dynamic> _participantsList = [];
+
   final ScrollController scrollController = ScrollController();
   final focusNode = FocusNode();
   final textController = TextEditingController(text: '');
@@ -26,9 +28,13 @@ class RoomViewModel implements IRoomViewModel{
   late final User user;
   int lineNumbers = 1;
   bool isVisibled = false;
+
   sendMessage(MessageBloc bloc){
+
     String textMessage = textController.text;
+
     if (textMessage.isNotEmpty) {
+
       var mes = MessageData(
           createdAt: DateTime.now().toString(),
           idMessage: 0,
@@ -51,6 +57,7 @@ class RoomViewModel implements IRoomViewModel{
     focusNode.dispose();
     scrollController.dispose();
   }
+
   Alignment alignment(index){
     if(room.getMessagesList[index].getUser != ''){
       if(room.getMessagesList[index].getUser != user.getNickname){
@@ -73,18 +80,52 @@ class RoomViewModel implements IRoomViewModel{
       return AppColors.lightBrown;
     }
   }
-  void addMessage(state, MessageBloc bloc) {
+  void addParticipant(state, MessageBloc bloc) {
+
     // if(boolAdd == true){
-    room.getMessagesList.add(state.message);
+    // room.addMessages(state.message);
+    if(state.message.getUser.getNickname != user.getNickname){
+      addParticipants(state.message.getUser);
+    } else{
+      setParticipantsList(state.message.getUsersList);
+    }
+    notifyListeners();
     // boolAdd = false;
     bloc.add(DontBuildEvent());
 
-    Timer(Duration(microseconds: 100), (){
+    Timer(Duration(microseconds: 50), (){
       this.scrollController.jumpTo(
           this.scrollController.position.maxScrollExtent
       );
     });
   }
+  void addMessage(state, MessageBloc bloc) {
+    // if(boolAdd == true){
+    room.addMessages(state.message);
+    // boolAdd = false;
+    bloc.add(DontBuildEvent());
+
+    Timer(Duration(microseconds: 50), (){
+      this.scrollController.jumpTo(
+          this.scrollController.position.maxScrollExtent
+      );
+    });
+  }
+
+  typeMessage(state, index) {
+
+    if(state.message.type != BlocEventType.user_enter_public_room || state.message.type != BlocEventType.broad_enter_public_room){
+        return  Center(child: Text('${getParticipantsList[index].getTextMessage}'));
+    } else{
+      return Text('${room.getMessagesList[index].getUser} - ${room.getMessagesList[index].getTextMessage}');
+    }
+  }
+  void addParticipants(dynamic initialMessageData) {
+    _participantsList.add(initialMessageData.getUser);
+  }
+  get getParticipantsList => _participantsList;
+
+  setParticipantsList(List<dynamic> participantsList) =>  _participantsList = participantsList;
 }
 
 

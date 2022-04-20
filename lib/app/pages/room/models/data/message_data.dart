@@ -1,6 +1,6 @@
-import 'package:pub/app/core/models/data/data.dart';
+import '../data/data.dart';
 
-import '../../../pages/room/models/bloc_events.dart';
+import '../bloc_events.dart';
 
 class MessageData extends Data{
   late int _idMessage;

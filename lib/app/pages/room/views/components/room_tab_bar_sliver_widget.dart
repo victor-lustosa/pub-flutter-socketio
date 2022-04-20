@@ -36,7 +36,7 @@ class RoomTabBarSliverWidget extends  PreferredSize{
               height: 18.0,
               width: 120,
               child: Tab(
-                  text: "salas privadas",
+                  text: "participantes",
                 ),
             )
           ],

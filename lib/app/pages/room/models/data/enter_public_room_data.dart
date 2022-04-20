@@ -1,36 +1,36 @@
-import 'package:pub/app/core/models/data/data.dart';
-
-import '../../../pages/room/models/bloc_events.dart';
+import '../../../user/models/user.dart';
+import '../data/data.dart';
+import '../bloc_events.dart';
 
 class EnterPublicRoomData extends Data{
 
   late String _roomName;
-  late String _userNickName;
   late int _code;
-  late String _user = '';
+  late User _user;
   late String _textMessage;
+  List<dynamic> _usersList = [];
 
-  String get userNickName => _userNickName;
   get getRoomName => _roomName;
   get getCode => _code;
   get getType => super.type;
   get getTextMessage => _textMessage;
-  get getUser => _user;
+  User get getUser => _user;
+  get getUsersList => _usersList;
 
-  setUser(String user) => _user = user;
+  setUser(User user) => _user = user;
   setType(BlocEventType type) => super.type = type;
   setRoomName(String roomName) => _roomName = roomName;
-  setUserNickName(String userNickName) => _userNickName = userNickName;
   setCode(int code) => _code = code;
   setTextMessage(String textMessage) => _textMessage = textMessage;
+  setUsersList(List<dynamic> usersList) => _usersList = usersList;
 
   Map<String, dynamic> toMap() {
     return {
       'roomName': this._roomName,
-      'userNickName': this._userNickName,
       'textMessage': this._textMessage,
+      'user': this._user.toMap(),
       'code': this._code,
-      'user': this._user,
+      'usersList': this._usersList,
       'type': super.type.name.toString()
     };
   }
@@ -38,24 +38,25 @@ class EnterPublicRoomData extends Data{
   factory EnterPublicRoomData.fromMap(Map<String, dynamic> map) {
     return EnterPublicRoomData(
         roomName: map['roomName'],
-        userNickName: map['userNickName'],
         textMessage: map['textMessage'],
-        user: map['user'],
+        user: User.fromMap(map['user']),
         code: map['code'],
+        usersList : map['usersList'],
         type: BlocEventType.values.firstWhere((element) => element.name.toString() == map['type']));
   }
 
   EnterPublicRoomData({
     required String roomName,
-    required String userNickName,
     required String textMessage,
     required user,
     required int code,
+    required usersList,
     required type,
   })  : _roomName = roomName,
-        _userNickName = userNickName,
         _textMessage = textMessage,
+        _user = user,
         _code = code,
+        _usersList = usersList,
         super.withoutRequired(type);
 
 

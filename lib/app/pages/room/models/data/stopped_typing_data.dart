@@ -1,13 +1,13 @@
-import 'package:pub/app/core/models/data/data.dart';
+import '../data/data.dart';
 
-import '../../../pages/room/models/bloc_events.dart';
+import '../bloc_events.dart';
 
-class TypingData extends Data{
+class StoppedTypingData extends Data{
 
   late String roomName;
   late String userNickName;
 
-  TypingData({required this.roomName, required this.userNickName,required BlocEventType type}) : super.withoutRequired(type);
+  StoppedTypingData({required this.roomName, required this.userNickName,required BlocEventType type}) : super.withoutRequired(type);
 
   Map<String, dynamic> toMap() {
     return {
@@ -17,8 +17,8 @@ class TypingData extends Data{
     };
   }
 
-  factory TypingData.fromMap(Map<String, dynamic> map) {
-    return TypingData(
+  factory StoppedTypingData.fromMap(Map<String, dynamic> map) {
+    return StoppedTypingData(
         roomName: map['roomName'],
         userNickName: map['userNickName'],
         type: BlocEventType.values.firstWhere((element) => element.name.toString() == map['type']));

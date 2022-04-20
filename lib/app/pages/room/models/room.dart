@@ -1,7 +1,7 @@
 
+import 'package:pub/app/pages/room/models/data/enter_public_room_data.dart';
 import 'package:pub/app/pages/user/models/user.dart';
 
-import '../../../core/models/data/message_data.dart';
 class Room {
   late int _idRoom;
   late String _roomName;
@@ -13,9 +13,6 @@ class Room {
 
   Room.withoutParameters();
 
-  void addUsers(User user) {
-    getUsersList.add(user);
-  }
   addMessages(dynamic initialMessageData) {
     _messagesList.add(initialMessageData);
   }
@@ -32,12 +29,10 @@ class Room {
 //SETTERS
   setUserNickName(String userNickName) => _userNickName = userNickName;
   setRoomName(String roomName) => _roomName = roomName;
-  setUsersList(List<User> usersList) => _usersList = usersList;
-  setMessage(List<dynamic> messagesList) => _messagesList = messagesList;
   setIcon(String icon) => _icon = icon;
   setIdRoom(int idRoom) => _idRoom = idRoom;
   setIsPublic(bool isPublic) => _isPublic = isPublic;
-
+  setUsersList(List<dynamic> usersList) => _usersList = usersList;
 
   Room({
     required idRoom,

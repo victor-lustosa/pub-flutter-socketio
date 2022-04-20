@@ -34,7 +34,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
   // late String _latitude;
   // late String _longitude;
   bool isEnabled = true;
-  double age = 0;
+  int age = 0;
   late User user;
   late Establishment establishment = Establishment();
   @override
@@ -103,17 +103,15 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                             child: ElevatedButton.icon(
                                 onPressed: (){
 
-                                  age = double.tryParse(_ageController.text) == null ? 0 : double.tryParse(_ageController.text)!;
+                                  age = int.tryParse(_ageController.text) == null ? 0 : int.tryParse(_ageController.text)!;
                                   if(_ageController.text.isNotEmpty && _nickNameController.text.isNotEmpty) {
                                     if(age >= 18){
                                     user = _userViewModel.validateUser(_nickNameController, _ageController, _selectedGenre, _listGenres);
                                     _userViewModel.saveUser(user);
                                     // _userViewModel.saveLocation();
 
-                                    Navigator.pushNamedAndRemoveUntil(context,
-                                                                        AppRoutes.ESTABLISHMENT_ROUTE,
-                                                                        (_) => false,
-                                                                        arguments:EstablishmentDTO(user, establishment));
+                                    Navigator.pushNamedAndRemoveUntil(context, AppRoutes.ESTABLISHMENT_ROUTE,
+                                                                      (_) => false, arguments:EstablishmentDTO(user, establishment));
                                     }
                                   }
                                 },

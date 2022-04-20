@@ -3,14 +3,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 import '../../../core/configs/app_routes.dart';
-import '../../../core/models/data/data.dart';
-import '../../../core/models/data/delete_message_data.dart';
-import '../../../core/models/data/edit_message_data.dart';
-import '../../../core/models/data/enter_public_room_data.dart';
-import '../../../core/models/data/leave_public_room_data.dart';
-import '../../../core/models/data/message_data.dart';
-import '../../../core/models/data/stopped_typing_data.dart';
-import '../../../core/models/data/typing_data.dart';
+
+import '../models/data/data.dart';
+import '../models/data/delete_message_data.dart';
+import '../models/data/edit_message_data.dart';
+import '../models/data/enter_public_room_data.dart';
+import '../models/data/leave_public_room_data.dart';
+import '../models/data/message_data.dart';
+import '../models/data/stopped_typing_data.dart';
+import '../models/data/typing_data.dart';
 import '../../user/models/user.dart';
 import '../models/bloc_events.dart';
 import '../models/room.dart';
@@ -28,22 +29,22 @@ class MessageBloc extends Bloc<MessageEvent,MessageState>{
     _socket.connect();
 
     _socket.on('public_message_data', (data) => add(ReceiveMessageEvent(data)));
-    _socket.on('enter_public_room', (data) => add(ReceiveMessageEvent(data)));
+    _socket.on('broad_enter_public_room', (data) => add(ReceiveMessageEvent(data)));
+    _socket.on('user_enter_public_room', (data) => add(ReceiveMessageEvent(data)));
     _socket.on('leave_public_room', (data) => add(ReceiveMessageEvent(data)));
-
-    on<SendMessageEvent>((event, emit) async{
-      _socket.emit('public_message',event.message);
-      emit(SendMessageState());
-    });
 
     on<InitialEvent>((event, emit) async{
       _socket.emit('enter_public_room', {
         'roomName': this.room.getRoomName,
-        'userNickName': this.user.getNickname
+        'user': this.user.toMap()
       });
       _socket.onConnect((_) {
-
       });
+    });
+
+    on<SendMessageEvent>((event, emit) async{
+      _socket.emit('public_message',event.message);
+      emit(SendMessageState());
     });
 
     on<DisconnectEvent>((event, emit) async{
@@ -52,7 +53,6 @@ class MessageBloc extends Bloc<MessageEvent,MessageState>{
         'userNickName': this.user.getNickname
       });
       _socket.onDisconnect((_) {
-
       });
     });
 
@@ -61,7 +61,9 @@ class MessageBloc extends Bloc<MessageEvent,MessageState>{
       Data data = Data.fromMap(event.message);
 
       switch(data.type){
-        case BlocEventType.enter_public_room:
+        case BlocEventType.broad_enter_public_room:
+          return emit(ReceiveEnterPublicRoomMessageState(message:EnterPublicRoomData.fromMap(event.message)));
+        case BlocEventType.user_enter_public_room:
           return emit(ReceiveEnterPublicRoomMessageState(message:EnterPublicRoomData.fromMap(event.message)));
         case BlocEventType.leave_public_room:
           return emit(ReceiveLeavePublicRoomMessageState(LeavePublicRoomData.fromMap(event.message)));
