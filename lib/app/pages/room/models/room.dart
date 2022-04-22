@@ -1,25 +1,27 @@
 
-import 'package:pub/app/pages/room/models/data/enter_public_room_data.dart';
-import 'package:pub/app/pages/user/models/user.dart';
-
 class Room {
-  late int _idRoom;
-  late String _roomName;
-  late String _userNickName;
-  late String _icon;
-  late bool _isPublic;
+  int _idRoom = 0;
+  String _roomName = '';
+  String _userNickName = '';
+  String _icon = '';
+  bool _isPublic = false;
   List<dynamic> _usersList = [];
+  List<dynamic> _participantsList = [];
   List<dynamic> _messagesList = [];
 
   Room.withoutParameters();
 
-  addMessages(dynamic initialMessageData) {
-    _messagesList.add(initialMessageData);
+  addMessages(dynamic data) {
+    _messagesList.add(data);
+  }
+  addParticipants(dynamic data) {
+    _participantsList.add(data);
   }
   //GETTERS
   get getUserNickName => _userNickName;
   get getRoomName => _roomName;
   get getUsersList => _usersList;
+  get getParticipantsList => _participantsList;
   get getMessagesList => _messagesList;
   get getIdRoom => _idRoom;
   get getIcon => _icon;
@@ -33,6 +35,7 @@ class Room {
   setIdRoom(int idRoom) => _idRoom = idRoom;
   setIsPublic(bool isPublic) => _isPublic = isPublic;
   setUsersList(List<dynamic> usersList) => _usersList = usersList;
+  setParticipantsList(List<dynamic> participantsList) => _participantsList = participantsList;
 
   Room({
     required idRoom,

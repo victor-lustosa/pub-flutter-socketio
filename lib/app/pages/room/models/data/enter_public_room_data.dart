@@ -14,7 +14,7 @@ class EnterPublicRoomData extends Data{
   get getCode => _code;
   get getType => super.type;
   get getTextMessage => _textMessage;
-  User get getUser => _user;
+  get getUser => _user;
   get getUsersList => _usersList;
 
   setUser(User user) => _user = user;

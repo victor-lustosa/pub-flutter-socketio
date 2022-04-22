@@ -4,7 +4,6 @@ import '../../../../core/configs/app_colors.dart';
 import '../../../../core/configs/app_images.dart';
 import '../../view_models/room_view_model.dart';
 
-
 class RoomPageTwoWidget extends StatefulWidget {
 
   final RoomViewModel instance;
@@ -23,22 +22,15 @@ class _RoomPageTwoWidgetState extends State<RoomPageTwoWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: MediaQuery
-            .of(context)
-            .size
-            .width,
-        height: MediaQuery
-            .of(context)
-            .size
-            .height,
-        alignment: Alignment.center,
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
           color: AppColors.white,
         ),
         child: ListView.builder(
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
-            itemCount: widget.instance.getParticipantsList.length,
+            itemCount: widget.instance.getRoom.getParticipantsList.length,
             itemBuilder: (context, index) {
               return Padding(
                   padding: const EdgeInsets.only(bottom: 12.0),
@@ -59,8 +51,7 @@ class _RoomPageTwoWidgetState extends State<RoomPageTwoWidget> {
                                         color: Colors.grey.withOpacity(0.15),
                                         spreadRadius: 1,
                                         blurRadius: 3,
-                                        offset: Offset(
-                                          1, 3,), // changes position of shadow
+                                        offset: Offset(1, 3), // changes position of shadow
                                       ),
                                     ],
                                   ),
@@ -69,8 +60,7 @@ class _RoomPageTwoWidgetState extends State<RoomPageTwoWidget> {
                                       height: 20),)),
                             title: Padding(
                                 padding: EdgeInsets.only(bottom: 10),
-                                child: Text(
-                                    widget.instance.getParticipantsList[index]["nickname"],
+                                child: Text(widget.instance.getRoom.getParticipantsList[index].getNickname,
                                     style: GoogleFonts.inter(color: AppColors.brown, fontSize: 18,))
                             ),
                             // subtitle:Row(

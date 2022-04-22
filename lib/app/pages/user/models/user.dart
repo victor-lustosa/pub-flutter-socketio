@@ -2,9 +2,9 @@ import 'dart:convert';
 
 class User {
   late String _idUser = '';
-  late String _nickname;
-  late int _age;
-  late String _genre;
+  late String _nickname= '';
+  late int _age = 0;
+  late String _genre= '';
 
   //GETTERS
   get getIdUser => _idUser;

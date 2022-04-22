@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
@@ -15,6 +17,7 @@ import '../models/data/typing_data.dart';
 import '../../user/models/user.dart';
 import '../models/bloc_events.dart';
 import '../models/room.dart';
+import '../view_models/room_view_model.dart';
 
 part 'message_event.dart';
 part 'message_state.dart';
@@ -23,8 +26,8 @@ class MessageBloc extends Bloc<MessageEvent,MessageState>{
   late final Socket _socket;
   late final Room room;
   late final User user;
-
-  MessageBloc({required this.room,required this.user}) : super(InitialState()) {
+  final RoomViewModel instance;
+  MessageBloc({required this.room,required this.user,required this.instance}) : super(InitialState(instance: instance)) {
     _socket = io(urlServer, OptionBuilder().setTransports(['websocket']).build());
     _socket.connect();
 
@@ -44,7 +47,7 @@ class MessageBloc extends Bloc<MessageEvent,MessageState>{
 
     on<SendMessageEvent>((event, emit) async{
       _socket.emit('public_message',event.message);
-      emit(SendMessageState());
+      emit(SendMessageState(instance: instance));
     });
 
     on<DisconnectEvent>((event, emit) async{
@@ -62,28 +65,29 @@ class MessageBloc extends Bloc<MessageEvent,MessageState>{
 
       switch(data.type){
         case BlocEventType.broad_enter_public_room:
-          return emit(ReceiveEnterPublicRoomMessageState(message:EnterPublicRoomData.fromMap(event.message)));
+          return emit(ReceiveBroadEnterPublicRoomMessageState(message:EnterPublicRoomData.fromMap(event.message),instance: instance));
         case BlocEventType.user_enter_public_room:
-          return emit(ReceiveEnterPublicRoomMessageState(message:EnterPublicRoomData.fromMap(event.message)));
+           emit(ReceiveUserEnterPublicRoomMessageState(message:EnterPublicRoomData.fromMap(event.message),instance: instance));
+           break;
         case BlocEventType.leave_public_room:
-          return emit(ReceiveLeavePublicRoomMessageState(LeavePublicRoomData.fromMap(event.message)));
+          return emit(ReceiveLeavePublicRoomMessageState(message:LeavePublicRoomData.fromMap(event.message),instance: instance));
         case BlocEventType.typing:
-          return emit(ReceiveTypingMessageState(TypingData.fromMap(event.message)));
+          return emit(ReceiveTypingMessageState(instance: instance));
         case BlocEventType.stopped_typing:
-          return emit(ReceiveStoppedTypingMessageState(StoppedTypingData.fromMap(event.message)));
+          return emit(ReceiveStoppedTypingMessageState(instance: instance));
         case BlocEventType.receive_public_message:
-          return emit(ReceiveMessageState(MessageData.fromMap(event.message)));
+          return emit(ReceiveMessageState(message:MessageData.fromMap(event.message),instance: instance));
         case BlocEventType.delete_message:
-          return emit(ReceiveDeleteMessageState(DeleteMessageData.fromMap(event.message)));
+          return emit(ReceiveDeleteMessageState(instance: instance));
         case BlocEventType.edit_message:
-          return emit(ReceiveEditMessageState(EditMessageData.fromMap(event.message)));
+          return emit(ReceiveEditMessageState(instance: instance));
         default:
           break;
       }
     }
     );
     on<DontBuildEvent>((event, emit) async{
-      emit(DontBuildState());
+      emit(DontBuildState(instance: instance));
     });
   }
   @override

@@ -9,23 +9,21 @@ import '../models/bloc_events.dart';
 import '../models/room.dart';
 abstract class IRoomViewModel{
   sendMessage(MessageBloc bloc);
-  addParticipant(state, MessageBloc bloc);
+
 }
 
 class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
 
-  RoomViewModel({required this.room,required this.user});
-
-  RoomViewModel.withoutInstance();
-
-  List<dynamic> _participantsList = [];
+  RoomViewModel({required Room room, required User user}): _room = room, _user = user;
+  RoomViewModel.withoutParameters();
 
   final ScrollController scrollController = ScrollController();
   final focusNode = FocusNode();
   final textController = TextEditingController(text: '');
   // late bool boolAdd;
-  late final Room room;
-  late final User user;
+  Room _room = Room.withoutParameters();
+  User _user = User.withoutParameters();
+  bool isExist = false;
   int lineNumbers = 1;
   bool isVisibled = false;
 
@@ -39,11 +37,11 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
           createdAt: DateTime.now().toString(),
           idMessage: 0,
           textMessage: textMessage,
-          user: this.user.getNickname,
+          user: this._user.getNickname,
           code:44,
           type: BlocEventType.send_message);
 
-      room.getMessagesList.add(mes);
+      _room.getMessagesList.add(mes);
 
       bloc.add(SendMessageEvent(mes.toMap()));
       focusNode.requestFocus();
@@ -53,14 +51,15 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
   }
 
   void dispose() {
+    super.dispose();
     textController.dispose();
     focusNode.dispose();
     scrollController.dispose();
   }
 
   Alignment alignment(index){
-    if(room.getMessagesList[index].getUser != ''){
-      if(room.getMessagesList[index].getUser != user.getNickname){
+    if(_room.getMessagesList[index].getUser != ''){
+      if(_room.getMessagesList[index].getUser != _user.getNickname){
         return  Alignment.centerLeft;
       } else{
         return Alignment.centerRight;
@@ -70,8 +69,8 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
     }
   }
   Color color(index){
-    if(room.getMessagesList[index].getUser != ''){
-      if(room.getMessagesList[index].getUser != user.getNickname){
+    if(_room.getMessagesList[index].getUser != ''){
+      if(_room.getMessagesList[index].getUser != _user.getNickname){
         return  Colors.white;
       } else{
         return Color(0xffdcd9d9);
@@ -80,52 +79,33 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
       return AppColors.lightBrown;
     }
   }
-  void addParticipant(state, MessageBloc bloc) {
-
-    // if(boolAdd == true){
-    // room.addMessages(state.message);
-    if(state.message.getUser.getNickname != user.getNickname){
-      addParticipants(state.message.getUser);
-    } else{
-      setParticipantsList(state.message.getUsersList);
-    }
-    notifyListeners();
-    // boolAdd = false;
-    bloc.add(DontBuildEvent());
-
-    Timer(Duration(microseconds: 50), (){
-      this.scrollController.jumpTo(
-          this.scrollController.position.maxScrollExtent
-      );
-    });
-  }
-  void addMessage(state, MessageBloc bloc) {
-    // if(boolAdd == true){
-    room.addMessages(state.message);
-    // boolAdd = false;
-    bloc.add(DontBuildEvent());
-
-    Timer(Duration(microseconds: 50), (){
-      this.scrollController.jumpTo(
-          this.scrollController.position.maxScrollExtent
-      );
-    });
-  }
 
   typeMessage(state, index) {
-
+    Timer(Duration(microseconds: 50), (){
+      this.scrollController.jumpTo(
+          this.scrollController.position.maxScrollExtent
+      );
+    });
     if(state.message.type != BlocEventType.user_enter_public_room || state.message.type != BlocEventType.broad_enter_public_room){
-        return  Center(child: Text('${getParticipantsList[index].getTextMessage}'));
+        return  Center(child: Text('${_room.getParticipantsList[index].getTextMessage}'));
     } else{
-      return Text('${room.getMessagesList[index].getUser} - ${room.getMessagesList[index].getTextMessage}');
+      return Text('${_room.getMessagesList[index].getUser} - ${_room.getMessagesList[index].getTextMessage}');
     }
   }
-  void addParticipants(dynamic initialMessageData) {
-    _participantsList.add(initialMessageData.getUser);
+  void addParticipants(dynamic data) {
+    for(dynamic participant in _room.getParticipantsList){
+     if(data.getNickname == participant.getNickname) {
+       isExist = true;
+     }
+    }
+    if(!isExist){
+      _room.addParticipants(data);
+      notifyListeners();
+    }
   }
-  get getParticipantsList => _participantsList;
 
-  setParticipantsList(List<dynamic> participantsList) =>  _participantsList = participantsList;
+  get getUser => _user;
+  get getRoom => _room;
 }
 
 

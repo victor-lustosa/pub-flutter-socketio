@@ -12,7 +12,6 @@ class RoomPageOneWidget extends StatefulWidget {
 
   final Room room;
   final User user;
-
   final RoomViewModel instance;
 
   @override
@@ -24,7 +23,7 @@ class _RoomPageOneWidgetState extends State<RoomPageOneWidget> {
   late final MessageBloc bloc;
   @override
   initState() {
-    bloc = MessageBloc(room:this.widget.room,user: this.widget.user);
+    bloc = MessageBloc(room:this.widget.room,user: this.widget.user, instance: this.widget.instance);
     bloc.add(InitialEvent());
     super.initState();
   }
@@ -47,39 +46,41 @@ class _RoomPageOneWidgetState extends State<RoomPageOneWidget> {
             children: <Widget>[
               BlocBuilder<MessageBloc,MessageState>(
                   bloc: bloc,
-                  buildWhen: (context, current) => context != current && !(current is DontBuildState),
                   builder:(context, state){
                     if(state is InitialState) {
                       return Expanded( child: Container());
-                    } else{
-                      if(state is ReceiveEnterPublicRoomMessageState || state is ReceiveLeavePublicRoomMessageState)
-                        this.widget.instance.addParticipant(state, bloc);
-                      else if(state is ReceiveMessageState)
-                        this.widget.instance.addMessage(state, bloc);
-
+                    } else if(state is ReceiveMessageState ||
+                              state is ReceiveBroadEnterPublicRoomMessageState ||
+                              state is SendMessageState ||
+                              state is ReceiveUserEnterPublicRoomMessageState ||
+                              state is ReceiveLeavePublicRoomMessageState) {
                       return Expanded(
                         child: ListView.builder(
                             controller: this.widget.instance.scrollController,
-                            itemCount:widget.instance.room.getMessagesList.length,
+                            itemCount:widget.instance.getRoom.getMessagesList.length,
                             itemBuilder: (context, index) {
                               return Align(
-                                alignment: widget.instance.alignment(index),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(6),
-                                  child: Container(
+                                  alignment: widget.instance.alignment(index),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(6),
+                                    child: Container(
                                       width: MediaQuery.of(context).size.width * 0.8,
                                       padding: const EdgeInsets.all(14),
                                       decoration: BoxDecoration(
                                           color: widget.instance.color(index),
                                           borderRadius: BorderRadius.all(Radius.circular(8))),
-                                      child: widget.instance.typeMessage(state, index)
-                                  ),
-                                ),
-                              );
+                                           child: widget.instance.typeMessage(state, index)
+
+                                      ),
+                                    ),
+                                  );
                             }
                         ),
                       );
-                    }}
+                    }else {
+                      return Text('erroo');
+                    }
+                  }
               ),
               SafeArea(top: false,child:
               Row(children: [
