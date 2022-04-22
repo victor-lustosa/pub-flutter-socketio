@@ -4,30 +4,26 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 import 'package:socket_io_client/socket_io_client.dart';
-import '../../../core/configs/app_routes.dart';
 
-import '../models/data/data.dart';
-import '../models/data/delete_message_data.dart';
-import '../models/data/edit_message_data.dart';
-import '../models/data/enter_public_room_data.dart';
-import '../models/data/leave_public_room_data.dart';
-import '../models/data/message_data.dart';
-import '../models/data/stopped_typing_data.dart';
-import '../models/data/typing_data.dart';
-import '../../user/models/user.dart';
-import '../models/bloc_events.dart';
-import '../models/room.dart';
-import '../view_models/room_view_model.dart';
+import '../../pages/room/models/bloc_events.dart';
+import '../../pages/room/models/data/data.dart';
+import '../../pages/room/models/data/enter_public_room_data.dart';
+import '../../pages/room/models/data/leave_public_room_data.dart';
+import '../../pages/room/models/data/message_data.dart';
+import '../../pages/room/models/room.dart';
+import '../../pages/room/view_models/room_view_model.dart';
+import '../../pages/user/models/user.dart';
+import '../configs/app_routes.dart';
 
-part 'message_event.dart';
-part 'message_state.dart';
+part 'room_event.dart';
+part 'room_state.dart';
 
-class MessageBloc extends Bloc<MessageEvent,MessageState>{
+class RoomBloc extends Bloc<RoomEvent,RoomState>{
   late final Socket _socket;
   late final Room room;
   late final User user;
   final RoomViewModel instance;
-  MessageBloc({required this.room,required this.user,required this.instance}) : super(InitialState(instance: instance)) {
+  RoomBloc({required this.room,required this.user,required this.instance}) : super(InitialState(instance: instance)) {
     _socket = io(urlServer, OptionBuilder().setTransports(['websocket']).build());
     _socket.connect();
 
@@ -45,6 +41,14 @@ class MessageBloc extends Bloc<MessageEvent,MessageState>{
       });
     });
 
+    on<InitialRoomsListEvent>((event, emit) async{
+      _socket.emit('initial_rooms_list', {
+        'latitude': event.latitude,
+        'longitude': event.longitude
+      });
+      _socket.onConnect((_) {
+      });
+    });
     on<SendMessageEvent>((event, emit) async{
       _socket.emit('public_message',event.message);
       emit(SendMessageState(instance: instance));

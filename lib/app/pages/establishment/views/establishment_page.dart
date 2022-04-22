@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pub/app/pages/establishment/models/establishment.dart';
 import 'package:pub/app/core/configs/app_colors.dart';
+import 'package:pub/app/pages/room/view_models/room_view_model.dart';
 import 'package:pub/app/pages/user/models/user.dart';
+import '../../../core/room_bloc/room_bloc.dart';
+import '../../room/models/room.dart';
 import 'components/establishment_page_two_widget.dart';
 import 'components/establishment_tab_bar_sliver_widget.dart';
 import 'components/establishment_flexible_space_bar_widget.dart';
@@ -12,24 +15,22 @@ import 'components/establishment_page_one_widget.dart';
 class EstablishmentPage extends StatefulWidget {
 
   final User user;
-  // late final Establishment establishment;
 
-  EstablishmentPage.withoutEstablishment(this.user);
-  // EstablishmentPage(this.user, this.establishment);
+  EstablishmentPage(this.user);
 
   @override
   _EstablishmentPageState createState() => _EstablishmentPageState();
 }
 
 class _EstablishmentPageState extends State<EstablishmentPage> with SingleTickerProviderStateMixin {
-
+  late final RoomBloc bloc;
   late TabController _tabController;
   late ScrollController _scrollViewController;
-
+  final RoomViewModel roomViewModel = RoomViewModel.withoutParameters();
   @override
   void initState() {
     super.initState();
-
+    bloc = RoomBloc(room:Room.withoutParameters(),user: this.widget.user, instance: roomViewModel);
     _scrollViewController = ScrollController(initialScrollOffset: 0.0);
     _tabController = TabController(vsync: this, length: 2);
   }
@@ -65,7 +66,7 @@ class _EstablishmentPageState extends State<EstablishmentPage> with SingleTicker
               )];},
           body: TabBarView(
               controller: _tabController, children: <Widget>[
-            EstablishmentPageOneWidget(this.widget.user),
+            EstablishmentPageOneWidget(this.widget.user, roomViewModel, bloc),
             EstablishmentPageTwoWidget()
           ])),
     //   floatingActionButton: SizedBox(

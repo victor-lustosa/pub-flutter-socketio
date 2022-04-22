@@ -1,15 +1,17 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:pub/app/core/configs/app_colors.dart';
-import 'package:pub/app/pages/room/models/data/enter_public_room_data.dart';
 import 'package:pub/app/pages/user/models/user.dart';
-import '../models/data/message_data.dart';
-import '../bloc/message_bloc.dart';
-import '../models/bloc_events.dart';
-import '../models/room.dart';
-abstract class IRoomViewModel{
-  sendMessage(MessageBloc bloc);
 
+
+import '../../../core/room_bloc/room_bloc.dart';
+import '../models/bloc_events.dart';
+import '../models/data/message_data.dart';
+import '../models/room.dart';
+
+abstract class IRoomViewModel{
+  sendMessage(RoomBloc bloc);
 }
 
 class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
@@ -27,7 +29,7 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
   int lineNumbers = 1;
   bool isVisibled = false;
 
-  sendMessage(MessageBloc bloc){
+  sendMessage(RoomBloc bloc){
 
     String textMessage = textController.text;
 

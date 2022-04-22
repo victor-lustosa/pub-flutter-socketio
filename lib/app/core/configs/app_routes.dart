@@ -37,7 +37,7 @@ class AppRoutes{
         EstablishmentDTO establishmentDTO = arguments as EstablishmentDTO;
         return MaterialPageRoute(
             // builder: (_) => EstablishmentPage(establishmentDTO.getUser, establishmentDTO.getEstablishment));
-            builder: (_) => EstablishmentPage.withoutEstablishment(establishmentDTO.getUser));
+            builder: (_) => EstablishmentPage(establishmentDTO.getUser));
 
       case USER_REGISTER_ROUTE:
         return MaterialPageRoute(
@@ -50,7 +50,7 @@ class AppRoutes{
       case PUBLIC_ROOM_ROUTE:
         RoomDTO roomDTO = arguments as RoomDTO;
         return MaterialPageRoute(
-            builder: (_) => RoomPage(roomDTO.getRoom, roomDTO.getUser));
+            builder: (_) => RoomPage(roomDTO.getRoom, roomDTO.getUser, roomDTO.getBloc, roomDTO.getRoomViewModel));
 
       default:
         _erroRota();

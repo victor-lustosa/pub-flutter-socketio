@@ -32,7 +32,7 @@ class UserViewModel implements IUserViewModel{
     final data = shared.getString('user');
     if (data != null) {
       User user = User.fromMap(jsonDecode(data));
-      Navigator.pushReplacementNamed(context,AppRoutes.ESTABLISHMENT_ROUTE, arguments:EstablishmentDTO.withoutEstablishment(user));
+      Navigator.pushReplacementNamed(context,AppRoutes.ESTABLISHMENT_ROUTE, arguments:EstablishmentDTO(user));
     } else {
       Navigator.pushReplacementNamed(context,AppRoutes.HOME_ROUTE);
     }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pub/app/core/room_bloc/room_bloc.dart';
 import 'package:pub/app/pages/room/views/components/room_page_one_widget.dart';
 import 'package:pub/app/pages/user/models/user.dart';
 import '../../../core/configs/app_colors.dart';
@@ -12,8 +13,9 @@ class RoomPage extends StatefulWidget {
 
   final Room room;
   final User user;
-
-  RoomPage(this.room, this.user);
+  final RoomBloc bloc;
+  final RoomViewModel roomViewModel;
+  RoomPage(this.room, this.user, this.bloc, this.roomViewModel);
 
   @override
   _RoomPageState createState() => _RoomPageState();
@@ -22,20 +24,17 @@ class RoomPage extends StatefulWidget {
 class _RoomPageState extends State<RoomPage>
     with SingleTickerProviderStateMixin {
 
-  late final RoomViewModel instance;
   late TabController _tabController;
   late ScrollController _scrollViewController;
 
   @override
   void initState() {
-    instance = RoomViewModel(room:this.widget.room,user: this.widget.user);
     _scrollViewController = ScrollController(initialScrollOffset: 0.0);
     _tabController = TabController(vsync: this, length: 2);
     super.initState();
   }
   @override
   void dispose() {
-    instance.dispose();
     _tabController.dispose();
     _scrollViewController.dispose();
     super.dispose();
@@ -64,7 +63,7 @@ class _RoomPageState extends State<RoomPage>
                   bottom: RoomTabBarSliverWidget(_tabController),
                 )];},
             body: TabBarView( controller: _tabController, children: <Widget>[
-              RoomPageOneWidget(instance,this.widget.room, this.widget.user),
+              RoomPageOneWidget(this.widget.roomViewModel,this.widget.room, this.widget.user, this.widget.bloc),
               // Visibility(visible: true,
               //     child: Container(
               //       decoration: BoxDecoration(
@@ -76,7 +75,7 @@ class _RoomPageState extends State<RoomPage>
               //         ],
               //       ),
               //     )),
-              RoomPageTwoWidget(instance)
+              RoomPageTwoWidget(this.widget.roomViewModel)
             ])));
   }
 }

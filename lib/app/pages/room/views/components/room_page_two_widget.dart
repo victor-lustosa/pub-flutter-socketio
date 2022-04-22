@@ -15,10 +15,6 @@ class RoomPageTwoWidget extends StatefulWidget {
 }
 
 class _RoomPageTwoWidgetState extends State<RoomPageTwoWidget> {
-
-  // EstablishmentViewModel _establishmentViewModel = EstablishmentViewModel(DioEstablishmentRepository(Dio()));
-  // late List<dynamic> _establishmentList;
-
   @override
   Widget build(BuildContext context) {
     return Container(

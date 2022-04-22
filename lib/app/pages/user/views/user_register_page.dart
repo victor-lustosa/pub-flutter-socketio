@@ -8,7 +8,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pub/app/core/components/dropdown_widget.dart';
 import 'package:location/location.dart';
 import '../../establishment/models/dto/establishment_dto.dart';
-import '../../establishment/models/establishment.dart';
 import '../../../core/configs/app_routes.dart';
 
 class UserRegisterPage extends StatefulWidget  {
@@ -36,7 +35,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
   bool isEnabled = true;
   int age = 0;
   late User user;
-  late Establishment establishment = Establishment();
+
   @override
   Widget build (BuildContext context) {
 
@@ -111,7 +110,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                                     // _userViewModel.saveLocation();
 
                                     Navigator.pushNamedAndRemoveUntil(context, AppRoutes.ESTABLISHMENT_ROUTE,
-                                                                      (_) => false, arguments:EstablishmentDTO(user, establishment));
+                                                                      (_) => false, arguments:EstablishmentDTO(user));
                                     }
                                   }
                                 },

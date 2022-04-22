@@ -1,21 +1,21 @@
-part of 'message_bloc.dart';
+part of 'room_bloc.dart';
 
 @immutable
-abstract class MessageState <T> {
-  MessageState(this.message, this.instance);
+abstract class RoomState <T> {
+  RoomState(this.message, this.instance);
   final T message;
   final T instance;
 }
 
-class InitialState extends MessageState{
+class InitialState extends RoomState{
   InitialState({required RoomViewModel instance}) : super(null, instance);
 }
 
-class DontBuildState extends MessageState{
+class DontBuildState extends RoomState{
   DontBuildState({required RoomViewModel instance}) : super(null, instance);
 }
 
-class ReceiveUserEnterPublicRoomMessageState extends  MessageState{
+class ReceiveUserEnterPublicRoomMessageState extends  RoomState{
 
   void addParticipant() {
     if(message.getUser.getNickname != instance.getUser.getNickname){
@@ -27,7 +27,7 @@ class ReceiveUserEnterPublicRoomMessageState extends  MessageState{
     addParticipant();
   }
 }
-class ReceiveBroadEnterPublicRoomMessageState extends  MessageState{
+class ReceiveBroadEnterPublicRoomMessageState extends  RoomState{
 
   void addParticipant() {
     if(message.getUser.getNickname != instance.getUser.getNickname){
@@ -38,7 +38,7 @@ class ReceiveBroadEnterPublicRoomMessageState extends  MessageState{
     addParticipant();
   }
 }
-class ReceiveMessageState extends MessageState {
+class ReceiveMessageState extends RoomState {
 
    addMessage() {
     // if(boolAdd == true){
@@ -51,31 +51,31 @@ class ReceiveMessageState extends MessageState {
    }
 }
 
-class ReceiveTypingMessageState extends MessageState{
+class ReceiveTypingMessageState extends RoomState{
   ReceiveTypingMessageState({required RoomViewModel instance}) : super(null, instance);
 }
 
-class ReceiveStoppedTypingMessageState extends MessageState{
+class ReceiveStoppedTypingMessageState extends RoomState{
   ReceiveStoppedTypingMessageState({required RoomViewModel instance}) : super(null, instance);
 }
 
-class SendMessageState extends MessageState{
+class SendMessageState extends RoomState{
   SendMessageState({required RoomViewModel instance}) : super(null, instance);
 }
 
-class SendingMessageState extends MessageState{
+class SendingMessageState extends RoomState{
   SendingMessageState({required RoomViewModel instance}) : super(null, instance);
 }
 
-class ReceiveEditMessageState extends MessageState{
+class ReceiveEditMessageState extends RoomState{
   ReceiveEditMessageState({required RoomViewModel instance}) : super(null, instance);
 }
 
-class ReceiveDeleteMessageState extends MessageState{
+class ReceiveDeleteMessageState extends RoomState{
   ReceiveDeleteMessageState({required RoomViewModel instance}) : super(null, instance);
 }
 
-class ReceiveLeavePublicRoomMessageState extends MessageState{
+class ReceiveLeavePublicRoomMessageState extends RoomState{
   // ReceiveLeavePublicRoomMessageState({required RoomViewModel instance}) : super(null, instance);
    ReceiveLeavePublicRoomMessageState({required LeavePublicRoomData message,
      required RoomViewModel instance}): super(message, instance);

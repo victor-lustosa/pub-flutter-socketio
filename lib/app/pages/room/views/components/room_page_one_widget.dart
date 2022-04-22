@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pub/app/pages/room/bloc/message_bloc.dart';
+
 import 'package:pub/app/pages/room/view_models/room_view_model.dart';
 import 'package:pub/app/pages/user/models/user.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/configs/app_colors.dart';
+import '../../../../core/room_bloc/room_bloc.dart';
 import '../../models/room.dart';
 
 class RoomPageOneWidget extends StatefulWidget {
-  RoomPageOneWidget(this.instance, this.room, this.user);
-
+  RoomPageOneWidget(this.instance, this.room, this.user, this.bloc);
+  final RoomBloc bloc;
   final Room room;
   final User user;
   final RoomViewModel instance;
@@ -20,17 +21,16 @@ class RoomPageOneWidget extends StatefulWidget {
 
 class _RoomPageOneWidgetState extends State<RoomPageOneWidget> {
   // late final StreamSubscription sub;
-  late final MessageBloc bloc;
+
   @override
   initState() {
-    bloc = MessageBloc(room:this.widget.room,user: this.widget.user, instance: this.widget.instance);
-    bloc.add(InitialEvent());
+    widget.bloc.add(InitialEvent());
     super.initState();
   }
 
   @override
   void dispose() {
-    bloc.add(DisconnectEvent());
+    widget.bloc.add(DisconnectEvent());
     // sub.cancel();
     super.dispose();
   }
@@ -44,8 +44,8 @@ class _RoomPageOneWidgetState extends State<RoomPageOneWidget> {
         height: MediaQuery.of(context).size.height,
         child:Column(
             children: <Widget>[
-              BlocBuilder<MessageBloc,MessageState>(
-                  bloc: bloc,
+              BlocBuilder<RoomBloc,RoomState>(
+                  bloc: widget.bloc,
                   builder:(context, state){
                     if(state is InitialState) {
                       return Expanded( child: Container());
@@ -102,7 +102,7 @@ class _RoomPageOneWidgetState extends State<RoomPageOneWidget> {
                       },
                       focusNode: this.widget.instance.focusNode,
                       onSubmitted: (_) {
-                        this.widget.instance.sendMessage(bloc);
+                        this.widget.instance.sendMessage(widget.bloc);
                       },
                       controller: this.widget.instance.textController,
                       autofocus: true,
@@ -132,7 +132,7 @@ class _RoomPageOneWidgetState extends State<RoomPageOneWidget> {
                         ),
                         mini: true,
                         onPressed: () {
-                          this.widget.instance.sendMessage(bloc);
+                          this.widget.instance.sendMessage(widget.bloc);
                         }
                     ),
                   ),
