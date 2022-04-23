@@ -10,7 +10,15 @@ abstract class RoomState <T> {
 class InitialState extends RoomState{
   InitialState({required RoomViewModel instance}) : super(null, instance);
 }
-
+class LoadingRoomsListState extends RoomState{
+  LoadingRoomsListState({required RoomViewModel instance}) : super(null, instance);
+}
+class SuccessRoomsListState extends RoomState{
+  fetchedRoomsList(){
+    instance.setRoomsList(message.getRoomsList);
+  }
+  SuccessRoomsListState({required InitialRoomsListData message,required EstablishmentViewModel instance}) : super(null, instance);
+}
 class DontBuildState extends RoomState{
   DontBuildState({required RoomViewModel instance}) : super(null, instance);
 }

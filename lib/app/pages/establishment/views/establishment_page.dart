@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pub/app/pages/establishment/models/establishment.dart';
+
 import 'package:pub/app/core/configs/app_colors.dart';
 import 'package:pub/app/pages/room/view_models/room_view_model.dart';
 import 'package:pub/app/pages/user/models/user.dart';
@@ -11,22 +11,23 @@ import 'components/establishment_tab_bar_sliver_widget.dart';
 import 'components/establishment_flexible_space_bar_widget.dart';
 import 'components/establishment_page_one_widget.dart';
 
-
 class EstablishmentPage extends StatefulWidget {
 
-  final User user;
-
   EstablishmentPage(this.user);
+
+  final User user;
 
   @override
   _EstablishmentPageState createState() => _EstablishmentPageState();
 }
 
 class _EstablishmentPageState extends State<EstablishmentPage> with SingleTickerProviderStateMixin {
+
   late final RoomBloc bloc;
   late TabController _tabController;
   late ScrollController _scrollViewController;
   final RoomViewModel roomViewModel = RoomViewModel.withoutParameters();
+
   @override
   void initState() {
     super.initState();

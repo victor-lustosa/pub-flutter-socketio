@@ -6,10 +6,10 @@ import 'package:pub/app/pages/room/view_models/room_view_model.dart';
 import '../../../user/models/user.dart';
 
 class RoomDTO {
-  late User _user;
-  late Room _room;
-  late RoomBloc _bloc;
-  late RoomViewModel _roomViewModel;
+   User _user;
+   Room _room;
+   RoomBloc _bloc;
+   RoomViewModel _roomViewModel;
 
   get getBloc => _bloc;
 
@@ -19,5 +19,14 @@ class RoomDTO {
 
   get getRoomViewModel => _roomViewModel;
 
+   RoomDTO({
+    required User user,
+    required Room room,
+    required RoomBloc bloc,
+    required RoomViewModel roomViewModel,
+  })  : _user = user,
+        _room = room,
+        _bloc = bloc,
+        _roomViewModel = roomViewModel;
 }
 

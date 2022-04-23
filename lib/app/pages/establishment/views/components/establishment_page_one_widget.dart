@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/configs/app_colors.dart';
+import '../../../../core/configs/app_images.dart';
+import '../../../../core/configs/app_routes.dart';
 import '../../../../core/room_bloc/room_bloc.dart';
+import '../../../room/models/dto/room_dto.dart';
 import '../../../room/view_models/room_view_model.dart';
 import '../../../user/models/user.dart';
-
+import '../../view_models/establishment_view_model.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class EstablishmentPageOneWidget extends StatefulWidget {
 
@@ -19,12 +24,13 @@ class EstablishmentPageOneWidget extends StatefulWidget {
 
 class _EstablishmentPageOneWidgetState extends State<EstablishmentPageOneWidget> {
 
-
+  late final EstablishmentViewModel _establishmentViewModel;
 
   @override
   void initState() {
     super.initState();
-    widget.bloc.add(InitialRoomsListEvent('-10.182325978880673','-48.33803205711477'));
+    _establishmentViewModel = EstablishmentViewModel();
+    widget.bloc.add(LoadingRoomsListEvent('-10.182325978880673','-48.33803205711477'));
   }
 
   @override
@@ -34,10 +40,73 @@ class _EstablishmentPageOneWidgetState extends State<EstablishmentPageOneWidget>
       decoration: BoxDecoration(color: AppColors.darkBrown),
       child: Container(
           decoration: BoxDecoration(
-            color: AppColors.white, borderRadius: BorderRadius.only(
-            topLeft: const Radius.circular(10.0),
-            topRight: const Radius.circular(10.0))),
-
+              color: AppColors.white, borderRadius: BorderRadius.only(
+              topLeft: const Radius.circular(10.0),
+              topRight: const Radius.circular(10.0))),
+          child: BlocBuilder<RoomBloc,RoomState>(
+              bloc: widget.bloc,
+              builder:(context, state){
+                if(state is LoadingRoomsListState) {
+                  return Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(AppColors.darkBrown)));
+                } else if(state is SuccessRoomsListState) {
+                  return ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: _establishmentViewModel.getRoomsList.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 12.0),
+                          child: ListTile(
+                              leading: Padding(
+                                  padding: EdgeInsets.only(left: 25,bottom: 10) ,
+                                  child: Container(
+                                    width: 40,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                        color: AppColors.white, borderRadius: BorderRadius.all(const Radius.circular(5.0)),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: Colors.grey.withOpacity(0.15),
+                                              spreadRadius: 1,
+                                              blurRadius: 3,
+                                              offset: Offset(1, 3)),
+                                        ]),
+                                    child: Image.asset(AppImages.lightLogo,width: 20,height: 20),)),
+                              title: Padding(
+                                  padding: EdgeInsets.only(bottom: 10) ,
+                                  child: Text(_establishmentViewModel.getRoomsList[index].getRoomName,
+                                      style: GoogleFonts.inter( color: AppColors.brown, fontSize: 18,))
+                              ),
+                              subtitle:Row(
+                                children: [
+                                  AnimatedBuilder(
+                                      animation: this.widget.roomViewModel,
+                                      builder: (context, child) {
+                                        return _establishmentViewModel.getRoomsList[index].getParticipantsList.length == 1 ?
+                                        Text('${_establishmentViewModel.getRoomsList[index].getParticipantsList.length} pessoa',
+                                            style: GoogleFonts.inter( fontSize: 13, color: Colors.black45)) :
+                                        Text('${_establishmentViewModel.getRoomsList[index].getParticipantsList.length} pessoas',
+                                            style: GoogleFonts.inter( fontSize: 13, color: Colors.black45));}),
+                                  Padding(
+                                      padding: EdgeInsets.only(left: 40) ,
+                                      child: Text('3.2 km de distância', style:GoogleFonts.inter( fontSize: 13, color: Colors.black45)))
+                                ],
+                              ),
+                              onTap: () {
+                                Navigator.pushNamed(context,AppRoutes.PUBLIC_ROOM_ROUTE, arguments:
+                                RoomDTO(user: this.widget.user,
+                                    room: _establishmentViewModel.getRoomsList[index],
+                                    bloc: widget.bloc,
+                                    roomViewModel: this.widget.roomViewModel));
+                              }
+                          ),
+                        );
+                      }
+                  );
+                }
+                return Text('Unkown error');
+              }
+          )
       ),
     );
   }

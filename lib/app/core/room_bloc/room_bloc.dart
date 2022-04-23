@@ -5,9 +5,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
+import '../../pages/establishment/view_models/establishment_view_model.dart';
 import '../../pages/room/models/bloc_events.dart';
 import '../../pages/room/models/data/data.dart';
 import '../../pages/room/models/data/enter_public_room_data.dart';
+import '../../pages/room/models/data/initial_rooms_list_data.dart';
 import '../../pages/room/models/data/leave_public_room_data.dart';
 import '../../pages/room/models/data/message_data.dart';
 import '../../pages/room/models/room.dart';
@@ -31,6 +33,7 @@ class RoomBloc extends Bloc<RoomEvent,RoomState>{
     _socket.on('broad_enter_public_room', (data) => add(ReceiveMessageEvent(data)));
     _socket.on('user_enter_public_room', (data) => add(ReceiveMessageEvent(data)));
     _socket.on('leave_public_room', (data) => add(ReceiveMessageEvent(data)));
+    _socket.on('leave_public_room', (data) => add(ReceiveMessageEvent(data)));
 
     on<InitialEvent>((event, emit) async{
       _socket.emit('enter_public_room', {
@@ -41,7 +44,7 @@ class RoomBloc extends Bloc<RoomEvent,RoomState>{
       });
     });
 
-    on<InitialRoomsListEvent>((event, emit) async{
+    on<LoadingRoomsListEvent>((event, emit) async{
       _socket.emit('initial_rooms_list', {
         'latitude': event.latitude,
         'longitude': event.longitude
@@ -69,10 +72,11 @@ class RoomBloc extends Bloc<RoomEvent,RoomState>{
 
       switch(data.type){
         case BlocEventType.broad_enter_public_room:
+          return emit(SuccessRoomsListState(message:InitialRoomsListData.fromMap(event.message),instance: EstablishmentViewModel()));
+        case BlocEventType.broad_enter_public_room:
           return emit(ReceiveBroadEnterPublicRoomMessageState(message:EnterPublicRoomData.fromMap(event.message),instance: instance));
         case BlocEventType.user_enter_public_room:
-           emit(ReceiveUserEnterPublicRoomMessageState(message:EnterPublicRoomData.fromMap(event.message),instance: instance));
-           break;
+          return emit(ReceiveUserEnterPublicRoomMessageState(message:EnterPublicRoomData.fromMap(event.message),instance: instance));
         case BlocEventType.leave_public_room:
           return emit(ReceiveLeavePublicRoomMessageState(message:LeavePublicRoomData.fromMap(event.message),instance: instance));
         case BlocEventType.typing:

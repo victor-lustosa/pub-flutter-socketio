@@ -7,10 +7,10 @@ class InitialEvent extends RoomEvent{
   InitialEvent();
 }
 
-class InitialRoomsListEvent extends RoomEvent{
+class LoadingRoomsListEvent extends RoomEvent{
   final String latitude;
   final String longitude;
-  InitialRoomsListEvent(this.latitude, this.longitude);
+  LoadingRoomsListEvent(this.latitude, this.longitude);
 }
 
 class DisconnectEvent extends RoomEvent{
