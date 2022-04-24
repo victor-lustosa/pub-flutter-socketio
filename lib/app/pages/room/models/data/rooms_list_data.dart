@@ -2,7 +2,7 @@
 import '../data/data.dart';
 import '../bloc_events.dart';
 
-class InitialRoomsListData extends Data{
+class RoomsListData extends Data{
 
   List<dynamic> _roomsList = [];
 
@@ -17,13 +17,13 @@ class InitialRoomsListData extends Data{
     };
   }
 
-  factory InitialRoomsListData.fromMap(Map<String, dynamic> map) {
-    return InitialRoomsListData(
+  factory RoomsListData.fromMap(Map<String, dynamic> map) {
+    return RoomsListData(
         roomsList: map['roomsList'],
         type: BlocEventType.values.firstWhere((element) => element.name.toString() == map['type']));
   }
 
-  InitialRoomsListData({
+  RoomsListData({
     required roomsList,
     required type,
   })  : _roomsList = roomsList,

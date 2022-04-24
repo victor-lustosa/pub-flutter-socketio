@@ -2,91 +2,95 @@ part of 'room_bloc.dart';
 
 @immutable
 abstract class RoomState <T> {
-  RoomState(this.message, this.instance);
+  RoomState(this.message, this.roomViewModel);
   final T message;
-  final T instance;
+  final T roomViewModel;
 }
 
 class InitialState extends RoomState{
-  InitialState({required RoomViewModel instance}) : super(null, instance);
+  InitialState({required RoomViewModel roomViewModel}) : super(null, roomViewModel);
 }
 class LoadingRoomsListState extends RoomState{
-  LoadingRoomsListState({required RoomViewModel instance}) : super(null, instance);
+  LoadingRoomsListState({required RoomViewModel roomViewModel}) : super(null, roomViewModel);
 }
 class SuccessRoomsListState extends RoomState{
   fetchedRoomsList(){
-    instance.setRoomsList(message.getRoomsList);
+    for(dynamic roomData in message.getRoomsList){
+      roomViewModel.addRoom(Room.fromMinimalMap(roomData));
+    }
   }
-  SuccessRoomsListState({required InitialRoomsListData message,required EstablishmentViewModel instance}) : super(null, instance);
+  SuccessRoomsListState({required RoomsListData message,required RoomViewModel roomViewModel}) : super(message, roomViewModel){
+    fetchedRoomsList();
+  }
 }
 class DontBuildState extends RoomState{
-  DontBuildState({required RoomViewModel instance}) : super(null, instance);
+  DontBuildState({required RoomViewModel roomViewModel}) : super(null, roomViewModel);
 }
 
 class ReceiveUserEnterPublicRoomMessageState extends  RoomState{
 
   void addParticipant() {
-    if(message.getUser.getNickname != instance.getUser.getNickname){
-      instance.setParticipantsList(message.getUsersList);
+    if(message.getUser.getNickname != roomViewModel.getUser.getNickname){
+      roomViewModel.setParticipantsList(message.getUsersList);
     }
   }
 
-  ReceiveUserEnterPublicRoomMessageState({required EnterPublicRoomData message, required RoomViewModel instance}) : super(message, instance){
+  ReceiveUserEnterPublicRoomMessageState({required EnterPublicRoomData message, required RoomViewModel roomViewModel}) : super(message, roomViewModel){
     addParticipant();
   }
 }
 class ReceiveBroadEnterPublicRoomMessageState extends  RoomState{
 
   void addParticipant() {
-    if(message.getUser.getNickname != instance.getUser.getNickname){
-      instance.addParticipants(message.getUser);
+    if(message.getUser.getNickname != roomViewModel.getUser.getNickname){
+      roomViewModel.addParticipants(message.getUser);
     }
   }
-  ReceiveBroadEnterPublicRoomMessageState({required EnterPublicRoomData message, required RoomViewModel instance}) : super(message, instance){
+  ReceiveBroadEnterPublicRoomMessageState({required EnterPublicRoomData message, required RoomViewModel roomViewModel}) : super(message, roomViewModel){
     addParticipant();
   }
 }
 class ReceiveMessageState extends RoomState {
 
-   addMessage() {
+  addMessage() {
     // if(boolAdd == true){
-    instance.getRoom.addMessages(message);
+    roomViewModel.getRoom.addMessages(message);
     // boolAdd = false;
   }
-   ReceiveMessageState({required MessageData message,
-     required RoomViewModel instance}) : super(message, instance){
-     addMessage();
-   }
+  ReceiveMessageState({required MessageData message,
+    required RoomViewModel roomViewModel}) : super(message, roomViewModel){
+    addMessage();
+  }
 }
 
 class ReceiveTypingMessageState extends RoomState{
-  ReceiveTypingMessageState({required RoomViewModel instance}) : super(null, instance);
+  ReceiveTypingMessageState({required RoomViewModel roomViewModel}) : super(null, roomViewModel);
 }
 
 class ReceiveStoppedTypingMessageState extends RoomState{
-  ReceiveStoppedTypingMessageState({required RoomViewModel instance}) : super(null, instance);
+  ReceiveStoppedTypingMessageState({required RoomViewModel roomViewModel}) : super(null, roomViewModel);
 }
 
 class SendMessageState extends RoomState{
-  SendMessageState({required RoomViewModel instance}) : super(null, instance);
+  SendMessageState({required RoomViewModel roomViewModel}) : super(null, roomViewModel);
 }
 
 class SendingMessageState extends RoomState{
-  SendingMessageState({required RoomViewModel instance}) : super(null, instance);
+  SendingMessageState({required RoomViewModel roomViewModel}) : super(null, roomViewModel);
 }
 
 class ReceiveEditMessageState extends RoomState{
-  ReceiveEditMessageState({required RoomViewModel instance}) : super(null, instance);
+  ReceiveEditMessageState({required RoomViewModel roomViewModel}) : super(null, roomViewModel);
 }
 
 class ReceiveDeleteMessageState extends RoomState{
-  ReceiveDeleteMessageState({required RoomViewModel instance}) : super(null, instance);
+  ReceiveDeleteMessageState({required RoomViewModel roomViewModel}) : super(null, roomViewModel);
 }
 
 class ReceiveLeavePublicRoomMessageState extends RoomState{
-  // ReceiveLeavePublicRoomMessageState({required RoomViewModel instance}) : super(null, instance);
-   ReceiveLeavePublicRoomMessageState({required LeavePublicRoomData message,
-     required RoomViewModel instance}): super(message, instance);
+  // ReceiveLeavePublicRoomMessageState({required RoomViewModel roomViewModel}) : super(null, roomViewModel);
+  ReceiveLeavePublicRoomMessageState({required LeavePublicRoomData message,
+    required RoomViewModel roomViewModel}): super(message, roomViewModel);
 }
 
 

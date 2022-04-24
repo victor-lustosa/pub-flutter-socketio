@@ -23,6 +23,7 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
   final focusNode = FocusNode();
   final textController = TextEditingController(text: '');
   // late bool boolAdd;
+  List<dynamic> _roomsList = [];
   Room _room = Room.withoutParameters();
   User _user = User.withoutParameters();
   bool isExist = false;
@@ -106,8 +107,14 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
     }
   }
 
-  get getUser => _user;
-  get getRoom => _room;
+  get getRoomsList => _roomsList;
+  setRoomsList(List<dynamic> roomsList) => _roomsList = roomsList;
+
+  addRoom(Room room){
+   _roomsList.add(room);
+  }
+    get getUser => _user;
+    get getRoom => _room;
 }
 
 

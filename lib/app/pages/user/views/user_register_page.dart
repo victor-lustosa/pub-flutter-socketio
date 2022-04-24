@@ -119,7 +119,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                                   color: AppColors.white,
                                 ),
                                 label: Text("Avançar",
-                                    style:GoogleFonts.inter( fontSize: 14, color: Colors.white)
+                                    style:GoogleFonts.inter( fontSize: 15, color: Colors.white)
                                 ),
                                 style: ButtonStyle(
                                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -131,7 +131,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                                       )
                                   ),
                                   backgroundColor: MaterialStateProperty.all(AppColors.lightBrown),
-                                  padding:MaterialStateProperty.all(EdgeInsets.symmetric(horizontal: 100,vertical: 9)
+                                  padding:MaterialStateProperty.all(EdgeInsets.symmetric(horizontal: 130,vertical: 14)
                                   ),
                                 )
                             ),

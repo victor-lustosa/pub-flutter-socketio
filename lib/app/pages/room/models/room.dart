@@ -8,7 +8,8 @@ class Room {
   List<dynamic> _usersList = [];
   List<dynamic> _participantsList = [];
   List<dynamic> _messagesList = [];
-
+  late double _latitude;
+  late double _longitude;
   Room.withoutParameters();
 
   addMessages(dynamic data) {
@@ -24,6 +25,8 @@ class Room {
   get getParticipantsList => _participantsList;
   get getMessagesList => _messagesList;
   get getIdRoom => _idRoom;
+  get getLatitude => _latitude;
+  get getLongitude => _longitude;
   get getIcon => _icon;
   get getIsPublic => _isPublic;
 
@@ -33,6 +36,8 @@ class Room {
   setRoomName(String roomName) => _roomName = roomName;
   setIcon(String icon) => _icon = icon;
   setIdRoom(int idRoom) => _idRoom = idRoom;
+  setLatitude(double latitude) => _latitude = latitude;
+  setLongitude(double longitude) => _longitude = longitude;
   setIsPublic(bool isPublic) => _isPublic = isPublic;
   setUsersList(List<dynamic> usersList) => _usersList = usersList;
   setParticipantsList(List<dynamic> participantsList) => _participantsList = participantsList;
@@ -42,10 +47,14 @@ class Room {
     required roomName,
     required userNickName,
     required isPublic,
+    required latitude,
+    required longitude,
     required usersList,
     required messagesList,
   })  : _idRoom = idRoom,
         _roomName = roomName,
+        _latitude = latitude,
+        _longitude = longitude,
         _userNickName = userNickName,
         _isPublic = isPublic,
         _usersList = usersList,
@@ -55,16 +64,24 @@ class Room {
     return {
       'idRoom': this._idRoom,
       'roomName': this._roomName,
+      'latitude': this._latitude,
+      'longitude': this._longitude,
       'userNickName': this._userNickName,
       'isPublic': this._isPublic,
       'usersList': this._usersList,
       'messagesList': this._messagesList
     };
   }
+  Room.fromMinimalMap(json)
+      :this._roomName = json['roomName'],
+        this._latitude = json['latitude'],
+        this._longitude = json['longitude'];
 
   Room.fromMap(json)
       : this._idRoom = json['idRoom'],
         this._roomName = json['roomName'],
+        this._latitude = json['latitude'],
+        this._longitude = json['longitude'],
         this._userNickName = json['userNickName'],
         this._isPublic = json['isPublic'],
         this._usersList = json['usersList'],

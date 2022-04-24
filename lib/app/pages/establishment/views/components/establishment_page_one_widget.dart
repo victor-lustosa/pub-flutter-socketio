@@ -8,7 +8,7 @@ import '../../../../core/room_bloc/room_bloc.dart';
 import '../../../room/models/dto/room_dto.dart';
 import '../../../room/view_models/room_view_model.dart';
 import '../../../user/models/user.dart';
-import '../../view_models/establishment_view_model.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 
 class EstablishmentPageOneWidget extends StatefulWidget {
@@ -24,12 +24,9 @@ class EstablishmentPageOneWidget extends StatefulWidget {
 
 class _EstablishmentPageOneWidgetState extends State<EstablishmentPageOneWidget> {
 
-  late final EstablishmentViewModel _establishmentViewModel;
-
   @override
   void initState() {
     super.initState();
-    _establishmentViewModel = EstablishmentViewModel();
     widget.bloc.add(LoadingRoomsListEvent('-10.182325978880673','-48.33803205711477'));
   }
 
@@ -46,13 +43,25 @@ class _EstablishmentPageOneWidgetState extends State<EstablishmentPageOneWidget>
           child: BlocBuilder<RoomBloc,RoomState>(
               bloc: widget.bloc,
               builder:(context, state){
-                if(state is LoadingRoomsListState) {
-                  return Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(AppColors.darkBrown)));
+                if(state is InitialState) {
+                  return Stack(
+                      fit: StackFit.loose,
+                      alignment: Alignment.center,
+                      children: [
+                        Column( children: [
+                          Padding(
+                              padding: EdgeInsets.only(top: 270),
+                              child: Center(
+                                  child: CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(AppColors.darkBrown))
+                              ))
+                        ])
+                      ]);
                 } else if(state is SuccessRoomsListState) {
                   return ListView.builder(
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
-                      itemCount: _establishmentViewModel.getRoomsList.length,
+                      itemCount: this.widget.roomViewModel.getRoomsList.length,
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 12.0),
@@ -74,7 +83,7 @@ class _EstablishmentPageOneWidgetState extends State<EstablishmentPageOneWidget>
                                     child: Image.asset(AppImages.lightLogo,width: 20,height: 20),)),
                               title: Padding(
                                   padding: EdgeInsets.only(bottom: 10) ,
-                                  child: Text(_establishmentViewModel.getRoomsList[index].getRoomName,
+                                  child: Text(this.widget.roomViewModel.getRoomsList[index].getRoomName,
                                       style: GoogleFonts.inter( color: AppColors.brown, fontSize: 18,))
                               ),
                               subtitle:Row(
@@ -82,10 +91,10 @@ class _EstablishmentPageOneWidgetState extends State<EstablishmentPageOneWidget>
                                   AnimatedBuilder(
                                       animation: this.widget.roomViewModel,
                                       builder: (context, child) {
-                                        return _establishmentViewModel.getRoomsList[index].getParticipantsList.length == 1 ?
-                                        Text('${_establishmentViewModel.getRoomsList[index].getParticipantsList.length} pessoa',
+                                        return this.widget.roomViewModel.getRoomsList[index].getParticipantsList.length == 1 ?
+                                        Text('${this.widget.roomViewModel.getRoomsList[index].getParticipantsList.length} pessoa',
                                             style: GoogleFonts.inter( fontSize: 13, color: Colors.black45)) :
-                                        Text('${_establishmentViewModel.getRoomsList[index].getParticipantsList.length} pessoas',
+                                        Text('${this.widget.roomViewModel.getRoomsList[index].getParticipantsList.length} pessoas',
                                             style: GoogleFonts.inter( fontSize: 13, color: Colors.black45));}),
                                   Padding(
                                       padding: EdgeInsets.only(left: 40) ,
@@ -95,7 +104,7 @@ class _EstablishmentPageOneWidgetState extends State<EstablishmentPageOneWidget>
                               onTap: () {
                                 Navigator.pushNamed(context,AppRoutes.PUBLIC_ROOM_ROUTE, arguments:
                                 RoomDTO(user: this.widget.user,
-                                    room: _establishmentViewModel.getRoomsList[index],
+                                    room: this.widget.roomViewModel.getRoomsList[index],
                                     bloc: widget.bloc,
                                     roomViewModel: this.widget.roomViewModel));
                               }

@@ -31,7 +31,7 @@ class _EstablishmentPageState extends State<EstablishmentPage> with SingleTicker
   @override
   void initState() {
     super.initState();
-    bloc = RoomBloc(room:Room.withoutParameters(),user: this.widget.user, instance: roomViewModel);
+    bloc = RoomBloc(room:Room.withoutParameters(),user: this.widget.user, roomViewModel: roomViewModel);
     _scrollViewController = ScrollController(initialScrollOffset: 0.0);
     _tabController = TabController(vsync: this, length: 2);
   }

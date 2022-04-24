@@ -12,5 +12,6 @@ enum BlocEventType {
   receive_public_message,
   delete_message,
   edit_message,
+  update_rooms_list,
   error_message
 }
