@@ -8,7 +8,7 @@ class EditMessageData extends Data{
   late String roomName;
   late String userNickName;
 
-  EditMessageData({required this.roomName, required this.userNickName,required BlocEventType type}) : super.withoutRequired(type);
+  EditMessageData({required this.roomName, required this.userNickName,required BlocEventType type}) : super(type: type);
 
   Map<String, dynamic> toMap() {
     return {

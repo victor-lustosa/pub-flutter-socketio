@@ -7,7 +7,7 @@ class TypingData extends Data{
   late String roomName;
   late String userNickName;
 
-  TypingData({required this.roomName, required this.userNickName,required BlocEventType type}) : super.withoutRequired(type);
+  TypingData({required this.roomName, required this.userNickName,required BlocEventType type}) : super(type: type);
 
   Map<String, dynamic> toMap() {
     return {

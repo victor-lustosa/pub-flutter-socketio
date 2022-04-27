@@ -2,7 +2,6 @@ import 'package:pub/app/pages/room/models/bloc_events.dart';
 
 class Data {
   late BlocEventType type;
-  Data.withoutRequired(this.type);
   Data({required this.type});
 
   Map<String, dynamic> toMap() {

@@ -7,8 +7,8 @@ import '../../pages/home/views/home_page.dart';
 import '../../pages/room/models/dto/room_dto.dart';
 import '../../pages/room/views/room_page.dart';
 import '../../pages/user/views/user_register_page.dart';
-const urlServer = 'https://powerful-bayou-46345.herokuapp.com';
-// const urlServer = 'http://localhost:4000';
+// const urlServer = 'https://powerful-bayou-46345.herokuapp.com';
+const urlServer = 'http://localhost:4000';
 class AppRoutes{
   static const String INICIAL_ROUTE = "/";
   static const String HOME_ROUTE = "/home";
@@ -48,7 +48,7 @@ class AppRoutes{
       case PUBLIC_ROOM_ROUTE:
         RoomDTO roomDTO = arguments as RoomDTO;
         return MaterialPageRoute(
-            builder: (_) => RoomPage(roomDTO.getRoom, roomDTO.getUser, roomDTO.getBloc, roomDTO.getRoomViewModel));
+            builder: (_) => RoomPage(roomDTO.getBloc, roomDTO.getRoomViewModel));
 
       default:
         _erroRota();

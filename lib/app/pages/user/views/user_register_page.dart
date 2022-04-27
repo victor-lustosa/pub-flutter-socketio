@@ -6,7 +6,6 @@ import 'package:pub/app/core/components/form_field_widget.dart';
 import 'components/user_register_bar_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pub/app/core/components/dropdown_widget.dart';
-import 'package:location/location.dart';
 import '../../establishment/models/dto/establishment_dto.dart';
 import '../../../core/configs/app_routes.dart';
 
@@ -21,20 +20,17 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
   @override
   void initState() {
     super.initState();
+    _userViewModel = UserViewModel(User.withoutParameters());
+    _userViewModel.checkAccessToLocation();
 
-    _userViewModel = UserViewModel(Location(), User.withoutParameters());
-    _userViewModel.checkLocation();
   }
   final TextEditingController _nickNameController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
 
   final List<String> _listGenres = ['não informado','masculino', 'feminino'];
   String _selectedGenre = '';
-  // late String _latitude;
-  // late String _longitude;
   bool isEnabled = true;
   int age = 0;
-  late User user;
 
   @override
   Widget build (BuildContext context) {
@@ -101,16 +97,12 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                             padding: EdgeInsets.only(top: 95),
                             child: ElevatedButton.icon(
                                 onPressed: (){
-
                                   age = int.tryParse(_ageController.text) == null ? 0 : int.tryParse(_ageController.text)!;
                                   if(_ageController.text.isNotEmpty && _nickNameController.text.isNotEmpty) {
                                     if(age >= 18){
-                                    user = _userViewModel.validateUser(_nickNameController, _ageController, _selectedGenre, _listGenres);
-                                    _userViewModel.saveUser(user);
-                                    // _userViewModel.saveLocation();
-
+                                    _userViewModel.validateUser(_nickNameController, _ageController, _selectedGenre, _listGenres);
                                     Navigator.pushNamedAndRemoveUntil(context, AppRoutes.ESTABLISHMENT_ROUTE,
-                                                                      (_) => false, arguments:EstablishmentDTO(user));
+                                                                      (_) => false, arguments:EstablishmentDTO(_userViewModel.getUser));
                                     }
                                   }
                                 },

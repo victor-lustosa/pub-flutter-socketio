@@ -11,11 +11,10 @@ import 'components/room_tab_bar_sliver_widget.dart';
 
 class RoomPage extends StatefulWidget {
 
-  final Room room;
-  final User user;
   final RoomBloc bloc;
   final RoomViewModel roomViewModel;
-  RoomPage(this.room, this.user, this.bloc, this.roomViewModel);
+
+  RoomPage(this.bloc, this.roomViewModel);
 
   @override
   _RoomPageState createState() => _RoomPageState();
@@ -50,7 +49,7 @@ class _RoomPageState extends State<RoomPage>
               return <Widget>[
                 SliverAppBar(
                   flexibleSpace: FlexibleSpaceBar(
-                    background: RoomBarWidget(this.widget.room),
+                    background: RoomBarWidget(this.widget.roomViewModel.getRoom),
                   ),
                   automaticallyImplyLeading: false,
                   backgroundColor: AppColors.white,
@@ -63,7 +62,7 @@ class _RoomPageState extends State<RoomPage>
                   bottom: RoomTabBarSliverWidget(_tabController),
                 )];},
             body: TabBarView( controller: _tabController, children: <Widget>[
-              RoomPageOneWidget(this.widget.roomViewModel,this.widget.room, this.widget.user, this.widget.bloc),
+              RoomPageOneWidget(this.widget.roomViewModel, this.widget.bloc),
               // Visibility(visible: true,
               //     child: Container(
               //       decoration: BoxDecoration(

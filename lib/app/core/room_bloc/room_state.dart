@@ -8,15 +8,26 @@ abstract class RoomState <T> {
 }
 
 class InitialState extends RoomState{
-  InitialState({required RoomViewModel roomViewModel}) : super(null, roomViewModel);
+  InitialState() : super(null, null);
+}
+class InitialRoomState extends RoomState{
+  InitialRoomState() : super(null, null);
 }
 class LoadingRoomsListState extends RoomState{
-  LoadingRoomsListState({required RoomViewModel roomViewModel}) : super(null, roomViewModel);
+  LoadingRoomsListState() : super(null, null);
 }
 class SuccessRoomsListState extends RoomState{
+
+  double distanceBetweenUserAndEstablishments(User user, double latitude,double longitude) {
+    return (Geolocator.distanceBetween(user.getLatitude, user.getLongitude, latitude, longitude) / 1000);
+  }
+
   fetchedRoomsList(){
+    roomViewModel.setRoomsList([]);
     for(dynamic roomData in message.getRoomsList){
-      roomViewModel.addRoom(Room.fromMinimalMap(roomData));
+     Room room = Room.fromMinimalMap(roomData);
+     room.setDistance(distanceBetweenUserAndEstablishments(roomViewModel.getUser,room.getLatitude,room.getLongitude));
+      roomViewModel.addRoom(room);
     }
   }
   SuccessRoomsListState({required RoomsListData message,required RoomViewModel roomViewModel}) : super(message, roomViewModel){
@@ -24,7 +35,7 @@ class SuccessRoomsListState extends RoomState{
   }
 }
 class DontBuildState extends RoomState{
-  DontBuildState({required RoomViewModel roomViewModel}) : super(null, roomViewModel);
+  DontBuildState() : super(null, null);
 }
 
 class ReceiveUserEnterPublicRoomMessageState extends  RoomState{
@@ -35,19 +46,31 @@ class ReceiveUserEnterPublicRoomMessageState extends  RoomState{
     }
   }
 
-  ReceiveUserEnterPublicRoomMessageState({required EnterPublicRoomData message, required RoomViewModel roomViewModel}) : super(message, roomViewModel){
+  ReceiveUserEnterPublicRoomMessageState({required EnterPublicRoomData message, required RoomViewModel roomViewModel}) :
+        super(message, roomViewModel){
     addParticipant();
   }
 }
 class ReceiveBroadEnterPublicRoomMessageState extends  RoomState{
-
-  void addParticipant() {
-    if(message.getUser.getNickname != roomViewModel.getUser.getNickname){
-      roomViewModel.addParticipants(message.getUser);
+  @override
+ bool isExist = false;
+  void addParticipant(dynamic data) {
+    if(data.getUser.getNickname != roomViewModel.getUser.getNickname){
+      for(dynamic participant in roomViewModel.getRoom.getParticipantsList){
+        if(data.getUser.getNickname == participant.getNickname) {
+          isExist = true;
+        }
+      }
+      if(!isExist){
+      roomViewModel.addParticipants(data);
+      isExist = false;
+      }
     }
   }
-  ReceiveBroadEnterPublicRoomMessageState({required EnterPublicRoomData message, required RoomViewModel roomViewModel}) : super(message, roomViewModel){
-    addParticipant();
+
+  ReceiveBroadEnterPublicRoomMessageState({required EnterPublicRoomData message, required RoomViewModel roomViewModel}) :
+        super(message, roomViewModel){
+    addParticipant(message);
   }
 }
 class ReceiveMessageState extends RoomState {
@@ -64,27 +87,27 @@ class ReceiveMessageState extends RoomState {
 }
 
 class ReceiveTypingMessageState extends RoomState{
-  ReceiveTypingMessageState({required RoomViewModel roomViewModel}) : super(null, roomViewModel);
+  ReceiveTypingMessageState() : super(null, null);
 }
 
 class ReceiveStoppedTypingMessageState extends RoomState{
-  ReceiveStoppedTypingMessageState({required RoomViewModel roomViewModel}) : super(null, roomViewModel);
+  ReceiveStoppedTypingMessageState() : super(null, null);
 }
 
 class SendMessageState extends RoomState{
-  SendMessageState({required RoomViewModel roomViewModel}) : super(null, roomViewModel);
+  SendMessageState() : super(null, null);
 }
 
 class SendingMessageState extends RoomState{
-  SendingMessageState({required RoomViewModel roomViewModel}) : super(null, roomViewModel);
+  SendingMessageState() : super(null, null);
 }
 
 class ReceiveEditMessageState extends RoomState{
-  ReceiveEditMessageState({required RoomViewModel roomViewModel}) : super(null, roomViewModel);
+  ReceiveEditMessageState() : super(null, null);
 }
 
 class ReceiveDeleteMessageState extends RoomState{
-  ReceiveDeleteMessageState({required RoomViewModel roomViewModel}) : super(null, roomViewModel);
+  ReceiveDeleteMessageState() : super(null, null);
 }
 
 class ReceiveLeavePublicRoomMessageState extends RoomState{

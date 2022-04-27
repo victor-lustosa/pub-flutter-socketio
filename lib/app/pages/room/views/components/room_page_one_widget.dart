@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:pub/app/pages/room/view_models/room_view_model.dart';
-import 'package:pub/app/pages/user/models/user.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import '../../../../core/configs/app_colors.dart';
 import '../../../../core/room_bloc/room_bloc.dart';
-import '../../models/room.dart';
 
 class RoomPageOneWidget extends StatefulWidget {
-  RoomPageOneWidget(this.instance, this.room, this.user, this.bloc);
+  RoomPageOneWidget(this.instance, this.bloc);
+
   final RoomBloc bloc;
-  final Room room;
-  final User user;
   final RoomViewModel instance;
 
   @override
@@ -24,13 +21,13 @@ class _RoomPageOneWidgetState extends State<RoomPageOneWidget> {
 
   @override
   initState() {
-    widget.bloc.add(InitialEvent());
+    widget.bloc.add(InitialRoomEvent());
     super.initState();
   }
 
   @override
   void dispose() {
-    widget.bloc.add(DisconnectEvent());
+    widget.bloc.add(LeaveRoomEvent());
     // sub.cancel();
     super.dispose();
   }
@@ -47,27 +44,23 @@ class _RoomPageOneWidgetState extends State<RoomPageOneWidget> {
               BlocBuilder<RoomBloc,RoomState>(
                   bloc: widget.bloc,
                   builder:(context, state){
-                    if(state is InitialState) {
+                    if(state is InitialRoomState) {
                       return Expanded( child: Container());
-                    } else if(state is ReceiveMessageState ||
-                              state is ReceiveBroadEnterPublicRoomMessageState ||
-                              state is SendMessageState ||
-                              state is ReceiveUserEnterPublicRoomMessageState ||
-                              state is ReceiveLeavePublicRoomMessageState) {
+                    } else {
                       return Expanded(
                         child: ListView.builder(
-                            controller: this.widget.instance.scrollController,
+                            controller: this.widget.instance.scrollViewController,
                             itemCount:widget.instance.getRoom.getMessagesList.length,
                             itemBuilder: (context, index) {
                               return Align(
-                                  alignment: widget.instance.alignment(index),
+                                  alignment: widget.instance.alignment(state, index),
                                   child: Padding(
                                     padding: const EdgeInsets.all(6),
                                     child: Container(
                                       width: MediaQuery.of(context).size.width * 0.8,
                                       padding: const EdgeInsets.all(14),
                                       decoration: BoxDecoration(
-                                          color: widget.instance.color(index),
+                                          color: widget.instance.color(state, index),
                                           borderRadius: BorderRadius.all(Radius.circular(8))),
                                            child: widget.instance.typeMessage(state, index)
 
@@ -77,8 +70,6 @@ class _RoomPageOneWidgetState extends State<RoomPageOneWidget> {
                             }
                         ),
                       );
-                    }else {
-                      return Text('erroo');
                     }
                   }
               ),

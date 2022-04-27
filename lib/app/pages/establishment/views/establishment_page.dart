@@ -23,23 +23,26 @@ class EstablishmentPage extends StatefulWidget {
 
 class _EstablishmentPageState extends State<EstablishmentPage> with SingleTickerProviderStateMixin {
 
-  late final RoomBloc bloc;
+  late final RoomBloc _bloc;
   late TabController _tabController;
-  late ScrollController _scrollViewController;
-  final RoomViewModel roomViewModel = RoomViewModel.withoutParameters();
+  late final RoomViewModel _roomViewModel;
 
   @override
   void initState() {
     super.initState();
-    bloc = RoomBloc(room:Room.withoutParameters(),user: this.widget.user, roomViewModel: roomViewModel);
-    _scrollViewController = ScrollController(initialScrollOffset: 0.0);
+
+    _roomViewModel = RoomViewModel(scrollViewController: ScrollController(initialScrollOffset: 0.0),
+                                   user: this.widget.user,room: Room.withoutParameters());
+    _bloc = RoomBloc(roomViewModel: _roomViewModel);
+    _bloc.add(LoadingRoomsListEvent());
     _tabController = TabController(vsync: this, length: 2);
   }
 
   @override
   void dispose() {
     _tabController.dispose();
-    _scrollViewController.dispose();
+    _roomViewModel.scrollViewController.dispose();
+    _bloc.add(DisconnectEvent());
     super.dispose();
   }
 
@@ -48,7 +51,7 @@ class _EstablishmentPageState extends State<EstablishmentPage> with SingleTicker
 
     return Scaffold(
       body: NestedScrollView(
-          controller: _scrollViewController,
+          controller: _roomViewModel.scrollViewController,
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverAppBar(
@@ -67,7 +70,7 @@ class _EstablishmentPageState extends State<EstablishmentPage> with SingleTicker
               )];},
           body: TabBarView(
               controller: _tabController, children: <Widget>[
-            EstablishmentPageOneWidget(this.widget.user, roomViewModel, bloc),
+            EstablishmentPageOneWidget(_roomViewModel, _bloc),
             EstablishmentPageTwoWidget()
           ])),
     //   floatingActionButton: SizedBox(

@@ -8,8 +8,6 @@ class RoomsListData extends Data{
 
   get getRoomsList => _roomsList;
 
-  setRoomsList(List<dynamic> usersList) => _roomsList = usersList;
-
   Map<String, dynamic> toMap() {
     return {
       'roomsList': this.getRoomsList,
@@ -27,6 +25,6 @@ class RoomsListData extends Data{
     required roomsList,
     required type,
   })  : _roomsList = roomsList,
-        super.withoutRequired(type);
-
+        super(type: type);
 }
+// setRoomsList(List<dynamic> usersList) => _roomsList = usersList;

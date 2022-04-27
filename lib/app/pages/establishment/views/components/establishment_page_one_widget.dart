@@ -13,9 +13,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 class EstablishmentPageOneWidget extends StatefulWidget {
 
-  EstablishmentPageOneWidget(this.user, this.roomViewModel, this.bloc);
+  EstablishmentPageOneWidget(this.roomViewModel, this.bloc);
   final RoomBloc bloc;
-  final User user;
   final RoomViewModel roomViewModel;
 
   @override
@@ -23,12 +22,6 @@ class EstablishmentPageOneWidget extends StatefulWidget {
 }
 
 class _EstablishmentPageOneWidgetState extends State<EstablishmentPageOneWidget> {
-
-  @override
-  void initState() {
-    super.initState();
-    widget.bloc.add(LoadingRoomsListEvent('-10.182325978880673','-48.33803205711477'));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +35,10 @@ class _EstablishmentPageOneWidgetState extends State<EstablishmentPageOneWidget>
               topRight: const Radius.circular(10.0))),
           child: BlocBuilder<RoomBloc,RoomState>(
               bloc: widget.bloc,
+              buildWhen: (context, current) => context.runtimeType != current.runtimeType &&
+                  (current is InitialState ||
+                      current is SuccessRoomsListState ||
+                      current is ReceiveBroadEnterPublicRoomMessageState),
               builder:(context, state){
                 if(state is InitialState) {
                   return Stack(
@@ -57,8 +54,12 @@ class _EstablishmentPageOneWidgetState extends State<EstablishmentPageOneWidget>
                               ))
                         ])
                       ]);
-                } else if(state is SuccessRoomsListState) {
-                  return ListView.builder(
+                } else if(state is SuccessRoomsListState || state is ReceiveBroadEnterPublicRoomMessageState) {
+
+                  return RefreshIndicator(
+                    color: AppColors.darkBrown,
+                      onRefresh: () async =>  widget.bloc.add(LoadingRoomsListEvent()),
+                      child: ListView.builder(
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
                       itemCount: this.widget.roomViewModel.getRoomsList.length,
@@ -82,7 +83,7 @@ class _EstablishmentPageOneWidgetState extends State<EstablishmentPageOneWidget>
                                         ]),
                                     child: Image.asset(AppImages.lightLogo,width: 20,height: 20),)),
                               title: Padding(
-                                  padding: EdgeInsets.only(bottom: 10) ,
+                                  padding: EdgeInsets.only(bottom: 10),
                                   child: Text(this.widget.roomViewModel.getRoomsList[index].getRoomName,
                                       style: GoogleFonts.inter( color: AppColors.brown, fontSize: 18,))
                               ),
@@ -98,22 +99,22 @@ class _EstablishmentPageOneWidgetState extends State<EstablishmentPageOneWidget>
                                             style: GoogleFonts.inter( fontSize: 13, color: Colors.black45));}),
                                   Padding(
                                       padding: EdgeInsets.only(left: 40) ,
-                                      child: Text('3.2 km de distância', style:GoogleFonts.inter( fontSize: 13, color: Colors.black45)))
+                                      child: Text('${(this.widget.roomViewModel.getRoomsList[index].getDistance).toStringAsFixed(2)} km de distância', style:GoogleFonts.inter( fontSize: 13, color: Colors.black45)))
                                 ],
                               ),
                               onTap: () {
+                                this.widget.roomViewModel.setRoom(this.widget.roomViewModel.getRoomsList[index]);
                                 Navigator.pushNamed(context,AppRoutes.PUBLIC_ROOM_ROUTE, arguments:
-                                RoomDTO(user: this.widget.user,
-                                    room: this.widget.roomViewModel.getRoomsList[index],
-                                    bloc: widget.bloc,
+                                RoomDTO(bloc: widget.bloc,
                                     roomViewModel: this.widget.roomViewModel));
                               }
                           ),
                         );
                       }
-                  );
+                  ));
+                } else{
+                  return Text('dsfsdf');
                 }
-                return Text('Unkown error');
               }
           )
       ),
