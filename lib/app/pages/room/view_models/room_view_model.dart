@@ -46,7 +46,7 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
           roomName: this.getRoom.getRoomName,
           idMessage: '',
           textMessage: textMessage,
-          user: this.getUser.getNickname,
+          user: this.getUser,
           code: 0,
           type: BlocEventType.send_message);
 
@@ -106,7 +106,7 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
 
   Alignment alignment(state,index){
     if(state is SendMessageState || state is ReceiveMessageState) {
-      if(_room.getMessagesList[index].getUser != _user.getNickname){
+      if(_room.getMessagesList[index].getUser.getNickname != _user.getNickname){
         return  Alignment.centerLeft;
       } else{
         return Alignment.centerRight;
@@ -117,7 +117,7 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
   }
   Color color(state,index){
     if(state is SendMessageState || state is ReceiveMessageState) {
-      if(_room.getMessagesList[index].getUser != _user.getNickname){
+      if(_room.getMessagesList[index].getUser.getNickname != _user.getNickname){
         return  Colors.white;
       } else{
         return Color(0xffdcd9d9);
@@ -128,14 +128,14 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
   }
 
   typeMessage(state, index) {
-    Timer(Duration(microseconds: 50), (){
-      this.scrollViewController.jumpTo(
-          this.scrollViewController.position.maxScrollExtent
-      );
-    });
+    // Timer(Duration(microseconds: 50), (){
+    //   this.scrollViewController.jumpTo(
+    //       this.scrollViewController.position.maxScrollExtent
+    //   );
+    // });
     if(state is SendMessageState || state is ReceiveMessageState) {
-      return Text('${_room.getMessagesList[index].getUser} - ${_room.getMessagesList[index].getTextMessage}');
-    } else if(state is ReceiveBroadEnterPublicRoomMessageState || state is ReceiveUserEnterPublicRoomMessageState){
+      return Text('${_room.getMessagesList[index].getUser.getNickname} - ${_room.getMessagesList[index].getTextMessage}');
+    } else if(state is ReceiveEnterPublicRoomMessageState){
         return  Center(child: Text('${state.message.getUser.getNickName} entrou na sala'));
       }
     }
@@ -158,6 +158,9 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
   setUser(User user) => _user = user;
   setRoomsList(List<dynamic> roomsList) => _roomsList = roomsList;
 
+  // reload(RoomBloc bloc) {
+  //   widget.bloc.add(LoadingRoomsListEvent());
+  // }
 }
 
 

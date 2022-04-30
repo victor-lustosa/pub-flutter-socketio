@@ -38,7 +38,7 @@ class _EstablishmentPageOneWidgetState extends State<EstablishmentPageOneWidget>
               buildWhen: (context, current) => context.runtimeType != current.runtimeType &&
                   (current is InitialState ||
                       current is SuccessRoomsListState ||
-                      current is ReceiveBroadEnterPublicRoomMessageState),
+                      current is ReceiveEnterPublicRoomMessageState),
               builder:(context, state){
                 if(state is InitialState) {
                   return Stack(
@@ -54,11 +54,13 @@ class _EstablishmentPageOneWidgetState extends State<EstablishmentPageOneWidget>
                               ))
                         ])
                       ]);
-                } else if(state is SuccessRoomsListState || state is ReceiveBroadEnterPublicRoomMessageState) {
+                } else if(state is SuccessRoomsListState || state is ReceiveEnterPublicRoomMessageState) {
 
                   return RefreshIndicator(
                     color: AppColors.darkBrown,
-                      onRefresh: () async =>  widget.bloc.add(LoadingRoomsListEvent()),
+                      onRefresh: () async{
+                      widget.bloc.add(LoadingRoomsListEvent());
+                      } ,
                       child: ListView.builder(
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,

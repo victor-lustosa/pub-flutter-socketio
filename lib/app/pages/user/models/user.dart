@@ -16,14 +16,6 @@ class User {
   get getLatitude => _latitude;
   get getLongitude => _longitude;
 
-//SETTERS
-//   setIdUser(String idUser) => _idUser = idUser;
-//   setLatitude(double value) => _latitude = value;
-//   setLongitude(double value) => _longitude = value;
-//   setNickname(String nickname) => _nickname = nickname;
-//   setAge(int age) => _age = age;
-//   setGenre(String genre) => _genre = genre;
-
   Map<String, dynamic> toMap() {
     return {
       'idUser': this._idUser,
@@ -34,6 +26,13 @@ class User {
       'longitude': this._longitude,
     };
   }
+  //SETTERS
+  setIdUser(String idUser) => _idUser = idUser;
+  setLatitude(double value) => _latitude = value;
+  setLongitude(double value) => _longitude = value;
+  setNickname(String nickname) => _nickname = nickname;
+  setAge(int age) => _age = age;
+  setGenre(String genre) => _genre = genre;
 
   User.withoutParameters();
 
@@ -62,6 +61,5 @@ class User {
         _longitude = longitude,
         _latitude = latitude,
         _genre = genre;
-
-
 }
+

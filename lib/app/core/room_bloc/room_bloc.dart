@@ -21,15 +21,17 @@ part 'room_event.dart';
 part 'room_state.dart';
 
 class RoomBloc extends Bloc<RoomEvent,RoomState>{
+
   late final Socket _socket;
   final RoomViewModel roomViewModel;
+
   RoomBloc({required this.roomViewModel}) : super(InitialState()) {
+
     _socket = io(urlServer, OptionBuilder().setTransports(['websocket']).build());
     _socket.connect();
     _socket.onConnect((_) {});
-    _socket.on('public_message_data', (data) => add(ReceiveMessageEvent(data)));
-    _socket.on('broad_enter_public_room', (data) => add(ReceiveMessageEvent(data)));
-    _socket.on('user_enter_public_room', (data) => add(ReceiveMessageEvent(data)));
+    _socket.on('public_message', (data) => add(ReceiveMessageEvent(data)));
+    _socket.on('enter_public_room', (data) => add(ReceiveMessageEvent(data)));
     _socket.on('leave_public_room', (data) => add(ReceiveMessageEvent(data)));
     _socket.on('initial_rooms_list', (data) => add(ReceiveMessageEvent(data)));
     _socket.onDisconnect((data) => add(ReceiveMessageEvent(data)));
@@ -81,10 +83,8 @@ class RoomBloc extends Bloc<RoomEvent,RoomState>{
       switch(data.type){
         case BlocEventType.update_rooms_list:
           return emit(SuccessRoomsListState(message:RoomsListData.fromMap(event.message),roomViewModel: roomViewModel));
-        case BlocEventType.broad_enter_public_room:
-          return emit(ReceiveBroadEnterPublicRoomMessageState(message:EnterPublicRoomData.fromMap(event.message),roomViewModel: roomViewModel));
-        case BlocEventType.user_enter_public_room:
-          return emit(ReceiveUserEnterPublicRoomMessageState(message:EnterPublicRoomData.fromMap(event.message),roomViewModel: roomViewModel));
+        case BlocEventType.enter_public_room:
+          return emit(ReceiveEnterPublicRoomMessageState(message:EnterPublicRoomData.fromMap(event.message),roomViewModel: roomViewModel));
         case BlocEventType.leave_public_room:
           return emit(ReceiveLeavePublicRoomMessageState(message:LeavePublicRoomData.fromMap(event.message),roomViewModel: roomViewModel));
         case BlocEventType.typing:

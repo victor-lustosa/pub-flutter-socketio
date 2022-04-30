@@ -8,14 +8,12 @@ class EnterPublicRoomData extends Data{
   late int _code;
   late User _user;
   late String _textMessage;
-  List<dynamic> _usersList = [];
 
   get getRoomName => _roomName;
   get getCode => _code;
   get getType => super.type;
   get getTextMessage => _textMessage;
   get getUser => _user;
-  get getUsersList => _usersList;
   get getIdRoom => _idRoom;
 
   Map<String, dynamic> toMap() {
@@ -25,7 +23,6 @@ class EnterPublicRoomData extends Data{
       'textMessage': this._textMessage,
       'user': this._user.toMap(),
       'code': this._code,
-      'usersList': this._usersList,
       'type': super.type.name.toString()
     };
   }
@@ -37,7 +34,6 @@ class EnterPublicRoomData extends Data{
         textMessage: map['textMessage'],
         user: User.fromMap(map['user']),
         code: map['code'],
-        usersList : map['usersList'],
         type: BlocEventType.values.firstWhere((element) => element.name.toString() == map['type']));
   }
 
@@ -47,14 +43,12 @@ class EnterPublicRoomData extends Data{
     required String textMessage,
     required user,
     required int code,
-    required usersList,
     required type,
   })  : _idRoom = idRoom,
         _roomName = roomName,
         _textMessage = textMessage,
         _user = user,
         _code = code,
-        _usersList = usersList,
         super(type: type);
 
 

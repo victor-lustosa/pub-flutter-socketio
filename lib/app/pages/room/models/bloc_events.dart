@@ -1,6 +1,5 @@
 enum BlocEventType {
-  broad_enter_public_room,
-  user_enter_public_room,
+  enter_public_room,
   receive_initial,
   dont_typing,
   dont_build,

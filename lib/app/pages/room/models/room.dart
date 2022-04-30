@@ -43,6 +43,7 @@ class Room {
 //SETTERS
 
   setDistance(double value) => _distance = value;
+  setParticipantsList(List<dynamic> participantsList) => _participantsList = participantsList;
 //   setUserNickName(String userNickName) => _userNickName = userNickName;
 //   setRoomName(String roomName) => _roomName = roomName;
 //   setIcon(String icon) => _icon = icon;
@@ -51,7 +52,7 @@ class Room {
 //   setLongitude(double longitude) => _longitude = longitude;
 //   setIsPublic(bool isPublic) => _isPublic = isPublic;
 //   setUsersList(List<dynamic> usersList) => _usersList = usersList;
-//   setParticipantsList(List<dynamic> participantsList) => _participantsList = participantsList;
+
 
   // Room({
   //   required idRoom,

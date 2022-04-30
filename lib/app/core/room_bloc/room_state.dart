@@ -38,20 +38,7 @@ class DontBuildState extends RoomState{
   DontBuildState() : super(null, null);
 }
 
-class ReceiveUserEnterPublicRoomMessageState extends  RoomState{
-
-  void addParticipant() {
-    if(message.getUser.getNickname != roomViewModel.getUser.getNickname){
-      roomViewModel.setParticipantsList(message.getUsersList);
-    }
-  }
-
-  ReceiveUserEnterPublicRoomMessageState({required EnterPublicRoomData message, required RoomViewModel roomViewModel}) :
-        super(message, roomViewModel){
-    addParticipant();
-  }
-}
-class ReceiveBroadEnterPublicRoomMessageState extends  RoomState{
+class ReceiveEnterPublicRoomMessageState extends  RoomState{
   @override
  bool isExist = false;
   void addParticipant(dynamic data) {
@@ -62,17 +49,18 @@ class ReceiveBroadEnterPublicRoomMessageState extends  RoomState{
         }
       }
       if(!isExist){
-      roomViewModel.addParticipants(data);
-      isExist = false;
+       roomViewModel.addParticipants(data);
+       isExist = false;
       }
     }
   }
 
-  ReceiveBroadEnterPublicRoomMessageState({required EnterPublicRoomData message, required RoomViewModel roomViewModel}) :
+  ReceiveEnterPublicRoomMessageState({required EnterPublicRoomData message, required RoomViewModel roomViewModel}) :
         super(message, roomViewModel){
     addParticipant(message);
   }
 }
+
 class ReceiveMessageState extends RoomState {
 
   addMessage() {
@@ -115,7 +103,6 @@ class ReceiveLeavePublicRoomMessageState extends RoomState{
   ReceiveLeavePublicRoomMessageState({required LeavePublicRoomData message,
     required RoomViewModel roomViewModel}): super(message, roomViewModel);
 }
-
 
 // class ErrorRoomState extends MessageState{
 //   final String message;
