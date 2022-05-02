@@ -50,86 +50,85 @@ class _RoomPageOneWidgetState extends State<RoomPageOneWidget> {
                       return Expanded(
                         child: ListView.builder(
                             controller: this.widget.instance.scrollViewController,
-                            itemCount:widget.instance.getRoom.getMessagesList.length,
+                            itemCount:widget.instance.getRoom.getMessages.length,
                             itemBuilder: (context, index) {
                               return Align(
-                                  alignment: widget.instance.alignment(state, index),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(6),
-                                    child: Container(
+                                alignment: widget.instance.alignment(state, index),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(6),
+                                  child: Container(
                                       width: MediaQuery.of(context).size.width * 0.8,
                                       padding: const EdgeInsets.all(14),
                                       decoration: BoxDecoration(
                                           color: widget.instance.color(state, index),
                                           borderRadius: BorderRadius.all(Radius.circular(8))),
-                                           child: widget.instance.typeMessage(state, index)
-
-                                      ),
-                                    ),
-                                  );
+                                      child: widget.instance.typeMessage(state, index)
+                                  ),
+                                ),
+                              );
                             }
                         ),
                       );
                     }
                   }
               ),
-              SafeArea(top: false,child:
-              Row(children: [
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 4, right: 8),
-                    child: TextField(
-                      onEditingComplete: () {},
-                      onChanged: (String value) {
-                        // if(value.length < 30) {
-                        //   instance.lineNumbers = 1;
-                        // } else if(value.length < 60){
-                        //   instance.lineNumbers = 2;
-                        // } else if(value.length < 100){
-                        //   instance.lineNumbers = 3;
-                        // } else{
-                        //   instance.lineNumbers = 5;
-                        // }
-                      },
-                      focusNode: this.widget.instance.focusNode,
-                      onSubmitted: (_) {
-                        this.widget.instance.sendMessage(widget.bloc);
-                      },
-                      controller: this.widget.instance.textController,
-                      autofocus: true,
-                      keyboardType: TextInputType.multiline,
-                      maxLines: this.widget.instance.lineNumbers,
-                      style: GoogleFonts.inter(fontSize: 15),
-                      decoration: InputDecoration(
-                          contentPadding: EdgeInsets.fromLTRB(20, 6, 20, 6),
-                          hintText: "Digite uma mensagem...",
-                          filled: true,
-                          fillColor: Colors.white,
-                          border: InputBorder.none),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 4.0),
-                  child: SizedBox(
-                    height: 48.0,
-                    width: 48.0,
-                    child: FloatingActionButton(
-                        backgroundColor: AppColors.brown,
-                        child: Icon(
-                          Icons.near_me_outlined,
-                          size: 29,
-                          color: Colors.white,
+              SafeArea(top: false,
+                  child: Row(children: [
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 4, right: 8),
+                        child: TextField(
+                          onEditingComplete: () {},
+                          onChanged: (String value) {
+                            // if(value.length < 30) {
+                            //   instance.lineNumbers = 1;
+                            // } else if(value.length < 60){
+                            //   instance.lineNumbers = 2;
+                            // } else if(value.length < 100){
+                            //   instance.lineNumbers = 3;
+                            // } else{
+                            //   instance.lineNumbers = 5;
+                            // }
+                          },
+                          focusNode: this.widget.instance.focusNode,
+                          onSubmitted: (_) {
+                            this.widget.instance.sendMessage(widget.bloc);
+                          },
+                          controller: this.widget.instance.textController,
+                          autofocus: true,
+                          keyboardType: TextInputType.multiline,
+                          maxLines: this.widget.instance.lineNumbers,
+                          style: GoogleFonts.inter(fontSize: 15),
+                          decoration: InputDecoration(
+                              contentPadding: EdgeInsets.fromLTRB(20, 6, 20, 6),
+                              hintText: "Digite uma mensagem...",
+                              filled: true,
+                              fillColor: Colors.white,
+                              border: InputBorder.none),
                         ),
-                        mini: true,
-                        onPressed: () {
-                          this.widget.instance.sendMessage(widget.bloc);
-                        }
+                      ),
                     ),
-                  ),
-                ),
-              ]
-              )
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4.0),
+                      child: SizedBox(
+                        height: 48.0,
+                        width: 48.0,
+                        child: FloatingActionButton(
+                            backgroundColor: AppColors.brown,
+                            child: Icon(
+                              Icons.near_me_outlined,
+                              size: 29,
+                              color: Colors.white,
+                            ),
+                            mini: true,
+                            onPressed: () {
+                              this.widget.instance.sendMessage(widget.bloc);
+                            }
+                        ),
+                      ),
+                    ),
+                  ]
+                  )
               )
             ]
         ));

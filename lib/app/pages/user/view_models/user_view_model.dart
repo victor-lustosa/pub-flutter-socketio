@@ -13,7 +13,7 @@ abstract class IUserViewModel{
   // currentPosition();
   void validateUser(TextEditingController _nickNameController,
       TextEditingController _ageController,
-      String _selectedGenre, List<String> _listGenres);
+      String _selectedGenre, List<String> _genres);
 }
 
 class UserViewModel implements IUserViewModel{
@@ -36,12 +36,12 @@ class UserViewModel implements IUserViewModel{
   void validateUser(TextEditingController _nickNameController,
       TextEditingController _ageController,
       String _selectedGenre,
-      List<String> _listGenres){
+      List<String> _genres){
     this.getUser.setNickname(_nickNameController.text);
     setAge(int.tryParse(_ageController.text)!);
     this.getUser.setAge(getAge);
     if(_selectedGenre == ''){
-      _selectedGenre = _listGenres[0];
+      _selectedGenre = _genres[0];
       this.getUser.setGenre(_selectedGenre);
     }else{
       this.getUser.setGenre(_selectedGenre);

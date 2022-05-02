@@ -27,7 +27,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
   final TextEditingController _nickNameController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
 
-  final List<String> _listGenres = ['não informado','masculino', 'feminino'];
+  final List<String> _genres = ['não informado','masculino', 'feminino'];
   String _selectedGenre = '';
   bool isEnabled = true;
   int age = 0;
@@ -87,7 +87,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                                   ), width: 350, height: 55,
                                   child: Form(
                                       autovalidateMode: AutovalidateMode.always,
-                                      child: DropdownWidget(_listGenres, (String retorno){
+                                      child: DropdownWidget(_genres, (String retorno){
                                         setState(() {
                                           _selectedGenre = retorno;
                                         });
@@ -100,7 +100,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                                   age = int.tryParse(_ageController.text) == null ? 0 : int.tryParse(_ageController.text)!;
                                   if(_ageController.text.isNotEmpty && _nickNameController.text.isNotEmpty) {
                                     if(age >= 18){
-                                    _userViewModel.validateUser(_nickNameController, _ageController, _selectedGenre, _listGenres);
+                                    _userViewModel.validateUser(_nickNameController, _ageController, _selectedGenre, _genres);
                                     Navigator.pushNamedAndRemoveUntil(context, AppRoutes.ESTABLISHMENT_ROUTE,
                                                                       (_) => false, arguments:EstablishmentDTO(_userViewModel.getUser));
                                     }

@@ -13,25 +13,25 @@ class InitialState extends RoomState{
 class InitialRoomState extends RoomState{
   InitialRoomState() : super(null, null);
 }
-class LoadingRoomsListState extends RoomState{
-  LoadingRoomsListState() : super(null, null);
+class LoadingRoomsState extends RoomState{
+  LoadingRoomsState() : super(null, null);
 }
-class SuccessRoomsListState extends RoomState{
+class SuccessRoomsState extends RoomState{
 
   double distanceBetweenUserAndEstablishments(User user, double latitude,double longitude) {
     return (Geolocator.distanceBetween(user.getLatitude, user.getLongitude, latitude, longitude) / 1000);
   }
 
-  fetchedRoomsList(){
-    roomViewModel.setRoomsList([]);
-    for(dynamic roomData in message.getRoomsList){
+  fetchedRooms(){
+    roomViewModel.setRooms([]);
+    for(dynamic roomData in message.getRooms){
      Room room = Room.fromMinimalMap(roomData);
      room.setDistance(distanceBetweenUserAndEstablishments(roomViewModel.getUser,room.getLatitude,room.getLongitude));
       roomViewModel.addRoom(room);
     }
   }
-  SuccessRoomsListState({required RoomsListData message,required RoomViewModel roomViewModel}) : super(message, roomViewModel){
-    fetchedRoomsList();
+  SuccessRoomsState({required RoomsData message,required RoomViewModel roomViewModel}) : super(message, roomViewModel){
+    fetchedRooms();
   }
 }
 class DontBuildState extends RoomState{
@@ -43,7 +43,7 @@ class ReceiveEnterPublicRoomMessageState extends  RoomState{
  bool isExist = false;
   void addParticipant(dynamic data) {
     if(data.getUser.getNickname != roomViewModel.getUser.getNickname){
-      for(dynamic participant in roomViewModel.getRoom.getParticipantsList){
+      for(dynamic participant in roomViewModel.getRoom.getParticipants){
         if(data.getUser.getNickname == participant.getNickname) {
           isExist = true;
         }

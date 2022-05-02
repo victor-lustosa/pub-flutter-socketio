@@ -37,7 +37,7 @@ class _EstablishmentPageOneWidgetState extends State<EstablishmentPageOneWidget>
               bloc: widget.bloc,
               buildWhen: (context, current) => context.runtimeType != current.runtimeType &&
                   (current is InitialState ||
-                      current is SuccessRoomsListState ||
+                      current is SuccessRoomsState ||
                       current is ReceiveEnterPublicRoomMessageState),
               builder:(context, state){
                 if(state is InitialState) {
@@ -54,17 +54,17 @@ class _EstablishmentPageOneWidgetState extends State<EstablishmentPageOneWidget>
                               ))
                         ])
                       ]);
-                } else if(state is SuccessRoomsListState || state is ReceiveEnterPublicRoomMessageState) {
+                } else if(state is SuccessRoomsState || state is ReceiveEnterPublicRoomMessageState) {
 
                   return RefreshIndicator(
                     color: AppColors.darkBrown,
                       onRefresh: () async{
-                      widget.bloc.add(LoadingRoomsListEvent());
+                      widget.bloc.add(LoadingRoomsEvent());
                       } ,
                       child: ListView.builder(
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
-                      itemCount: this.widget.roomViewModel.getRoomsList.length,
+                      itemCount: this.widget.roomViewModel.getRooms.length,
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 12.0),
@@ -86,26 +86,25 @@ class _EstablishmentPageOneWidgetState extends State<EstablishmentPageOneWidget>
                                     child: Image.asset(AppImages.lightLogo,width: 20,height: 20),)),
                               title: Padding(
                                   padding: EdgeInsets.only(bottom: 10),
-                                  child: Text(this.widget.roomViewModel.getRoomsList[index].getRoomName,
+                                  child: Text(this.widget.roomViewModel.getRooms[index].getRoomName,
                                       style: GoogleFonts.inter( color: AppColors.brown, fontSize: 18,))
                               ),
                               subtitle:Row(
                                 children: [
-                                  AnimatedBuilder(
-                                      animation: this.widget.roomViewModel,
+                                  AnimatedBuilder( animation: this.widget.roomViewModel,
                                       builder: (context, child) {
-                                        return this.widget.roomViewModel.getRoomsList[index].getParticipantsList.length == 1 ?
-                                        Text('${this.widget.roomViewModel.getRoomsList[index].getParticipantsList.length} pessoa',
+                                        return this.widget.roomViewModel.getRooms[index].getParticipants.length == 1 ?
+                                        Text('${this.widget.roomViewModel.getRooms[index].getParticipants.length} pessoa',
                                             style: GoogleFonts.inter( fontSize: 13, color: Colors.black45)) :
-                                        Text('${this.widget.roomViewModel.getRoomsList[index].getParticipantsList.length} pessoas',
+                                        Text('${this.widget.roomViewModel.getRooms[index].getParticipants.length} pessoas',
                                             style: GoogleFonts.inter( fontSize: 13, color: Colors.black45));}),
                                   Padding(
                                       padding: EdgeInsets.only(left: 40) ,
-                                      child: Text('${(this.widget.roomViewModel.getRoomsList[index].getDistance).toStringAsFixed(2)} km de distância', style:GoogleFonts.inter( fontSize: 13, color: Colors.black45)))
+                                      child: Text('${(this.widget.roomViewModel.getRooms[index].getDistance).toStringAsFixed(2)} km de distância', style:GoogleFonts.inter( fontSize: 13, color: Colors.black45)))
                                 ],
                               ),
                               onTap: () {
-                                this.widget.roomViewModel.setRoom(this.widget.roomViewModel.getRoomsList[index]);
+                                this.widget.roomViewModel.setRoom(this.widget.roomViewModel.getRooms[index]);
                                 Navigator.pushNamed(context,AppRoutes.PUBLIC_ROOM_ROUTE, arguments:
                                 RoomDTO(bloc: widget.bloc,
                                     roomViewModel: this.widget.roomViewModel));

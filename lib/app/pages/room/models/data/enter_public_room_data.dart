@@ -57,5 +57,5 @@ class EnterPublicRoomData extends Data{
 // setRoomName(String roomName) => _roomName = roomName;
 // setCode(int code) => _code = code;
 // setTextMessage(String textMessage) => _textMessage = textMessage;
-// setUsersList(List<dynamic> usersList) => _usersList = usersList;
+// setUsers(List<dynamic> users) => _users = users;
 }

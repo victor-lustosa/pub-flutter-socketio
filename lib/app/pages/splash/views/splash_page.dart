@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../core/configs/app_colors.dart';
 import '../../user/view_models/user_view_model.dart';
 
 class SplashPage extends StatefulWidget {

@@ -11,7 +11,7 @@ import '../../pages/room/models/data/data.dart';
 import '../../pages/room/models/data/enter_public_room_data.dart';
 import '../../pages/room/models/data/leave_public_room_data.dart';
 import '../../pages/room/models/data/message_data.dart';
-import '../../pages/room/models/data/rooms_list_data.dart';
+import '../../pages/room/models/data/rooms_data.dart';
 import '../../pages/room/models/room.dart';
 import '../../pages/room/view_models/room_view_model.dart';
 import '../../pages/user/models/user.dart';
@@ -33,7 +33,7 @@ class RoomBloc extends Bloc<RoomEvent,RoomState>{
     _socket.on('public_message', (data) => add(ReceiveMessageEvent(data)));
     _socket.on('enter_public_room', (data) => add(ReceiveMessageEvent(data)));
     _socket.on('leave_public_room', (data) => add(ReceiveMessageEvent(data)));
-    _socket.on('initial_rooms_list', (data) => add(ReceiveMessageEvent(data)));
+    _socket.on('initial_rooms', (data) => add(ReceiveMessageEvent(data)));
     _socket.onDisconnect((data) => add(ReceiveMessageEvent(data)));
 
     on<InitialRoomEvent>((event, emit) async{
@@ -42,11 +42,11 @@ class RoomBloc extends Bloc<RoomEvent,RoomState>{
         'idRoom': this.roomViewModel.getRoom.getIdRoom,
         'user': this.roomViewModel.getUser.toMap()
       });
-      emit(InitialRoomState());
+      // emit(InitialRoomState());
     });
 
-    on<LoadingRoomsListEvent>((event, emit) async{
-      _socket.emit('initial_rooms_list', {
+    on<LoadingRoomsEvent>((event, emit) async{
+      _socket.emit('initial_rooms', {
         'latitude': roomViewModel.getUser.getLatitude,
         'longitude': roomViewModel.getUser.getLongitude
       });
@@ -81,8 +81,8 @@ class RoomBloc extends Bloc<RoomEvent,RoomState>{
       Data data = Data.fromMap(event.message);
 
       switch(data.type){
-        case BlocEventType.update_rooms_list:
-          return emit(SuccessRoomsListState(message:RoomsListData.fromMap(event.message),roomViewModel: roomViewModel));
+        case BlocEventType.update_rooms:
+          return emit(SuccessRoomsState(message:RoomsData.fromMap(event.message),roomViewModel: roomViewModel));
         case BlocEventType.enter_public_room:
           return emit(ReceiveEnterPublicRoomMessageState(message:EnterPublicRoomData.fromMap(event.message),roomViewModel: roomViewModel));
         case BlocEventType.leave_public_room:

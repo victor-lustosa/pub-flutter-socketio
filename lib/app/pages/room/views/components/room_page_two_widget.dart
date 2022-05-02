@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/configs/app_colors.dart';
 import '../../../../core/configs/app_images.dart';
+import '../../../../core/configs/app_routes.dart';
+import '../../../../core/room_bloc/room_bloc.dart';
+import '../../../participant/models/dto/participant_dto.dart';
 import '../../view_models/room_view_model.dart';
 
 class RoomPageTwoWidget extends StatefulWidget {
 
   final RoomViewModel instance;
-
-  RoomPageTwoWidget(this.instance);
+  final RoomBloc bloc;
+  RoomPageTwoWidget(this.instance, this.bloc);
 
   @override
   _RoomPageTwoWidgetState createState() => _RoomPageTwoWidgetState();
@@ -26,7 +29,7 @@ class _RoomPageTwoWidgetState extends State<RoomPageTwoWidget> {
         child: ListView.builder(
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
-            itemCount: widget.instance.getRoom.getParticipantsList.length,
+            itemCount: widget.instance.getRoom.getParticipants.length,
             itemBuilder: (context, index) {
               return Padding(
                   padding: const EdgeInsets.only(bottom: 12.0),
@@ -56,7 +59,7 @@ class _RoomPageTwoWidgetState extends State<RoomPageTwoWidget> {
                                       height: 20),)),
                             title: Padding(
                                 padding: EdgeInsets.only(bottom: 10),
-                                child: Text(widget.instance.getRoom.getParticipantsList[index].getNickname,
+                                child: Text(widget.instance.getRoom.getParticipants[index].getNickname,
                                     style: GoogleFonts.inter(color: AppColors.brown, fontSize: 18,))
                             ),
                             // subtitle:Row(
@@ -70,11 +73,13 @@ class _RoomPageTwoWidgetState extends State<RoomPageTwoWidget> {
                             //     ),
                             //   ],
                             // ),
-                            onTap: () {}
-                          // Room room = Room.withoutParameters();
-                          // room.setRoomName(_establishmentViewModel.establishmentList[index].getName);
-                          // Navigator.pushNamed(context,AppRoutes.PUBLIC_ROOM_ROUTE,
-                          //     arguments:RoomDTO(this.widget.user, room));
+                            onTap: () {
+                              widget.instance.setParticipant(widget.instance.getRoom.getParticipants[index]);
+                              Navigator.pushNamed(context, AppRoutes.PRIVATE_ROOM_ROUTE,arguments:
+                                  ParticipantDTO(
+                                      bloc: widget.bloc,
+                                      roomViewModel: this.widget.instance));
+                            }
                         );
                       }
                   ));

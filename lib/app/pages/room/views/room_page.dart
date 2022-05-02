@@ -74,7 +74,7 @@ class _RoomPageState extends State<RoomPage>
               //         ],
               //       ),
               //     )),
-              RoomPageTwoWidget(this.widget.roomViewModel)
+              RoomPageTwoWidget(this.widget.roomViewModel, this.widget.bloc)
             ])));
   }
 }

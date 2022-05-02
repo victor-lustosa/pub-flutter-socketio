@@ -9,11 +9,11 @@ class InitialEvent extends RoomEvent{
 class InitialRoomEvent extends RoomEvent{
   InitialRoomEvent();
 }
-class LoadingRoomsListEvent extends RoomEvent{
+class LoadingRoomsEvent extends RoomEvent{
   // final double latitude;
   // final double longitude;
-  // LoadingRoomsListEvent(this.latitude, this.longitude);
-  LoadingRoomsListEvent();
+  // LoadingRoomsEvent(this.latitude, this.longitude);
+  LoadingRoomsEvent();
 }
 
 class DisconnectEvent extends RoomEvent{

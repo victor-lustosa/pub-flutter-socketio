@@ -68,29 +68,29 @@ class EstablishmentFlexibleSpaceBarWidget extends StatelessWidget {
             ),
           ],
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Padding(
-                padding: const EdgeInsets.only(left: 0,bottom: 65),
-                child: IconButton(
-                  iconSize: 30,
-                  icon: Icon(Icons.search_rounded, color: Colors.white, size: 23),
-                  onPressed: ()  {
-                  },
-                )
-            ),
-            Padding(
-                padding: const EdgeInsets.only(right: 5,bottom: 65),
-                child: IconButton(
-                  iconSize: 30,
-                  icon: Icon(Icons.menu, color: Colors.white, size: 24),
-                  onPressed: ()  {
-                  },
-                )
-            ),
-          ],
-        )
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.end,
+        //   children: <Widget>[
+        //     Padding(
+        //         padding: const EdgeInsets.only(left: 0,bottom: 65),
+        //         child: IconButton(
+        //           iconSize: 30,
+        //           icon: Icon(Icons.search_rounded, color: Colors.white, size: 23),
+        //           onPressed: ()  {
+        //           },
+        //         )
+        //     ),
+        //     Padding(
+        //         padding: const EdgeInsets.only(right: 5,bottom: 65),
+        //         child: IconButton(
+        //           iconSize: 30,
+        //           icon: Icon(Icons.menu, color: Colors.white, size: 24),
+        //           onPressed: ()  {
+        //           },
+        //         )
+        //     ),
+        //   ],
+        // )
       ],
     );
   }

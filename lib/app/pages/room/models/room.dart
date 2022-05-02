@@ -1,13 +1,15 @@
 
+import 'package:pub/app/pages/participant/models/participant.dart';
+
 class Room {
   String _idRoom = '';
   String _roomName = '';
   // String _userNickName = '';
   String _icon = '';
   bool _isPublic = false;
-  List<dynamic> _usersList = [];
-  List<dynamic> _participantsList = [];
-  List<dynamic> _messagesList = [];
+  List<dynamic> _users = [];
+  List<Participant> _participants = [];
+  List<dynamic> _messages = [];
   late double _latitude;
   late double _longitude;
   late double _distance;
@@ -15,18 +17,18 @@ class Room {
   Room.withoutParameters();
 
   addMessages(dynamic data) {
-    _messagesList.add(data);
+    _messages.add(data);
   }
-  addParticipants(dynamic data) {
-    _participantsList.add(data);
+  addParticipants(Participant data) {
+    _participants.add(data);
   }
   //GETTERS
   // get getUserNickName => _userNickName;
   get getDistance => _distance;
   get getRoomName => _roomName;
-  get getUsersList => _usersList;
-  get getParticipantsList => _participantsList;
-  get getMessagesList => _messagesList;
+  get getUsers => _users;
+  get getParticipants => _participants;
+  get getMessages => _messages;
   get getIdRoom => _idRoom;
   get getLatitude => _latitude;
   get getLongitude => _longitude;
@@ -38,12 +40,12 @@ class Room {
         this._roomName = json['roomName'],
         this._latitude = json['latitude'],
         this._longitude = json['longitude'],
-        this._participantsList = json['participantsList'];
+        this._participants = Participant.convertList(json['participants']);
 
 //SETTERS
 
   setDistance(double value) => _distance = value;
-  setParticipantsList(List<dynamic> participantsList) => _participantsList = participantsList;
+  setParticipants(List<Participant> participants) => _participants = participants;
 //   setUserNickName(String userNickName) => _userNickName = userNickName;
 //   setRoomName(String roomName) => _roomName = roomName;
 //   setIcon(String icon) => _icon = icon;
@@ -51,7 +53,7 @@ class Room {
 //   setLatitude(double latitude) => _latitude = latitude;
 //   setLongitude(double longitude) => _longitude = longitude;
 //   setIsPublic(bool isPublic) => _isPublic = isPublic;
-//   setUsersList(List<dynamic> usersList) => _usersList = usersList;
+//   setUsers(List<dynamic> users) => _users = users;
 
 
   // Room({
@@ -61,16 +63,16 @@ class Room {
   //   required isPublic,
   //   required latitude,
   //   required longitude,
-  //   required usersList,
-  //   required messagesList,
+  //   required users,
+  //   required messages,
   // })  : _idRoom = idRoom,
   //       _roomName = roomName,
   //       _latitude = latitude,
   //       _longitude = longitude,
   //       _userNickName = userNickName,
   //       _isPublic = isPublic,
-  //       _usersList = usersList,
-  //       _messagesList = messagesList;
+  //       _users = users,
+  //       _messages = messages;
 
   // Map<String, dynamic> toMap() {
   //   return {
@@ -80,8 +82,8 @@ class Room {
   //     'longitude': this._longitude,
   //     'userNickName': this._userNickName,
   //     'isPublic': this._isPublic,
-  //     'usersList': this._usersList,
-  //     'messagesList': this._messagesList
+  //     'users': this._users,
+  //     'messages': this._messages
   //   };
   // }
 
@@ -92,7 +94,7 @@ class Room {
   //       this._longitude = json['longitude'],
   //       this._userNickName = json['userNickName'],
   //       this._isPublic = json['isPublic'],
-  //       this._usersList = json['usersList'],
-  //       this._messagesList = json['messagesList'];
+  //       this._users = json['users'],
+  //       this._messages = json['messages'];
 }
 

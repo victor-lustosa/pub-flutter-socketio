@@ -24,7 +24,7 @@
 //   final TextEditingController _ageController = TextEditingController();
 //   final UserViewModel _userViewModel = UserViewModel(Location(), User.withoutParameters());
 //
-//   final List<String> _listGenres = ['Não informado','Masculino', 'Feminino'];
+//   final List<String> _genres = ['Não informado','Masculino', 'Feminino'];
 //   String _selectedGenre = '';
 //
 //   double age = 0;
@@ -80,7 +80,7 @@
 //                                   ), width: 280, height: 38,
 //                                   child: Form(
 //                                       autovalidateMode: AutovalidateMode.always,
-//                                       child: DropdownWidget(_listGenres, (String dropdownReturn){
+//                                       child: DropdownWidget(_genres, (String dropdownReturn){
 //                                         setState(() {
 //                                           _selectedGenre = dropdownReturn;
 //                                         });
@@ -93,7 +93,7 @@
 //                                   Establishment establishment = Establishment();
 //                                   age = double.tryParse(_ageController.text) == null ? 0 : double.tryParse(_ageController.text)!;
 //                                   if(_ageController.text.isNotEmpty && _nickNameController.text.isNotEmpty) {
-//                                     User user = _userViewModel.validateUser(_nickNameController, _ageController, _selectedGenre, _listGenres);
+//                                     User user = _userViewModel.validateUser(_nickNameController, _ageController, _selectedGenre, _genres);
 //                                     establishment.setLatitude(_userViewModel.locationData.latitude!);
 //                                     establishment.setLongitude(_userViewModel.locationData.longitude!);
 //                                     Navigator.push(context, MaterialPageRoute(

@@ -34,7 +34,7 @@ class _EstablishmentPageState extends State<EstablishmentPage> with SingleTicker
     _roomViewModel = RoomViewModel(scrollViewController: ScrollController(initialScrollOffset: 0.0),
                                    user: this.widget.user,room: Room.withoutParameters());
     _bloc = RoomBloc(roomViewModel: _roomViewModel);
-    _bloc.add(LoadingRoomsListEvent());
+    _bloc.add(LoadingRoomsEvent());
     _tabController = TabController(vsync: this, length: 2);
   }
 

@@ -10,7 +10,7 @@ class EstablishmentPageTwoWidget extends StatelessWidget {
   EstablishmentPageTwoWidget();
 
   // EstablishmentViewModel _establishmentViewModel = EstablishmentViewModel(DioEstablishmentRepository(Dio()));
-  // late List<dynamic> _establishmentList;
+  // late List<dynamic> _establishments;
 
   @override
   Widget build(BuildContext context) {
