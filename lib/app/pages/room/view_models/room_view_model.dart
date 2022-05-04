@@ -4,7 +4,7 @@ import 'package:pub/app/core/configs/app_colors.dart';
 import 'package:pub/app/pages/participant/models/participant.dart';
 import 'package:pub/app/pages/user/models/user.dart';
 import 'package:geolocator/geolocator.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import '../../../core/room_bloc/room_bloc.dart';
 import '../models/bloc_events.dart';
 
@@ -19,11 +19,12 @@ abstract class IRoomViewModel{
 
 class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
 
+
   RoomViewModel({required this.scrollViewController, required User user,required Room room}): _user = user, _room = room{
     getPosition();
   }
   final ScrollController scrollViewController;
-
+  final Uri _url = Uri.parse('https://flutter.dev');
   final focusNode = FocusNode();
   final textController = TextEditingController(text: '');
   // late bool boolAdd;
@@ -217,6 +218,13 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
       return false;
   }
 
+  openURL(BuildContext context) async{
+    if (await canLaunchUrl(_url))
+      await launchUrl(_url);
+    else
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Não foi possivel abrir a página')));
+    /// Não è possível abrir a URL
+  }
 // reload(RoomBloc bloc) {
 //   widget.bloc.add(LoadingRoomsEvent());
 // }

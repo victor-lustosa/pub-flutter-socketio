@@ -73,16 +73,17 @@ class _EstablishmentPageState extends State<EstablishmentPage> with SingleTicker
             EstablishmentPageTwoWidget()
           ])),
       floatingActionButton: SizedBox(
-          height: 32,
-          width: 136,
+          height: 30,
+          width: 150,
           child: FloatingActionButton.extended(
-              onPressed: () {
-
+              onPressed:(){
+                _roomViewModel.openURL(context);
               },
-              label: Text("Ajude com seu opinião",
+              label: Text("Ajude com sua opinião",
                   style: GoogleFonts.inter(fontSize: 10.5, color: Colors.white)),
               backgroundColor: AppColors.lightBrown,
-              icon: Icon(Icons.map, size: 15, color: Colors.white))),
+              // icon: Icon(Icons.map, size: 15, color: Colors.white)
+          )),
     );
   }
 }
