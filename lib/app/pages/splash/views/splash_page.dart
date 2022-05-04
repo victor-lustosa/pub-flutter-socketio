@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../user/models/user.dart';
 import '../../user/view_models/user_view_model.dart';
 
 class SplashPage extends StatefulWidget {
@@ -16,7 +17,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   initState(){
     super.initState();
-    userViewModel = UserViewModel.instance();
+    userViewModel = UserViewModel(User.withoutParameters());
     userViewModel.checkUser(context);
   }
 

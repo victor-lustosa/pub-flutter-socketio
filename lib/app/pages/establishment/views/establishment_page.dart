@@ -10,12 +10,13 @@ import 'components/establishment_page_two_widget.dart';
 import 'components/establishment_tab_bar_sliver_widget.dart';
 import 'components/establishment_flexible_space_bar_widget.dart';
 import 'components/establishment_page_one_widget.dart';
-
+import 'package:geolocator/geolocator.dart';
 class EstablishmentPage extends StatefulWidget {
 
-  EstablishmentPage(this.user);
+  EstablishmentPage(this.user,);
 
   final User user;
+  late LocationPermission permission;
 
   @override
   _EstablishmentPageState createState() => _EstablishmentPageState();
@@ -34,6 +35,7 @@ class _EstablishmentPageState extends State<EstablishmentPage> with SingleTicker
     _roomViewModel = RoomViewModel(scrollViewController: ScrollController(initialScrollOffset: 0.0),
                                    user: this.widget.user,room: Room.withoutParameters());
     _bloc = RoomBloc(roomViewModel: _roomViewModel);
+
     _bloc.add(LoadingRoomsEvent());
     _tabController = TabController(vsync: this, length: 2);
     _roomViewModel.delayForForms(context);

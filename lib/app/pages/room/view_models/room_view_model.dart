@@ -72,37 +72,36 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
     }
   }
 
-  checkAccessToLocation() async{
-    LocationPermission permission = await Geolocator.checkPermission();
-    if(permission == LocationPermission.denied){
-      permission = await Geolocator.requestPermission();
-      if(permission != LocationPermission.denied){
-        return;
-      }
-    }
-    if(permission == LocationPermission.deniedForever){
-      permission = await Geolocator.requestPermission();
-      if(permission != LocationPermission.deniedForever){
-        return;
-      }
-    }
-  }
+  // checkAccessToLocation() async{
+  //   LocationPermission permission = await Geolocator.checkPermission();
+  //   if(permission == LocationPermission.denied){
+  //     permission = await Geolocator.requestPermission();
+  //     if(permission != LocationPermission.denied){
+  //       return;
+  //     }
+  //   }
+  //   if(permission == LocationPermission.deniedForever){
+  //     permission = await Geolocator.requestPermission();
+  //     if(permission != LocationPermission.deniedForever){
+  //       return;
+  //     }
+  //   }
+  // }
   void getPosition() async{
-    // try{
-    //   bool active = await Geolocator.isLocationServiceEnabled();
-    //   if(!active){
-    //    checkAccessToLocation();
-    //   }
-    // Position position = await Geolocator.getCurrentPosition( desiredAccuracy: LocationAccuracy.best);
-    // developer.log('log latitude: ${position.latitude.toString()}');
-    // getUser.setLatitude(position.latitude);
-    // developer.log('log longitude: ${position.longitude.toString()}');
-    // getUser.setLongitude(position.longitude);
-    getUser.setLatitude(-10.182642569502747);
-    getUser.setLongitude(-48.36052358794835);
-    // }catch(e){
-    //   error = e.toString();
-    // }
+    try{
+      bool active = await Geolocator.isLocationServiceEnabled();
+      if(!active){
+        Position position = await Geolocator.getCurrentPosition( desiredAccuracy: LocationAccuracy.best);
+        developer.log('log latitude: ${position.latitude.toString()}');
+        getUser.setLatitude(position.latitude);
+        developer.log('log longitude: ${position.longitude.toString()}');
+        getUser.setLongitude(position.longitude);
+        // getUser.setLatitude(-10.182642569502747);
+        // getUser.setLongitude(-48.36052358794835);
+      }
+    }catch(e){
+      error = e.toString();
+    }
   }
   // Future<Position> _currentPosition() async{
   //   bool active = await Geolocator.isLocationServiceEnabled();

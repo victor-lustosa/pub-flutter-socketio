@@ -19,7 +19,6 @@ abstract class IUserViewModel{
 class UserViewModel implements IUserViewModel{
   late final User _user;
   int _age = 0;
-  UserViewModel.instance();
   UserViewModel(this._user);
 
   Future<void> checkUser(BuildContext context) async {
@@ -57,18 +56,18 @@ class UserViewModel implements IUserViewModel{
       throw Exception("Erro ao salvar usuario: $e");
     }
   }
-  checkAccessToLocation() async{
+  checkAccessToLocation(BuildContext context) async{
     LocationPermission permission = await Geolocator.checkPermission();
     if(permission == LocationPermission.denied){
       permission = await Geolocator.requestPermission();
-      if(permission != LocationPermission.denied){
-        return;
+      if(permission == LocationPermission.denied){
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('erro na permissão da geolocalização')));
       }
     }
     if(permission == LocationPermission.deniedForever){
       permission = await Geolocator.requestPermission();
       if(permission != LocationPermission.deniedForever){
-        return;
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('erro na permissão da geolocalização')));
       }
     }
   }

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:pub/app/core/configs/app_colors.dart';
-import 'package:pub/app/pages/user/models/user.dart';
+
 import 'package:pub/app/pages/user/view_models/user_view_model.dart';
 import 'package:pub/app/core/components/form_field_widget.dart';
-import 'components/user_register_bar_widget.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pub/app/core/components/dropdown_widget.dart';
+
+import '../models/user.dart';
+import 'components/user_register_bar_widget.dart';
 import '../../establishment/models/dto/establishment_dto.dart';
 import '../../../core/configs/app_routes.dart';
 
@@ -17,13 +20,6 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
 
   late final UserViewModel _userViewModel;
 
-  @override
-  void initState() {
-    super.initState();
-    _userViewModel = UserViewModel(User.withoutParameters());
-    _userViewModel.checkAccessToLocation();
-
-  }
   final TextEditingController _nickNameController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
 
@@ -31,7 +27,14 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
   String _selectedGenre = '';
   bool isEnabled = true;
   int age = 0;
-
+  @override
+  void initState() {
+    super.initState();
+    _userViewModel = UserViewModel(User.withoutParameters());
+    WidgetsBinding.instance.addPostFrameCallback((_){
+    _userViewModel.checkAccessToLocation(context);
+    });
+  }
   @override
   Widget build (BuildContext context) {
 
@@ -100,7 +103,9 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                                   age = int.tryParse(_ageController.text) == null ? 0 : int.tryParse(_ageController.text)!;
                                   if(_ageController.text.isNotEmpty && _nickNameController.text.isNotEmpty) {
                                     if(age >= 18){
+
                                     _userViewModel.validateUser(_nickNameController, _ageController, _selectedGenre, _genres);
+
                                     Navigator.pushNamedAndRemoveUntil(context, AppRoutes.ESTABLISHMENT_ROUTE,
                                                                       (_) => false, arguments:EstablishmentDTO(_userViewModel.getUser));
                                     }
