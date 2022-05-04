@@ -35,6 +35,16 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
   int lineNumbers = 1;
 
   // bool isVisibled = false;
+  verifyLocation(BuildContext context,RoomBloc bloc){
+    Geolocator.getPositionStream(
+        locationSettings: LocationSettings(accuracy: LocationAccuracy.best, timeLimit: Duration(minutes: 2))
+    ).listen((position) {
+      double distance = (Geolocator.distanceBetween(position.latitude, position.longitude, getRoom.getLatitude, getRoom.getLongitude) / 1000);
+      if(distance > 0.0){
+        bloc.add(DisconnectEvent(context));
+      }
+    });
+  }
 
   sendMessage(RoomBloc bloc){
 
@@ -76,19 +86,19 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
       }
     }
   }
- void getPosition() async{
+  void getPosition() async{
     // try{
     //   bool active = await Geolocator.isLocationServiceEnabled();
     //   if(!active){
     //    checkAccessToLocation();
     //   }
-      // Position position = await Geolocator.getCurrentPosition();
-      // developer.log('log latitude: ${position.latitude.toString()}');
-      // getUser.setLatitude(position.latitude);
-      // developer.log('log longitude: ${position.longitude.toString()}');
-      // getUser.setLongitude(position.longitude);
-      getUser.setLatitude(-10.182642569502747);
-      getUser.setLongitude(-48.36052358794835);
+    // Position position = await Geolocator.getCurrentPosition( desiredAccuracy: LocationAccuracy.best);
+    // developer.log('log latitude: ${position.latitude.toString()}');
+    // getUser.setLatitude(position.latitude);
+    // developer.log('log longitude: ${position.longitude.toString()}');
+    // getUser.setLongitude(position.longitude);
+    getUser.setLatitude(-10.182642569502747);
+    getUser.setLongitude(-48.36052358794835);
     // }catch(e){
     //   error = e.toString();
     // }
@@ -139,9 +149,9 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
     if(state is SendMessageState || state is ReceivePublicMessageState) {
       return Text('${_room.getMessages[index].getUser.getNickname} - ${_room.getMessages[index].getTextMessage}');
     } else if(state is EnterPublicRoomMessageState){
-        return  Center(child: Text('${state.message.getUser.getNickName} entrou na sala'));
-      }
+      return  Center(child: Text('${state.message.getUser.getNickName} entrou na sala'));
     }
+  }
   verifyParticipants(room, data) {
     for (dynamic participant in room.getParticipants) {
       if (data.getUser.getNickname == participant.getNickname) {
@@ -154,15 +164,15 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
       getUser.setIdUser(data.getUser.getIdUser);
       getRoom.setIdRoom(data.getIdRoom);
     }else{
-          for(dynamic room in _rooms){
-            if(room.getIdRoom == data.getIdRoom){
-              verifyParticipants(room,data);
-              if(!isParticipantExist){
-              room.addParticipants(Participant.convertUserToParticipant(data.getUser));
-            }
+      for(dynamic room in _rooms){
+        if(room.getIdRoom == data.getIdRoom){
+          verifyParticipants(room,data);
+          if(!isParticipantExist){
+            room.addParticipants(Participant.convertUserToParticipant(data.getUser));
           }
-          isParticipantExist = false;
-       }
+        }
+        isParticipantExist = false;
+      }
     }
     notifyListeners();
   }
@@ -177,9 +187,10 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
   double distanceBetweenUserAndEstablishments(User user, double latitude,double longitude) {
     return (Geolocator.distanceBetween(user.getLatitude, user.getLongitude, latitude, longitude) / 1000);
   }
+
   addMessages(message) {
-  // if(boolAdd == true){
-  // boolAdd = false;
+    // if(boolAdd == true){
+    // boolAdd = false;
     getRoom.addMessages(message);
   }
   fetchedRooms(message){
@@ -198,9 +209,17 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
   setRoom(Room room) => _room = room;
   setUser(User user) => _user = user;
 
-  // reload(RoomBloc bloc) {
-  //   widget.bloc.add(LoadingRoomsEvent());
-  // }
+  bool isAcceptedLocation(room) {
+    double result = distanceBetweenUserAndEstablishments(getUser,room.getLatitude,room.getLongitude);
+    if(result <= 0.5)
+      return true;
+    else
+      return false;
+  }
+
+// reload(RoomBloc bloc) {
+//   widget.bloc.add(LoadingRoomsEvent());
+// }
 }
 
 

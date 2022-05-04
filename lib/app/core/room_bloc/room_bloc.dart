@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 import 'package:socket_io_client/socket_io_client.dart';
+import '../../pages/establishment/models/dto/establishment_dto.dart';
 import '../../pages/participant/view_models/participant_view_model.dart';
 import '../../pages/room/models/bloc_events.dart';
 import '../../pages/room/models/data/data.dart';
@@ -11,6 +12,7 @@ import '../../pages/room/models/data/public_room_data.dart';
 import '../../pages/room/models/data/message_data.dart';
 import '../../pages/room/models/data/rooms_data.dart';
 import '../../pages/room/view_models/room_view_model.dart';
+import '../../pages/user/models/user.dart';
 import '../configs/app_routes.dart';
 
 part 'room_event.dart';
@@ -96,6 +98,7 @@ class RoomBloc extends Bloc<RoomEvent,RoomState>{
         'userNickName': this.roomViewModel.getUser.getNickname
       });
       _socket.disconnect();
+      emit(DisconnectState(context: event.context,user: this.roomViewModel.getUser));
     });
 
     on<ReceiveMessageEvent>((event, emit) async{
@@ -132,6 +135,7 @@ class RoomBloc extends Bloc<RoomEvent,RoomState>{
     on<DontBuildEvent>((event, emit) async{
       emit(DontBuildState());
     });
+
   }
   @override
   Future<void> close() {

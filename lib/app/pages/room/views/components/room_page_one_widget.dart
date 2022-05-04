@@ -22,7 +22,9 @@ class _RoomPageOneWidgetState extends State<RoomPageOneWidget> {
   @override
   initState() {
     widget.bloc.add(InitialRoomEvent());
+    widget.instance.verifyLocation(context, widget.bloc);
     super.initState();
+
   }
 
   @override
