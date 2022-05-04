@@ -225,6 +225,11 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Não foi possivel abrir a página')));
     /// Não è possível abrir a URL
   }
+
+  void delayForForms(BuildContext context) async{
+    await Future.delayed(const Duration(minutes: 30));
+    openURL(context);
+  }
 // reload(RoomBloc bloc) {
 //   widget.bloc.add(LoadingRoomsEvent());
 // }

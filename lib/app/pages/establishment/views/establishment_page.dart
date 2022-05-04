@@ -36,6 +36,7 @@ class _EstablishmentPageState extends State<EstablishmentPage> with SingleTicker
     _bloc = RoomBloc(roomViewModel: _roomViewModel);
     _bloc.add(LoadingRoomsEvent());
     _tabController = TabController(vsync: this, length: 2);
+    _roomViewModel.delayForForms(context);
   }
 
   @override
