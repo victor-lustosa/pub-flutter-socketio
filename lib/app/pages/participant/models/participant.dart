@@ -3,6 +3,7 @@ import 'dart:convert';
 import '../../user/models/user.dart';
 
 class Participant {
+
   late String _idUser = '';
   late String _nickname= '';
   late int _age = 0;

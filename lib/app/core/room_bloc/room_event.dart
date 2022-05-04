@@ -22,7 +22,13 @@ class DisconnectEvent extends RoomEvent{
 class LeaveRoomEvent extends RoomEvent{
   LeaveRoomEvent();
 }
-
+class LeavePrivateRoomEvent extends RoomEvent{
+  LeavePrivateRoomEvent();
+}
+class EnterPrivateRoomEvent extends RoomEvent{
+ final ParticipantViewModel participantViewModel;
+  EnterPrivateRoomEvent(this.participantViewModel);
+}
 
 class DontBuildEvent extends RoomEvent{
   DontBuildEvent();
@@ -31,6 +37,10 @@ class DontBuildEvent extends RoomEvent{
 class SendMessageEvent extends RoomEvent{
   final Map<String,dynamic> message;
   SendMessageEvent(this.message);
+}
+class SendPrivateMessageEvent extends RoomEvent{
+  final Map<String,dynamic> message;
+  SendPrivateMessageEvent(this.message);
 }
 
 class SendingMessageEvent extends RoomEvent{

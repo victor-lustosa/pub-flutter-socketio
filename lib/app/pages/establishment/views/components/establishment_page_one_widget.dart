@@ -7,8 +7,6 @@ import '../../../../core/configs/app_routes.dart';
 import '../../../../core/room_bloc/room_bloc.dart';
 import '../../../room/models/dto/room_dto.dart';
 import '../../../room/view_models/room_view_model.dart';
-import '../../../user/models/user.dart';
-
 import 'package:google_fonts/google_fonts.dart';
 
 class EstablishmentPageOneWidget extends StatefulWidget {
@@ -38,7 +36,7 @@ class _EstablishmentPageOneWidgetState extends State<EstablishmentPageOneWidget>
               buildWhen: (context, current) => context.runtimeType != current.runtimeType &&
                   (current is InitialState ||
                       current is SuccessRoomsState ||
-                      current is ReceiveEnterPublicRoomMessageState),
+                      current is EnterPublicRoomMessageState),
               builder:(context, state){
                 if(state is InitialState) {
                   return Stack(
@@ -54,67 +52,61 @@ class _EstablishmentPageOneWidgetState extends State<EstablishmentPageOneWidget>
                               ))
                         ])
                       ]);
-                } else if(state is SuccessRoomsState || state is ReceiveEnterPublicRoomMessageState) {
+                } else if(state is SuccessRoomsState || state is EnterPublicRoomMessageState) {
 
                   return RefreshIndicator(
-                    color: AppColors.darkBrown,
+                      color: AppColors.darkBrown,
                       onRefresh: () async{
-                      widget.bloc.add(LoadingRoomsEvent());
-                      } ,
+                        widget.bloc.add(LoadingRoomsEvent());
+                      },
                       child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: this.widget.roomViewModel.getRooms.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 12.0),
-                          child: ListTile(
-                              leading: Padding(
-                                  padding: EdgeInsets.only(left: 25,bottom: 10) ,
-                                  child: Container(
-                                    width: 40,
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                        color: AppColors.white, borderRadius: BorderRadius.all(const Radius.circular(5.0)),
-                                        boxShadow: [
-                                          BoxShadow(
-                                              color: Colors.grey.withOpacity(0.15),
-                                              spreadRadius: 1,
-                                              blurRadius: 3,
-                                              offset: Offset(1, 3)),
-                                        ]),
-                                    child: Image.asset(AppImages.lightLogo,width: 20,height: 20),)),
-                              title: Padding(
-                                  padding: EdgeInsets.only(bottom: 10),
-                                  child: Text(this.widget.roomViewModel.getRooms[index].getRoomName,
-                                      style: GoogleFonts.inter( color: AppColors.brown, fontSize: 18,))
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: this.widget.roomViewModel.getRooms.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 12.0),
+                              child: ListTile(
+                                  leading: Padding(
+                                      padding: EdgeInsets.only(left: 25,bottom: 10) ,
+                                      child: Container(
+                                        width: 40,
+                                        height: 40,
+                                        decoration: BoxDecoration(
+                                            color: AppColors.white, borderRadius: BorderRadius.all(const Radius.circular(5.0)),
+                                            boxShadow: [
+                                              BoxShadow(color: Colors.grey.withOpacity(0.15), spreadRadius: 1, blurRadius: 3, offset: Offset(1, 3)),
+                                            ]),
+                                        child: Image.asset(AppImages.lightLogo,width: 20,height: 20),)),
+                                  title: Padding(
+                                      padding: EdgeInsets.only(bottom: 10),
+                                      child: Text(this.widget.roomViewModel.getRooms[index].getRoomName,
+                                          style: GoogleFonts.inter( color: AppColors.brown, fontSize: 18,))
+                                  ),
+                                  subtitle:Row(
+                                    children: [
+                                      AnimatedBuilder( animation: this.widget.roomViewModel,
+                                          builder: (context, child) {
+                                            return this.widget.roomViewModel.getRooms[index].getParticipants.length == 1 ?
+                                            Text('${this.widget.roomViewModel.getRooms[index].getParticipants.length} pessoa',
+                                                style: GoogleFonts.inter( fontSize: 13, color: Colors.black45)) :
+                                            Text('${this.widget.roomViewModel.getRooms[index].getParticipants.length} pessoas',
+                                                style: GoogleFonts.inter( fontSize: 13, color: Colors.black45));}),
+                                      Padding(
+                                          padding: EdgeInsets.only(left: 40) ,
+                                          child: Text('${(this.widget.roomViewModel.getRooms[index].getDistance).toStringAsFixed(2)} km de distância', style:GoogleFonts.inter( fontSize: 13, color: Colors.black45)))
+                                    ],
+                                  ),
+                                  onTap: () {
+                                    this.widget.roomViewModel.setRoom(this.widget.roomViewModel.getRooms[index]);
+                                    Navigator.pushNamed(context,AppRoutes.PUBLIC_ROOM_ROUTE, arguments: RoomDTO(bloc: widget.bloc, roomViewModel: this.widget.roomViewModel));
+                                  }
                               ),
-                              subtitle:Row(
-                                children: [
-                                  AnimatedBuilder( animation: this.widget.roomViewModel,
-                                      builder: (context, child) {
-                                        return this.widget.roomViewModel.getRooms[index].getParticipants.length == 1 ?
-                                        Text('${this.widget.roomViewModel.getRooms[index].getParticipants.length} pessoa',
-                                            style: GoogleFonts.inter( fontSize: 13, color: Colors.black45)) :
-                                        Text('${this.widget.roomViewModel.getRooms[index].getParticipants.length} pessoas',
-                                            style: GoogleFonts.inter( fontSize: 13, color: Colors.black45));}),
-                                  Padding(
-                                      padding: EdgeInsets.only(left: 40) ,
-                                      child: Text('${(this.widget.roomViewModel.getRooms[index].getDistance).toStringAsFixed(2)} km de distância', style:GoogleFonts.inter( fontSize: 13, color: Colors.black45)))
-                                ],
-                              ),
-                              onTap: () {
-                                this.widget.roomViewModel.setRoom(this.widget.roomViewModel.getRooms[index]);
-                                Navigator.pushNamed(context,AppRoutes.PUBLIC_ROOM_ROUTE, arguments:
-                                RoomDTO(bloc: widget.bloc,
-                                    roomViewModel: this.widget.roomViewModel));
-                              }
-                          ),
-                        );
-                      }
-                  ));
+                            );
+                          }
+                      ));
                 } else{
-                  return Text('dsfsdf');
+                  return Text('aconteceu um erro [Establishment_page_one]');
                 }
               }
           )

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:pub/app/core/configs/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../../core/room_bloc/room_bloc.dart';
 import '../../models/room.dart';
 
 class RoomBarWidget  extends  StatefulWidget {
-  RoomBarWidget(this.room);
+  RoomBarWidget(this.room, this.bloc);
+  final RoomBloc bloc;
   final Room room;
   @override
   State<RoomBarWidget> createState() => _RoomBarWidgetState();
@@ -31,6 +33,7 @@ class _RoomBarWidgetState extends State<RoomBarWidget> {
                   ),
                   color: AppColors.darkBrown,
                   onPressed: () {
+                    widget.bloc.add(LeaveRoomEvent());
                     Navigator.pop(context);
                   }
               )

@@ -41,7 +41,6 @@ class _EstablishmentPageState extends State<EstablishmentPage> with SingleTicker
   @override
   void dispose() {
     _tabController.dispose();
-    _roomViewModel.scrollViewController.dispose();
     _bloc.add(DisconnectEvent());
     super.dispose();
   }

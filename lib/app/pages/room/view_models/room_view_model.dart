@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
 import 'package:pub/app/core/configs/app_colors.dart';
@@ -8,7 +7,8 @@ import 'package:geolocator/geolocator.dart';
 
 import '../../../core/room_bloc/room_bloc.dart';
 import '../models/bloc_events.dart';
-import '../models/data/enter_public_room_data.dart';
+
+import '../models/data/public_room_data.dart';
 import '../models/data/message_data.dart';
 import '../models/room.dart';
 
@@ -31,10 +31,11 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
   List<dynamic> _rooms = [];
   Room _room;
   User _user;
-  bool isExist = false;
+  bool isParticipantExist = false;
   int lineNumbers = 1;
-  bool isVisibled = false;
-  late Participant _participant;
+
+  // bool isVisibled = false;
+
   sendMessage(RoomBloc bloc){
 
     String textMessage = textController.text;
@@ -49,7 +50,7 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
           textMessage: textMessage,
           user: this.getUser,
           code: 0,
-          type: BlocEventType.send_message);
+          type: BlocEventType.send_public_message);
 
       _room.getMessages.add(mes);
 
@@ -59,30 +60,7 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
       focusNode.requestFocus();
     }
   }
-  sendPrivateMessage(RoomBloc bloc){
 
-    String textMessage = textController.text;
-
-    if (textMessage.isNotEmpty) {
-
-      var mes = MessageData(
-          idRoom: this.getRoom.getIdRoom,
-          createdAt: DateTime.now().toString(),
-          roomName: this.getRoom.getRoomName,
-          idMessage: '',
-          textMessage: textMessage,
-          user: this.getUser,
-          code: 0,
-          type: BlocEventType.send_message);
-
-      _room.getMessages.add(mes);
-
-      bloc.add(SendMessageEvent(mes.toMap()));
-      focusNode.requestFocus();
-      textController.clear();
-      focusNode.requestFocus();
-    }
-  }
   checkAccessToLocation() async{
     LocationPermission permission = await Geolocator.checkPermission();
     if(permission == LocationPermission.denied){
@@ -109,8 +87,8 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
       // getUser.setLatitude(position.latitude);
       // developer.log('log longitude: ${position.longitude.toString()}');
       // getUser.setLongitude(position.longitude);
-      getUser.setLatitude(-10.182325978880673);
-      getUser.setLongitude(-48.33803205711477);
+      getUser.setLatitude(-10.182642569502747);
+      getUser.setLongitude(-48.36052358794835);
     // }catch(e){
     //   error = e.toString();
     // }
@@ -130,7 +108,7 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
   }
 
   Alignment alignment(state,index){
-    if(state is SendMessageState || state is ReceiveMessageState) {
+    if(state is SendMessageState || state is ReceivePublicMessageState) {
       if(_room.getMessages[index].getUser.getNickname != _user.getNickname){
         return  Alignment.centerLeft;
       } else{
@@ -141,7 +119,7 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
     }
   }
   Color color(state,index){
-    if(state is SendMessageState || state is ReceiveMessageState) {
+    if(state is SendMessageState || state is ReceivePublicMessageState) {
       if(_room.getMessages[index].getUser.getNickname != _user.getNickname){
         return  Colors.white;
       } else{
@@ -158,33 +136,67 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
     //       this.scrollViewController.position.maxScrollExtent
     //   );
     // });
-    if(state is SendMessageState || state is ReceiveMessageState) {
+    if(state is SendMessageState || state is ReceivePublicMessageState) {
       return Text('${_room.getMessages[index].getUser.getNickname} - ${_room.getMessages[index].getTextMessage}');
-    } else if(state is ReceiveEnterPublicRoomMessageState){
+    } else if(state is EnterPublicRoomMessageState){
         return  Center(child: Text('${state.message.getUser.getNickName} entrou na sala'));
       }
     }
-
-  void addParticipants(EnterPublicRoomData data) {
+  verifyParticipants(room, data) {
+    for (dynamic participant in room.getParticipants) {
+      if (data.getUser.getNickname == participant.getNickname) {
+        isParticipantExist = true;
+      }
+    }
+  }
+  void addParticipants(PublicRoomData data) {
+    if(data.getUser.getNickname == getUser.getNickname){
+      getUser.setIdUser(data.getUser.getIdUser);
+      getRoom.setIdRoom(data.getIdRoom);
+    }else{
+          for(dynamic room in _rooms){
+            if(room.getIdRoom == data.getIdRoom){
+              verifyParticipants(room,data);
+              if(!isParticipantExist){
+              room.addParticipants(Participant.convertUserToParticipant(data.getUser));
+            }
+          }
+          isParticipantExist = false;
+       }
+    }
+    notifyListeners();
+  }
+  void removeParticipants(PublicRoomData data) {
     for(dynamic room in _rooms){
-      if(room.getRoomName == data.getRoomName){
-        room.addParticipants(Participant.convertUserToParticipant(data.getUser));
+      if(room.getIdRoom == data.getIdRoom){
+        room.removeParticipants(Participant.convertUserToParticipant(data.getUser));
       }
     }
     notifyListeners();
   }
-  addRoom(Room room){
-    _rooms.add(room);
+  double distanceBetweenUserAndEstablishments(User user, double latitude,double longitude) {
+    return (Geolocator.distanceBetween(user.getLatitude, user.getLongitude, latitude, longitude) / 1000);
   }
+  addMessages(message) {
+  // if(boolAdd == true){
+  // boolAdd = false;
+    getRoom.addMessages(message);
+  }
+  fetchedRooms(message){
+    _rooms = [];
+    for(dynamic roomData in message.getRooms){
+      Room room = Room.fromMinimalMap(roomData);
+      room.setDistance(distanceBetweenUserAndEstablishments(getUser,room.getLatitude,room.getLongitude));
+      _rooms.add(room);
+    }
+  }
+
   get getUser => _user;
   get getRoom => _room;
   get getRooms => _rooms;
-  get getParticipant => _participant;
 
-  setParticipant(Participant participant) => _participant = participant;
   setRoom(Room room) => _room = room;
   setUser(User user) => _user = user;
-  setRooms(List<dynamic> rooms) => _rooms = rooms;
 
   // reload(RoomBloc bloc) {
   //   widget.bloc.add(LoadingRoomsEvent());

@@ -23,15 +23,15 @@ class UserRegisterBarWidget extends PreferredSize {
                       style: GoogleFonts.inter( color: AppColors.white, fontSize: 17,)
                   )
               ),
-              Padding(padding: EdgeInsets.only(top: 200, right: 30),
-                  child:Text("Escolha uma imagem",
-                      style: GoogleFonts.inter( color: AppColors.white, fontSize: 13,)
-                  )
-              ),Padding(padding: EdgeInsets.only(left: 180, top: 175), child: IconButton(
-                icon: const Icon(Icons.account_circle,size: 60),
-                color: Colors.white,
-                onPressed: () {},
-              ),)
+              // Padding(padding: EdgeInsets.only(top: 200, right: 30),
+              //     child:Text("Escolha uma imagem",
+              //         style: GoogleFonts.inter( color: AppColors.white, fontSize: 13,)
+              //     )
+              // ),Padding(padding: EdgeInsets.only(left: 180, top: 175), child: IconButton(
+              //   icon: const Icon(Icons.account_circle,size: 60),
+              //   color: Colors.white,
+              //   onPressed: () {},
+              // ),)
             ]
         )
     ),

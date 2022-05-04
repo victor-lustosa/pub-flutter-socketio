@@ -5,13 +5,15 @@ import '../../../../core/configs/app_images.dart';
 import '../../../../core/configs/app_routes.dart';
 import '../../../../core/room_bloc/room_bloc.dart';
 import '../../../participant/models/dto/participant_dto.dart';
+import '../../../participant/view_models/participant_view_model.dart';
 import '../../view_models/room_view_model.dart';
 
 class RoomPageTwoWidget extends StatefulWidget {
 
-  final RoomViewModel instance;
+  final RoomViewModel roomViewModel;
+  final ParticipantViewModel participantViewModel;
   final RoomBloc bloc;
-  RoomPageTwoWidget(this.instance, this.bloc);
+  RoomPageTwoWidget(this.roomViewModel, this.bloc, this.participantViewModel);
 
   @override
   _RoomPageTwoWidgetState createState() => _RoomPageTwoWidgetState();
@@ -29,12 +31,12 @@ class _RoomPageTwoWidgetState extends State<RoomPageTwoWidget> {
         child: ListView.builder(
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
-            itemCount: widget.instance.getRoom.getParticipants.length,
+            itemCount: widget.roomViewModel.getRoom.getParticipants.length,
             itemBuilder: (context, index) {
               return Padding(
                   padding: const EdgeInsets.only(bottom: 12.0),
                   child: AnimatedBuilder(
-                      animation: this.widget.instance,
+                      animation: this.widget.roomViewModel,
                       builder: (context, child) {
                         return ListTile(
                             leading: Padding(
@@ -55,12 +57,12 @@ class _RoomPageTwoWidgetState extends State<RoomPageTwoWidget> {
                                     ],
                                   ),
                                   child: Image.asset(
-                                      AppImages.lightLogo, width: 20,
+                                      AppImages.userAvatar, width: 20,
                                       height: 20),)),
                             title: Padding(
                                 padding: EdgeInsets.only(bottom: 10),
-                                child: Text(widget.instance.getRoom.getParticipants[index].getNickname,
-                                    style: GoogleFonts.inter(color: AppColors.brown, fontSize: 18,))
+                                child: Text(widget.roomViewModel.getRoom.getParticipants[index].getNickname,
+                                    style: GoogleFonts.inter(color: AppColors.darkBrown, fontSize: 18,))
                             ),
                             // subtitle:Row(
                             //   children: [
@@ -74,11 +76,12 @@ class _RoomPageTwoWidgetState extends State<RoomPageTwoWidget> {
                             //   ],
                             // ),
                             onTap: () {
-                              widget.instance.setParticipant(widget.instance.getRoom.getParticipants[index]);
+
+                              widget.participantViewModel.setParticipant(widget.roomViewModel.getRoom.getParticipants[index]);
                               Navigator.pushNamed(context, AppRoutes.PRIVATE_ROOM_ROUTE,arguments:
                                   ParticipantDTO(
                                       bloc: widget.bloc,
-                                      roomViewModel: this.widget.instance));
+                                      participantViewModel: this.widget.participantViewModel));
                             }
                         );
                       }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pub/app/core/room_bloc/room_bloc.dart';
+import 'package:pub/app/pages/participant/view_models/participant_view_model.dart';
 import 'package:pub/app/pages/room/views/components/room_page_one_widget.dart';
 import 'package:pub/app/pages/user/models/user.dart';
 import '../../../core/configs/app_colors.dart';
+import '../../participant/models/participant.dart';
 import '../models/room.dart';
 import '../view_models/room_view_model.dart';
 import 'components/room_bar_widget.dart';
@@ -24,18 +26,15 @@ class _RoomPageState extends State<RoomPage>
     with SingleTickerProviderStateMixin {
 
   late TabController _tabController;
-  late ScrollController _scrollViewController;
 
   @override
   void initState() {
-    _scrollViewController = ScrollController(initialScrollOffset: 0.0);
     _tabController = TabController(vsync: this, length: 2);
     super.initState();
   }
   @override
   void dispose() {
     _tabController.dispose();
-    _scrollViewController.dispose();
     super.dispose();
   }
 
@@ -44,12 +43,12 @@ class _RoomPageState extends State<RoomPage>
 
     return Scaffold(
         body: NestedScrollView(
-            controller: _scrollViewController,
+            controller:widget.roomViewModel.scrollViewController,
             headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
                 SliverAppBar(
                   flexibleSpace: FlexibleSpaceBar(
-                    background: RoomBarWidget(this.widget.roomViewModel.getRoom),
+                    background: RoomBarWidget(this.widget.roomViewModel.getRoom, this.widget.bloc),
                   ),
                   automaticallyImplyLeading: false,
                   backgroundColor: AppColors.white,
@@ -74,7 +73,11 @@ class _RoomPageState extends State<RoomPage>
               //         ],
               //       ),
               //     )),
-              RoomPageTwoWidget(this.widget.roomViewModel, this.widget.bloc)
+              RoomPageTwoWidget(this.widget.roomViewModel, this.widget.bloc,
+                  ParticipantViewModel(
+                    scroll: this.widget.roomViewModel.scrollViewController,
+                    user: this.widget.roomViewModel.getUser,
+                    participant: Participant.withoutParameters()))
             ])));
   }
 }

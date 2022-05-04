@@ -1,16 +1,16 @@
+import '../../../user/models/user.dart';
 import '../data/data.dart';
-
 import '../bloc_events.dart';
 
-class LeavePublicRoomData extends Data{
+class PublicRoomData extends Data{
   String _idRoom = '';
   late String _roomName;
-  late String _userNickName;
+  late int _code;
+  late User _user;
   late String _textMessage;
-  late String _user = '';
 
-  String get userNickName => _userNickName;
   get getRoomName => _roomName;
+  get getCode => _code;
   get getType => super.type;
   get getTextMessage => _textMessage;
   get getUser => _user;
@@ -20,39 +20,34 @@ class LeavePublicRoomData extends Data{
     return {
       'idRoom': this._idRoom,
       'roomName': this._roomName,
-      'userNickName': this._userNickName,
       'textMessage': this._textMessage,
-      'user': this._user,
+      'user': this._user.toMap(),
+      'code': this._code,
       'type': super.type.name.toString()
     };
   }
 
-  factory LeavePublicRoomData.fromMap(Map<String, dynamic> map) {
-    return LeavePublicRoomData(
+  factory PublicRoomData.fromMap(Map<String, dynamic> map) {
+    return PublicRoomData(
         idRoom: map['idRoom'],
         roomName: map['roomName'],
-        userNickName: map['userNickName'],
         textMessage: map['textMessage'],
-        user: map['user'],
+        user: User.fromMap(map['user']),
+        code: map['code'],
         type: BlocEventType.values.firstWhere((element) => element.name.toString() == map['type']));
   }
 
-  LeavePublicRoomData({
+  PublicRoomData({
     required String idRoom,
     required String roomName,
-    required String userNickName,
     required String textMessage,
     required user,
+    required int code,
     required type,
   })  : _idRoom = idRoom,
         _roomName = roomName,
-        _userNickName = userNickName,
         _textMessage = textMessage,
+        _user = user,
+        _code = code,
         super(type: type);
 }
-
-// setUser(String user) => _user = user;
-// setType(BlocEventType type) => super.type = type;
-// setRoomName(String roomName) => _roomName = roomName;
-// setUserNickName(String userNickName) => _userNickName = userNickName;
-// setTextMessage(String textMessage) => _textMessage = textMessage;

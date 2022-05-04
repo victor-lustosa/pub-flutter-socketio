@@ -55,7 +55,7 @@ class AppRoutes{
       case PRIVATE_ROOM_ROUTE:
         ParticipantDTO participantDTO = arguments as ParticipantDTO;
         return MaterialPageRoute(
-            builder: (_) => ParticipantPage(participantDTO.getBloc, participantDTO.getRoomViewModel));
+            builder: (_) => ParticipantPage(participantDTO.getBloc, participantDTO.getParticipantViewModel));
 
       default:
         _unknownRoute();

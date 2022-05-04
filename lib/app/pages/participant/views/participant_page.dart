@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:pub/app/core/room_bloc/room_bloc.dart';
 
 import '../../../core/configs/app_colors.dart';
+import '../view_models/participant_view_model.dart';
 import 'components/participant_bar_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pub/app/pages/room/view_models/room_view_model.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ParticipantPage extends StatefulWidget {
 
   final RoomBloc bloc;
-  final RoomViewModel roomViewModel;
+  final ParticipantViewModel participantViewModel;
 
-  ParticipantPage(this.bloc, this.roomViewModel);
+  ParticipantPage(this.bloc, this.participantViewModel);
 
   @override
   _ParticipantPageState createState() => _ParticipantPageState();
@@ -20,17 +20,14 @@ class ParticipantPage extends StatefulWidget {
 
 class _ParticipantPageState extends State<ParticipantPage> {
 
-  late ScrollController _scrollViewController;
-
   @override
   void initState() {
-    widget.bloc.add(InitialRoomEvent());
+    widget.bloc.add(EnterPrivateRoomEvent(widget.participantViewModel));
     super.initState();
   }
   @override
   void dispose() {
-    widget.bloc.add(LeaveRoomEvent());
-    _scrollViewController.dispose();
+    // widget.bloc.add(LeaveRoomEvent());
     super.dispose();
   }
 
@@ -40,7 +37,7 @@ class _ParticipantPageState extends State<ParticipantPage> {
         appBar:AppBar(
             automaticallyImplyLeading: false,
             backgroundColor: Colors.white,
-            title:ParticipantBarWidget(widget.roomViewModel.getParticipant)),
+            title:ParticipantBarWidget(widget.participantViewModel.getParticipant)),
             body: Container(
                 padding: EdgeInsets.all(8),
                 decoration: BoxDecoration(color: Colors.white),
@@ -56,20 +53,20 @@ class _ParticipantPageState extends State<ParticipantPage> {
                             } else {
                               return Expanded(
                                 child: ListView.builder(
-                                    controller: this.widget.roomViewModel.scrollViewController,
-                                    itemCount:widget.roomViewModel.getParticipant.getMessages.length,
+                                    controller: this.widget.participantViewModel.getScrollViewController,
+                                    itemCount:widget.participantViewModel.getParticipant.getMessages.length,
                                     itemBuilder: (context, index) {
                                       return Align(
-                                        alignment: widget.roomViewModel.alignment(state, index),
+                                        alignment: widget.participantViewModel.alignment(state, index),
                                         child: Padding(
                                           padding: const EdgeInsets.all(6),
                                           child: Container(
                                               width: MediaQuery.of(context).size.width * 0.8,
                                               padding: const EdgeInsets.all(14),
                                               decoration: BoxDecoration(
-                                                  color: widget.roomViewModel.color(state, index),
+                                                  color: widget.participantViewModel.color(state, index),
                                                   borderRadius: BorderRadius.all(Radius.circular(8))),
-                                              child: widget.roomViewModel.typeMessage(state, index)
+                                              child: widget.participantViewModel.typeMessage(state, index)
                                           ),
                                         ),
                                       );
@@ -97,14 +94,14 @@ class _ParticipantPageState extends State<ParticipantPage> {
                                     //   instance.lineNumbers = 5;
                                     // }
                                   },
-                                  focusNode: this.widget.roomViewModel.focusNode,
+                                  focusNode: this.widget.participantViewModel.focusNode,
                                   onSubmitted: (_) {
-                                    this.widget.roomViewModel.sendMessage(widget.bloc);
+                                    this.widget.participantViewModel.sendMessage(widget.bloc);
                                   },
-                                  controller: this.widget.roomViewModel.textController,
+                                  controller: this.widget.participantViewModel.textController,
                                   autofocus: true,
                                   keyboardType: TextInputType.multiline,
-                                  maxLines: this.widget.roomViewModel.lineNumbers,
+                                  maxLines: this.widget.participantViewModel.lineNumbers,
                                   style: GoogleFonts.inter(fontSize: 15),
                                   decoration: InputDecoration(
                                       contentPadding: EdgeInsets.fromLTRB(20, 6, 20, 6),
@@ -129,7 +126,7 @@ class _ParticipantPageState extends State<ParticipantPage> {
                                     ),
                                     mini: true,
                                     onPressed: () {
-                                      this.widget.roomViewModel.sendPrivateMessage(widget.bloc);
+                                      this.widget.participantViewModel.sendMessage(widget.bloc);
                                     }
                                 ),
                               ),
