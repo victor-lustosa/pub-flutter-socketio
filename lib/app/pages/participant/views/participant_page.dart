@@ -22,7 +22,7 @@ class _ParticipantPageState extends State<ParticipantPage> {
 
   @override
   void initState() {
-    widget.bloc.add(EnterPrivateRoomEvent(widget.participantViewModel));
+    // widget.bloc.add(EnterPrivateRoomEvent(widget.participantViewModel));
     super.initState();
   }
   @override

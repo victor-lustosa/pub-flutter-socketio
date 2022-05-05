@@ -45,11 +45,10 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
         locationSettings: LocationSettings(accuracy: LocationAccuracy.best, timeLimit: Duration(minutes: 2))
     ).listen((position) {
       double distance = (Geolocator.distanceBetween(position.latitude, position.longitude, getRoom.getLatitude, getRoom.getLongitude) / 1000);
-      if(distance > 10.4){
-        bloc.add(DisconnectEvent());
-        // bloc.add(DontBuildEvent());
+      if(distance > 10.2){
+        bloc.add(LeaveRoomEvent());
         Navigator.pushNamed(context, AppRoutes.ESTABLISHMENT_ROUTE, arguments:EstablishmentDTO(getUser));
-        subscription.cancel();
+        dispose();
       }
     });
   }
@@ -94,15 +93,6 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
     //   error = e.toString();
     // }
   }
-
-  void dispose() {
-    subscription.cancel();
-    textController.dispose();
-    focusNode.dispose();
-    scrollViewController.dispose();
-    super.dispose();
-  }
-
   Alignment alignment(state,index){
     if(state is SendMessageState || state is ReceivePublicMessageState) {
       if(_room.getMessages[index].getUser.getNickname != _user.getNickname){
@@ -188,13 +178,6 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
     }
   }
 
-  get getUser => _user;
-  get getRoom => _room;
-  get getRooms => _rooms;
-
-  setRoom(Room room) => _room = room;
-  setUser(User user) => _user = user;
-
   bool isAcceptedLocation(room) {
     double result = distanceBetweenUserAndEstablishments(getUser,room.getLatitude,room.getLongitude);
     if(result <= 0.5)
@@ -216,6 +199,20 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
     openURL(context);
   }
 
+  get getUser => _user;
+  get getRoom => _room;
+  get getRooms => _rooms;
+
+  setRoom(Room room) => _room = room;
+  setUser(User user) => _user = user;
+
+  void dispose() {
+    subscription.cancel();
+    textController.dispose();
+    focusNode.dispose();
+    scrollViewController.dispose();
+    super.dispose();
+  }
 }
 
 

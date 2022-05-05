@@ -74,13 +74,3 @@ class DeleteMessageState extends RoomState{
   DeleteMessageState() : super(null, null);
 }
 
-class EnterPrivateRoomMessageState extends RoomState{
-  EnterPrivateRoomMessageState():super(null, null);
-}
-class LeavePrivateRoomMessageState extends RoomState{
-  LeavePrivateRoomMessageState():super(null, null);
-}
-// class ErrorRoomState extends MessageState{
-//   final String message;
-//   ErrorRoomState(this.message);
-// }

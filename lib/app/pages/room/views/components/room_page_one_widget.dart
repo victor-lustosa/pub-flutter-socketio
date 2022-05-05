@@ -25,7 +25,6 @@ class _RoomPageOneWidgetState extends State<RoomPageOneWidget>{
 
   @override
   void dispose() {
-    widget.instance.dispose();
     super.dispose();
   }
 

@@ -10,9 +10,6 @@ class InitialRoomEvent extends RoomEvent{
   InitialRoomEvent();
 }
 class LoadingRoomsEvent extends RoomEvent{
-  // final double latitude;
-  // final double longitude;
-  // LoadingRoomsEvent(this.latitude, this.longitude);
   LoadingRoomsEvent();
 }
 
@@ -22,14 +19,6 @@ class DisconnectEvent extends RoomEvent{
 class LeaveRoomEvent extends RoomEvent{
   LeaveRoomEvent();
 }
-class LeavePrivateRoomEvent extends RoomEvent{
-  LeavePrivateRoomEvent();
-}
-class EnterPrivateRoomEvent extends RoomEvent{
- final ParticipantViewModel participantViewModel;
-  EnterPrivateRoomEvent(this.participantViewModel);
-}
-
 class DontBuildEvent extends RoomEvent{
   DontBuildEvent();
 }
