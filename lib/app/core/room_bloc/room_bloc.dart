@@ -98,7 +98,8 @@ class RoomBloc extends Bloc<RoomEvent,RoomState>{
         'userNickName': this.roomViewModel.getUser.getNickname
       });
       _socket.disconnect();
-      emit(DisconnectState(context: event.context,user: this.roomViewModel.getUser));
+      // emit(DisconnectState(context: event.context));
+      // Navigator.pop(event.context);
     });
 
     on<ReceiveMessageEvent>((event, emit) async{

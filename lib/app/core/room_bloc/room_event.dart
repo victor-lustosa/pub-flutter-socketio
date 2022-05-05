@@ -17,8 +17,7 @@ class LoadingRoomsEvent extends RoomEvent{
 }
 
 class DisconnectEvent extends RoomEvent{
-  final BuildContext context;
-  DisconnectEvent(this.context);
+  DisconnectEvent();
 }
 class LeaveRoomEvent extends RoomEvent{
   LeaveRoomEvent();

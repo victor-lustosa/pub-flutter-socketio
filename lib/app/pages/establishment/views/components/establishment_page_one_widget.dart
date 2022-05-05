@@ -36,6 +36,7 @@ class _EstablishmentPageOneWidgetState extends State<EstablishmentPageOneWidget>
               buildWhen: (context, current) => context.runtimeType != current.runtimeType &&
                   (current is InitialState ||
                       current is SuccessRoomsState ||
+                      current is DisconnectState ||
                       current is EnterPublicRoomMessageState),
               builder:(context, state){
                 if(state is InitialState) {
@@ -52,7 +53,7 @@ class _EstablishmentPageOneWidgetState extends State<EstablishmentPageOneWidget>
                               ))
                         ])
                       ]);
-                } else if(state is SuccessRoomsState || state is EnterPublicRoomMessageState) {
+                } else if(state is SuccessRoomsState || state is EnterPublicRoomMessageState || state is DisconnectState) {
 
                   return RefreshIndicator(
                       color: AppColors.darkBrown,

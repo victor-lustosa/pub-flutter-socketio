@@ -44,7 +44,7 @@ class _EstablishmentPageState extends State<EstablishmentPage> with SingleTicker
   @override
   void dispose() {
     _tabController.dispose();
-    _bloc.add(DisconnectEvent(context));
+    _bloc.add(DisconnectEvent());
     super.dispose();
   }
 
@@ -77,7 +77,7 @@ class _EstablishmentPageState extends State<EstablishmentPage> with SingleTicker
           ])),
       floatingActionButton: SizedBox(
           height: 30,
-          width: 150,
+          width: 160,
           child: FloatingActionButton.extended(
               onPressed:(){
                 _roomViewModel.openURL(context);

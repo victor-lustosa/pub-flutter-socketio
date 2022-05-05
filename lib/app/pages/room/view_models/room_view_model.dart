@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
 import 'package:pub/app/core/configs/app_colors.dart';
@@ -5,7 +6,9 @@ import 'package:pub/app/pages/participant/models/participant.dart';
 import 'package:pub/app/pages/user/models/user.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../../core/configs/app_routes.dart';
 import '../../../core/room_bloc/room_bloc.dart';
+import '../../establishment/models/dto/establishment_dto.dart';
 import '../models/bloc_events.dart';
 
 import '../models/data/public_room_data.dart';
@@ -19,10 +22,11 @@ abstract class IRoomViewModel{
 
 class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
 
-
   RoomViewModel({required this.scrollViewController, required User user,required Room room}): _user = user, _room = room{
     getPosition();
   }
+
+  late StreamSubscription subscription;
   final ScrollController scrollViewController;
   final Uri _url = Uri.parse('https://flutter.dev');
   final focusNode = FocusNode();
@@ -37,12 +41,15 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
 
   // bool isVisibled = false;
   verifyLocation(BuildContext context,RoomBloc bloc){
-    Geolocator.getPositionStream(
+    subscription = Geolocator.getPositionStream(
         locationSettings: LocationSettings(accuracy: LocationAccuracy.best, timeLimit: Duration(minutes: 2))
     ).listen((position) {
       double distance = (Geolocator.distanceBetween(position.latitude, position.longitude, getRoom.getLatitude, getRoom.getLongitude) / 1000);
-      if(distance > 0.0){
-        bloc.add(DisconnectEvent(context));
+      if(distance > 10.4){
+        bloc.add(DisconnectEvent());
+        // bloc.add(DontBuildEvent());
+        Navigator.pushNamed(context, AppRoutes.ESTABLISHMENT_ROUTE, arguments:EstablishmentDTO(getUser));
+        subscription.cancel();
       }
     });
   }
@@ -71,50 +78,29 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
       focusNode.requestFocus();
     }
   }
-
-  // checkAccessToLocation() async{
-  //   LocationPermission permission = await Geolocator.checkPermission();
-  //   if(permission == LocationPermission.denied){
-  //     permission = await Geolocator.requestPermission();
-  //     if(permission != LocationPermission.denied){
-  //       return;
-  //     }
-  //   }
-  //   if(permission == LocationPermission.deniedForever){
-  //     permission = await Geolocator.requestPermission();
-  //     if(permission != LocationPermission.deniedForever){
-  //       return;
-  //     }
-  //   }
-  // }
   void getPosition() async{
-    try{
-      bool active = await Geolocator.isLocationServiceEnabled();
-      if(!active){
-        Position position = await Geolocator.getCurrentPosition( desiredAccuracy: LocationAccuracy.best);
-        developer.log('log latitude: ${position.latitude.toString()}');
-        getUser.setLatitude(position.latitude);
-        developer.log('log longitude: ${position.longitude.toString()}');
-        getUser.setLongitude(position.longitude);
-        // getUser.setLatitude(-10.182642569502747);
-        // getUser.setLongitude(-48.36052358794835);
-      }
-    }catch(e){
-      error = e.toString();
-    }
+    // try{
+    //   bool active = await Geolocator.isLocationServiceEnabled();
+    //   if(!active){
+    //     Position position = await Geolocator.getCurrentPosition( desiredAccuracy: LocationAccuracy.best);
+    //     developer.log('log latitude: ${position.latitude.toString()}');
+    //     getUser.setLatitude(position.latitude);
+    //     developer.log('log longitude: ${position.longitude.toString()}');
+    //     getUser.setLongitude(position.longitude);
+        getUser.setLatitude(-10.182642569502747);
+        getUser.setLongitude(-48.36052358794835);
+    //   }
+    // }catch(e){
+    //   error = e.toString();
+    // }
   }
-  // Future<Position> _currentPosition() async{
-  //   bool active = await Geolocator.isLocationServiceEnabled();
-  //   if(!active){
-  //     return Future.error('Por favor, habilite a localizacao');
-  //   }
-  //   return await Geolocator.getCurrentPosition();
-  // }
+
   void dispose() {
-    super.dispose();
+    subscription.cancel();
     textController.dispose();
     focusNode.dispose();
     scrollViewController.dispose();
+    super.dispose();
   }
 
   Alignment alignment(state,index){
@@ -229,9 +215,7 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
     await Future.delayed(const Duration(minutes: 30));
     openURL(context);
   }
-// reload(RoomBloc bloc) {
-//   widget.bloc.add(LoadingRoomsEvent());
-// }
+
 }
 
 

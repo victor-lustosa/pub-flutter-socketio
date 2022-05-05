@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pub/app/pages/room/view_models/room_view_model.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../../../core/configs/app_colors.dart';
 import '../../../../core/room_bloc/room_bloc.dart';
 
@@ -16,21 +15,17 @@ class RoomPageOneWidget extends StatefulWidget {
   State<RoomPageOneWidget> createState() => _RoomPageOneWidgetState();
 }
 
-class _RoomPageOneWidgetState extends State<RoomPageOneWidget> {
-  // late final StreamSubscription sub;
-
+class _RoomPageOneWidgetState extends State<RoomPageOneWidget>{
   @override
   initState() {
     widget.bloc.add(InitialRoomEvent());
     widget.instance.verifyLocation(context, widget.bloc);
     super.initState();
-
   }
 
   @override
   void dispose() {
-    // widget.bloc.add(LeaveRoomEvent());
-    // sub.cancel();
+    widget.instance.dispose();
     super.dispose();
   }
 

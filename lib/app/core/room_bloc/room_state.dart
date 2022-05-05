@@ -63,9 +63,7 @@ class SendingMessageState extends RoomState{
   SendingMessageState() : super(null, null);
 }
 class DisconnectState extends RoomState{
-  DisconnectState({required BuildContext context, required User user}) : super(context, user){
-    Navigator.pushReplacementNamed(context, AppRoutes.ESTABLISHMENT_ROUTE, arguments:EstablishmentDTO(user));
-  }
+  DisconnectState() : super(null,null);
 }
 
 class EditMessageState extends RoomState{
