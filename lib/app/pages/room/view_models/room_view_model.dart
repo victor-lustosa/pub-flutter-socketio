@@ -48,7 +48,7 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
       if(distance > 10.2){
         bloc.add(LeaveRoomEvent());
         Navigator.pushNamed(context, AppRoutes.ESTABLISHMENT_ROUTE, arguments:EstablishmentDTO(getUser));
-        dispose();
+        subscription.cancel();
       }
     });
   }

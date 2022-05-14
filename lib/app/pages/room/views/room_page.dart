@@ -48,7 +48,7 @@ class _RoomPageState extends State<RoomPage>
               return <Widget>[
                 SliverAppBar(
                   flexibleSpace: FlexibleSpaceBar(
-                    background: RoomBarWidget(this.widget.roomViewModel.getRoom, this.widget.bloc),
+                    background: RoomBarWidget(this.widget.bloc, this.widget.roomViewModel),
                   ),
                   automaticallyImplyLeading: false,
                   backgroundColor: AppColors.white,

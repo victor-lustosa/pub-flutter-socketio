@@ -15,9 +15,20 @@ class EstablishmentFlexibleSpaceBarWidget extends StatelessWidget {
       fit: StackFit.loose,
       alignment: AlignmentDirectional.center,
       children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Padding(
+                padding: EdgeInsets.only(left: 55, bottom: 75),
+                child: Text("APP",
+                    style: GoogleFonts.inter( color: AppColors.white, fontSize: 20, fontWeight: FontWeight.w500,)
+                )
+            ),
+          ],
+        ),
         Row( children: [
             Padding(
-                padding: EdgeInsets.only(top: 25, right: 360),
+                padding: EdgeInsets.only(top: 25),
                 child: IconButton(
                     iconSize: 30,
                     icon: Icon(
@@ -57,17 +68,7 @@ class EstablishmentFlexibleSpaceBarWidget extends StatelessWidget {
             ),
           ],
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Padding(
-                padding: EdgeInsets.only(left: 55, bottom: 75),
-                child: Text("APP",
-                    style: GoogleFonts.inter( color: AppColors.white, fontSize: 20, fontWeight: FontWeight.w500,)
-                )
-            ),
-          ],
-        ),
+
         // Row(
         //   mainAxisAlignment: MainAxisAlignment.end,
         //   children: <Widget>[

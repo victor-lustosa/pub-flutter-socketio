@@ -3,11 +3,12 @@ import 'package:pub/app/core/configs/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/room_bloc/room_bloc.dart';
 import '../../models/room.dart';
+import '../../view_models/room_view_model.dart';
 
 class RoomBarWidget  extends  StatefulWidget {
-  RoomBarWidget(this.room, this.bloc);
+  RoomBarWidget(this.bloc, this.roomViewModel);
   final RoomBloc bloc;
-  final Room room;
+  final RoomViewModel roomViewModel;
   @override
   State<RoomBarWidget> createState() => _RoomBarWidgetState();
 }
@@ -35,13 +36,14 @@ class _RoomBarWidgetState extends State<RoomBarWidget> {
                   onPressed: () {
                     widget.bloc.add(LeaveRoomEvent());
                     Navigator.pop(context);
+                    widget.roomViewModel.subscription.cancel();
                   }
               )
           ),
           Padding(
               padding: EdgeInsets.only(left: 8),
               child: Text(
-                widget.room.getRoomName,
+                widget.roomViewModel.getRoom.getRoomName,
                 style:
                 GoogleFonts.inter(fontSize: 17, color: AppColors.darkBrown),
               )
