@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/configs/app_colors.dart';
 import '../../../../core/configs/app_images.dart';
+import '../../../../core/configs/app_routes.dart';
 import '../../../user/models/user.dart';
 
 class EstablishmentFlexibleSpaceBarWidget extends StatelessWidget {
@@ -49,6 +50,9 @@ class EstablishmentFlexibleSpaceBarWidget extends StatelessWidget {
               padding: EdgeInsets.only(left: 50, top:25, bottom: 0),
               child: IconButton(
                 onPressed: (){
+                  Navigator.pushNamedAndRemoveUntil(context,AppRoutes.EDIT_USER_ROUTE,
+                      ModalRoute.withName(AppRoutes.ESTABLISHMENT_ROUTE),
+                      arguments: user);
                 },
                 iconSize: 45,
                 icon: ClipOval(

@@ -12,7 +12,10 @@ import 'components/user_register_bar_widget.dart';
 import '../../establishment/models/dto/establishment_dto.dart';
 import '../../../core/configs/app_routes.dart';
 
-class UserRegisterPage extends StatefulWidget  {
+class UserRegisterPage extends StatefulWidget {
+  User user;
+  UserRegisterPage(this.user);
+
   _UserRegisterPageState createState() => _UserRegisterPageState();
 }
 
@@ -29,11 +32,15 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
   int age = 0;
   @override
   void initState() {
-    super.initState();
     _userViewModel = UserViewModel(User.withoutParameters());
     WidgetsBinding.instance.addPostFrameCallback((_){
-    _userViewModel.checkAccessToLocation(context);
+      _userViewModel.checkAccessToLocation(context);
+      if(widget.user.getNickname != ''){
+        _nickNameController.text = widget.user.getNickname;
+        _ageController.text = widget.user.getAge.toString();
+      }
     });
+    super.initState();
   }
   @override
   Widget build (BuildContext context) {
@@ -46,7 +53,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
           }
         },
         child: Scaffold(
-            appBar:  UserRegisterBarWidget(),
+            appBar:  UserRegisterBarWidget(context),
             body: SingleChildScrollView(
                 physics: NeverScrollableScrollPhysics(),
                 child:Container(
@@ -100,16 +107,15 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                             padding: EdgeInsets.only(top: 95),
                             child: ElevatedButton.icon(
                                 onPressed: (){
-                                  age = int.tryParse(_ageController.text) == null ? 0 : int.tryParse(_ageController.text)!;
-                                  if(_ageController.text.isNotEmpty && _nickNameController.text.isNotEmpty) {
-                                    if(age >= 18){
-
-                                    _userViewModel.validateUser(_nickNameController, _ageController, _selectedGenre, _genres);
-
-                                    Navigator.pushNamedAndRemoveUntil(context, AppRoutes.ESTABLISHMENT_ROUTE,
-                                                                      (_) => false, arguments:EstablishmentDTO(_userViewModel.getUser));
+                                    age = int.tryParse(_ageController.text) == null ? 0 : int.tryParse(_ageController.text)!;
+                                    if(_ageController.text.isNotEmpty && _nickNameController.text.isNotEmpty) {
+                                      if(age >= 18){
+                                        _userViewModel.validateUser(_nickNameController, _ageController, _selectedGenre, _genres);
+                                        Navigator.pushNamedAndRemoveUntil(context,AppRoutes.ESTABLISHMENT_ROUTE,
+                                            ModalRoute.withName(AppRoutes.USER_REGISTER_ROUTE),
+                                            arguments:EstablishmentDTO(_userViewModel.getUser));
+                                      }
                                     }
-                                  }
                                 },
                                 icon: Icon(
                                   Icons.navigate_next_rounded,

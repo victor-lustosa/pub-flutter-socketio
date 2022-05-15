@@ -37,6 +37,7 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
   Room _room;
   User _user;
   bool isParticipantExist = false;
+  bool isUserExist = false;
   int lineNumbers = 1;
 
   // bool isVisibled = false;
@@ -134,6 +135,14 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
         isParticipantExist = true;
       }
     }
+  }
+  bool verifyNameUser(Room room) {
+    for (dynamic participant in room.getParticipants) {
+      if (getUser.getNickname == participant.getNickname) {
+        isUserExist = true;
+      }
+    }
+    return isUserExist;
   }
   void addParticipants(PublicRoomData data) {
     if(data.getUser.getNickname == getUser.getNickname){

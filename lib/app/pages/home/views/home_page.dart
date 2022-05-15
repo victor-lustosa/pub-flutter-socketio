@@ -5,6 +5,7 @@ import 'package:pub/app/pages/user/views/user_register_page.dart';
 import 'package:pub/app/core/configs/app_colors.dart';
 
 import '../../../core/configs/app_routes.dart';
+import '../../user/models/user.dart';
 import 'components/home_bar_widget.dart';
 
 class HomePage extends StatelessWidget {
@@ -33,7 +34,7 @@ class HomePage extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => UserRegisterPage()));
+                              builder: (context) => UserRegisterPage(User.withoutParameters())));
                     },
                     label: Text("Cadastrar",
                         style: GoogleFonts.inter(

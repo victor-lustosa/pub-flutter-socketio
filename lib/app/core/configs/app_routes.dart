@@ -8,6 +8,7 @@ import '../../pages/home/views/home_page.dart';
 import '../../pages/participant/views/participant_page.dart';
 import '../../pages/room/models/dto/room_dto.dart';
 import '../../pages/room/views/room_page.dart';
+import '../../pages/user/models/user.dart';
 import '../../pages/user/views/user_register_page.dart';
 const urlServer = 'https://powerful-bayou-46345.herokuapp.com';
 // const urlServer = 'http://localhost:4000';
@@ -15,6 +16,7 @@ class AppRoutes{
   static const String INICIAL_ROUTE = "/";
   static const String HOME_ROUTE = "/home";
   static const String USER_REGISTER_ROUTE = "/user_register";
+  static const String EDIT_USER_ROUTE = "/edit_user";
   static const String ENTERPRISE_REGISTER_ROUTE = "/enterprise_register";
   static const String ESTABLISHMENT_ROUTE = "/establishments";
   static const String PUBLIC_ROOM_ROUTE = "/public_room";
@@ -36,16 +38,20 @@ class AppRoutes{
       case ESTABLISHMENT_ROUTE:
         EstablishmentDTO establishmentDTO = arguments as EstablishmentDTO;
         return MaterialPageRoute(
-            // builder: (_) => EstablishmentPage(establishmentDTO.getUser, establishmentDTO.getEstablishment));
+          // builder: (_) => EstablishmentPage(establishmentDTO.getUser, establishmentDTO.getEstablishment));
             builder: (_) => EstablishmentPage(establishmentDTO.getUser));
 
       case USER_REGISTER_ROUTE:
         return MaterialPageRoute(
-            builder: (_) =>  UserRegisterPage());
+            builder: (_) =>  UserRegisterPage(User.withoutParameters()));
 
-      // case ENTERPRISE_REGISTER_ROUTE:
-      //   return MaterialPageRoute(
-      //       builder: (_) =>  EnterpriseRegisterPage());
+    // case ENTERPRISE_REGISTER_ROUTE:
+    //   return MaterialPageRoute(
+    //       builder: (_) =>  EnterpriseRegisterPage());
+      case EDIT_USER_ROUTE:
+        User user = arguments as User;
+        return MaterialPageRoute(
+            builder: (_) =>  UserRegisterPage(user));
 
       case PUBLIC_ROOM_ROUTE:
         RoomDTO roomDTO = arguments as RoomDTO;

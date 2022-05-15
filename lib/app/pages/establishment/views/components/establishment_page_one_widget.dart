@@ -37,7 +37,9 @@ class _EstablishmentPageOneWidgetState extends State<EstablishmentPageOneWidget>
                   (current is InitialState ||
                       current is SuccessRoomsState ||
                       current is DisconnectState ||
-                      current is EnterPublicRoomMessageState),
+                      current is EnterPublicRoomMessageState ||
+                      current is LeavePublicRoomMessageState
+                  ),
               builder:(context, state){
                 if(state is InitialState) {
                   return Stack(
@@ -53,7 +55,10 @@ class _EstablishmentPageOneWidgetState extends State<EstablishmentPageOneWidget>
                               ))
                         ])
                       ]);
-                } else if(state is SuccessRoomsState || state is EnterPublicRoomMessageState || state is DisconnectState) {
+                } else if(state is SuccessRoomsState ||
+                          state is EnterPublicRoomMessageState ||
+                          state is DisconnectState||
+                          state is LeavePublicRoomMessageState) {
 
                   return RefreshIndicator(
                       color: AppColors.darkBrown,
@@ -105,8 +110,13 @@ class _EstablishmentPageOneWidgetState extends State<EstablishmentPageOneWidget>
                                           ),
                                           onTap: () {
                                             if(this.widget.roomViewModel.isAcceptedLocation(this.widget.roomViewModel.getRooms[index])){
-                                              this.widget.roomViewModel.setRoom(this.widget.roomViewModel.getRooms[index]);
-                                              Navigator.pushNamed(context,AppRoutes.PUBLIC_ROOM_ROUTE, arguments: RoomDTO(bloc: widget.bloc, roomViewModel: this.widget.roomViewModel));
+                                              bool isUserExist = widget.roomViewModel.verifyNameUser(this.widget.roomViewModel.getRooms[index]);
+                                              if(!isUserExist){
+                                                this.widget.roomViewModel.setRoom(this.widget.roomViewModel.getRooms[index]);
+                                                Navigator.pushNamed(context,AppRoutes.PUBLIC_ROOM_ROUTE, arguments: RoomDTO(bloc: widget.bloc, roomViewModel: this.widget.roomViewModel));
+                                              } else{
+                                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Seu nickname já existe na sala, altere-o para entrar')));
+                                              }
                                             }
                                           }
                                       );}

@@ -3,7 +3,7 @@ import 'package:pub/app/core/configs/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 class UserRegisterBarWidget extends PreferredSize {
 
-  UserRegisterBarWidget()
+  UserRegisterBarWidget(BuildContext context)
       : super(
     preferredSize: Size.fromHeight(325),
     child: Container(
@@ -13,6 +13,24 @@ class UserRegisterBarWidget extends PreferredSize {
             fit: StackFit.loose,
             alignment: AlignmentDirectional.center,
             children: <Widget> [
+              Row(  mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                Padding(
+                    padding: EdgeInsets.only(bottom: 160, left: 5),
+                    child: IconButton(
+                        iconSize: 30,
+                        icon: Icon(
+                          Icons.navigate_before_rounded,
+                          color: AppColors.white,
+                        ),
+                        color: AppColors.darkBrown,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        }
+                    )
+                ),
+              ],
+              ),
               Padding(padding: EdgeInsets.only(bottom: 100),
                   child: Text("Primeiro acesso",
                       style: GoogleFonts.inter( color: AppColors.white, fontSize: 25, /* fontWeight: FontWeight.w600,*/)
