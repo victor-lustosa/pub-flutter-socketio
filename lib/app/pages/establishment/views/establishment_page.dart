@@ -5,6 +5,8 @@ import 'package:pub/app/core/configs/app_colors.dart';
 import 'package:pub/app/pages/room/view_models/room_view_model.dart';
 import 'package:pub/app/pages/user/models/user.dart';
 import '../../../core/room_bloc/room_bloc.dart';
+import '../../participant/models/participant.dart';
+import '../../participant/view_models/participant_view_model.dart';
 import '../../room/models/room.dart';
 import 'components/establishment_page_two_widget.dart';
 import 'components/establishment_tab_bar_sliver_widget.dart';
@@ -27,15 +29,18 @@ class _EstablishmentPageState extends State<EstablishmentPage> with SingleTicker
   late final RoomBloc _bloc;
   late TabController _tabController;
   late final RoomViewModel _roomViewModel;
-
+  late final ParticipantViewModel _participantViewModel;
   @override
   void initState() {
     super.initState();
+    this._roomViewModel = RoomViewModel(scrollViewController: ScrollController(initialScrollOffset: 0.0),
+                                        user: this.widget.user,
+                                        room: Room.withoutParameters());
 
-    _roomViewModel = RoomViewModel(scrollViewController: ScrollController(initialScrollOffset: 0.0),
-                                   user: this.widget.user,room: Room.withoutParameters());
+    this._participantViewModel = ParticipantViewModel(scroll: this._roomViewModel.scrollViewController,
+                                                      user: this._roomViewModel.getUser,
+                                                      participant: Participant.withoutParameters());
     _bloc = RoomBloc(roomViewModel: _roomViewModel);
-
     _bloc.add(LoadingRoomsEvent());
     _tabController = TabController(vsync: this, length: 2);
     _roomViewModel.delayForForms(context);
@@ -45,6 +50,7 @@ class _EstablishmentPageState extends State<EstablishmentPage> with SingleTicker
   //   super.didChangeDependencies();
   //   _bloc.add(LoadingRoomsEvent());
   // }
+
   @override
   void dispose() {
     _tabController.dispose();
@@ -54,7 +60,6 @@ class _EstablishmentPageState extends State<EstablishmentPage> with SingleTicker
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: NestedScrollView(
           controller: _roomViewModel.scrollViewController,
@@ -76,14 +81,13 @@ class _EstablishmentPageState extends State<EstablishmentPage> with SingleTicker
               )];},
           body: TabBarView(
               controller: _tabController, children: <Widget>[
-            EstablishmentPageOneWidget(_roomViewModel, _bloc),
-            EstablishmentPageTwoWidget()
-          ])),
+            EstablishmentPageOneWidget(_roomViewModel, _participantViewModel, _bloc),
+            EstablishmentPageTwoWidget()])),
+            // EstablishmentPageTwoWidget(this._roomViewModel, this._participantViewModel, this._bloc)])),
       floatingActionButton: SizedBox(
           height: 30,
           width: 160,
-          child: FloatingActionButton.extended(
-              onPressed:(){
+          child: FloatingActionButton.extended( onPressed:(){
                 _roomViewModel.openURL(context);
               },
               label: Text("Ajude com sua opinião",

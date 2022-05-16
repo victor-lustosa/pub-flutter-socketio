@@ -77,12 +77,10 @@ class _RoomPageTwoWidgetState extends State<RoomPageTwoWidget> {
                             //   ],
                             // ),
                             onTap: () {
-
-                              widget.participantViewModel.setParticipant(widget.roomViewModel.getRoom.getParticipants[index]);
-                              Navigator.pushNamed(context, AppRoutes.PRIVATE_ROOM_ROUTE,arguments:
-                                  ParticipantDTO(
-                                      bloc: widget.bloc,
-                                      participantViewModel: this.widget.participantViewModel));
+                              // widget.participantViewModel.setParticipant(widget.roomViewModel.getRoom.getParticipants[index]);
+                              // Navigator.pushNamed(context, AppRoutes.PRIVATE_ROOM_ROUTE,arguments:
+                              //     ParticipantDTO(bloc: widget.bloc,
+                              //                    participantViewModel: this.widget.participantViewModel));
                             }
                         );
                       }

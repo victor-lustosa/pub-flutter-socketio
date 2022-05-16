@@ -56,7 +56,7 @@ class AppRoutes{
       case PUBLIC_ROOM_ROUTE:
         RoomDTO roomDTO = arguments as RoomDTO;
         return MaterialPageRoute(
-            builder: (_) => RoomPage(roomDTO.getBloc, roomDTO.getRoomViewModel));
+            builder: (_) => RoomPage(roomDTO.getBloc, roomDTO.getRoomViewModel, roomDTO.getParticipantViewModel));
 
       case PRIVATE_ROOM_ROUTE:
         ParticipantDTO participantDTO = arguments as ParticipantDTO;

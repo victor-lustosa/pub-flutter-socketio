@@ -16,17 +16,6 @@ class RoomPageOneWidget extends StatefulWidget {
 }
 
 class _RoomPageOneWidgetState extends State<RoomPageOneWidget>{
-  @override
-  initState() {
-    widget.bloc.add(InitialRoomEvent());
-    widget.instance.verifyLocation(context, widget.bloc);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {

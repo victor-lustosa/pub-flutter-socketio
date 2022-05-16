@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pub/app/pages/participant/view_models/participant_view_model.dart';
 
 import '../../../../core/configs/app_colors.dart';
 import '../../../../core/configs/app_images.dart';
@@ -11,16 +14,40 @@ import 'package:google_fonts/google_fonts.dart';
 
 class EstablishmentPageOneWidget extends StatefulWidget {
 
-  EstablishmentPageOneWidget(this.roomViewModel, this.bloc);
+  EstablishmentPageOneWidget(this.roomViewModel, this.participantViewModel, this.bloc);
   final RoomBloc bloc;
   final RoomViewModel roomViewModel;
+  final ParticipantViewModel participantViewModel;
 
   @override
   State<EstablishmentPageOneWidget> createState() => _EstablishmentPageOneWidgetState();
 }
 
 class _EstablishmentPageOneWidgetState extends State<EstablishmentPageOneWidget> {
+  late StreamSubscription mSub;
+  @override
+  initState(){
+    mSub = widget.bloc.stream.listen((state) {
+      if(state is LeavePublicRoomMessageState)
+        this.mSub.cancel();
+    });
+    super.initState();
 
+  }
+  @override
+  didChangeDependencies(){
+    mSub = widget.bloc.stream.listen((state) {
+      if(state is LeavePublicRoomMessageState)
+        this.mSub.cancel();
+    });
+    super.didChangeDependencies();
+  }
+  @override
+  dispose(){
+    mSub.cancel();
+    super.dispose();
+
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -113,7 +140,7 @@ class _EstablishmentPageOneWidgetState extends State<EstablishmentPageOneWidget>
                                               bool isUserExist = widget.roomViewModel.verifyNameUser(this.widget.roomViewModel.getRooms[index]);
                                               if(!isUserExist){
                                                 this.widget.roomViewModel.setRoom(this.widget.roomViewModel.getRooms[index]);
-                                                Navigator.pushNamed(context,AppRoutes.PUBLIC_ROOM_ROUTE, arguments: RoomDTO(bloc: widget.bloc, roomViewModel: this.widget.roomViewModel));
+                                                Navigator.pushNamed(context,AppRoutes.PUBLIC_ROOM_ROUTE, arguments: RoomDTO(bloc: widget.bloc, roomViewModel: this.widget.roomViewModel, participantViewModel: this.widget.participantViewModel));
                                               } else{
                                                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Seu nickname já existe na sala, altere-o para entrar')));
                                               }

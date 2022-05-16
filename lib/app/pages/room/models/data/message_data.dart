@@ -41,7 +41,7 @@ class MessageData extends Data{
         roomName: map['roomName'],
         createdAt: map['createAt'],
         textMessage: map['textMessage'],
-        user: map['user'],
+        user: User.fromMap(map['user']),
         code: map['code'],
         type: BlocEventType.values.firstWhere((element) => element.name.toString() == map['type']));
   }

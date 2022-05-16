@@ -1,11 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:pub/app/core/room_bloc/room_bloc.dart';
 import 'package:pub/app/pages/participant/view_models/participant_view_model.dart';
 import 'package:pub/app/pages/room/views/components/room_page_one_widget.dart';
-import 'package:pub/app/pages/user/models/user.dart';
 import '../../../core/configs/app_colors.dart';
-import '../../participant/models/participant.dart';
-import '../models/room.dart';
 import '../view_models/room_view_model.dart';
 import 'components/room_bar_widget.dart';
 import 'components/room_page_two_widget.dart';
@@ -15,25 +14,34 @@ class RoomPage extends StatefulWidget {
 
   final RoomBloc bloc;
   final RoomViewModel roomViewModel;
+  final ParticipantViewModel participantViewModel;
 
-  RoomPage(this.bloc, this.roomViewModel);
+  RoomPage(this.bloc, this.roomViewModel, this.participantViewModel);
 
   @override
   _RoomPageState createState() => _RoomPageState();
 }
 
-class _RoomPageState extends State<RoomPage>
-    with SingleTickerProviderStateMixin {
+class _RoomPageState extends State<RoomPage> with SingleTickerProviderStateMixin {
 
+  late StreamSubscription mSub;
   late TabController _tabController;
 
   @override
   void initState() {
+    widget.bloc.add(InitialRoomEvent());
+
+    widget.roomViewModel.verifyLocation(context, widget.bloc);
+    mSub = widget.bloc.stream.listen((state) {
+      if(state is LeavePublicRoomMessageState)
+         this.mSub.cancel();
+    });
     _tabController = TabController(vsync: this, length: 2);
     super.initState();
   }
   @override
   void dispose() {
+    mSub.cancel();
     _tabController.dispose();
     super.dispose();
   }
@@ -48,7 +56,7 @@ class _RoomPageState extends State<RoomPage>
               return <Widget>[
                 SliverAppBar(
                   flexibleSpace: FlexibleSpaceBar(
-                    background: RoomBarWidget(this.widget.bloc, this.widget.roomViewModel),
+                    background: RoomBarWidget(this.widget.bloc, this.widget.roomViewModel, this.mSub),
                   ),
                   automaticallyImplyLeading: false,
                   backgroundColor: AppColors.white,
@@ -73,11 +81,7 @@ class _RoomPageState extends State<RoomPage>
               //         ],
               //       ),
               //     )),
-              RoomPageTwoWidget(this.widget.roomViewModel, this.widget.bloc,
-                  ParticipantViewModel(
-                    scroll: this.widget.roomViewModel.scrollViewController,
-                    user: this.widget.roomViewModel.getUser,
-                    participant: Participant.withoutParameters()))
+              RoomPageTwoWidget(this.widget.roomViewModel, this.widget.bloc,this.widget.participantViewModel)
             ])));
   }
 }
