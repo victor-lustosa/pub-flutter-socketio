@@ -11,8 +11,10 @@ class MessageData extends Data{
   late String _textMessage;
   late User _user;
   late int _code;
+  int _namePosition = 0;
 
   get getRoomName => _roomName;
+  get getNamePosition => _namePosition;
   get getUser => _user;
   get getCreatedAt => _createdAt;
   get getTextMessage => _textMessage;
@@ -20,6 +22,8 @@ class MessageData extends Data{
   get getCode => _code;
   get getType => super.type;
   get getIdRoom => _idRoom;
+
+  setNamePosition(int namePosition) => _namePosition = namePosition;
 
   Map<String, dynamic> toMap() {
     return {

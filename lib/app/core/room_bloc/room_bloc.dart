@@ -96,7 +96,6 @@ class RoomBloc extends Bloc<RoomEvent,RoomState>{
         case BlocEventType.leave_public_room:
           return emit(LeavePublicRoomMessageState(message:PublicRoomData.fromMap(event.message),roomViewModel: roomViewModel));
         case BlocEventType.receive_public_message:
-          developer.debugger(when: data.type == BlocEventType.receive_public_message);
           return emit(ReceivePublicMessageState(message:MessageData.fromMap(event.message),roomViewModel: roomViewModel));
           case BlocEventType.receive_private_message:
           return emit(ReceivePrivateMessageState(message:MessageData.fromMap(event.message),participantViewModel: participantViewModel));

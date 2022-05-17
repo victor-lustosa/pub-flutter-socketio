@@ -26,11 +26,15 @@ class DontBuildState extends RoomState{
 class EnterPublicRoomMessageState extends  RoomState{
   EnterPublicRoomMessageState({required PublicRoomData message, required RoomViewModel roomViewModel}) : super(message, roomViewModel){
     roomViewModel.addParticipants(message);
+    if(message.getUser.getNickname != roomViewModel.getUser.getNickname)
+      roomViewModel.addMessages(message);
   }
 }
 class LeavePublicRoomMessageState extends RoomState{
   LeavePublicRoomMessageState({required PublicRoomData message, required RoomViewModel roomViewModel}) : super(message, roomViewModel){
     roomViewModel.removeParticipants(message);
+    if(message.getUser.getNickname != roomViewModel.getUser.getNickname)
+      roomViewModel.addMessages(message);
   }
 }
 class ReceivePublicMessageState extends RoomState {

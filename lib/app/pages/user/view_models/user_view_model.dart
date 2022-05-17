@@ -36,7 +36,7 @@ class UserViewModel implements IUserViewModel{
       TextEditingController _ageController,
       String _selectedGenre,
       List<String> _genres){
-    this.getUser.setNickname(_nickNameController.text);
+    this.getUser.setNickname(_nickNameController.text.trimLeft().trimRight());
     setAge(int.tryParse(_ageController.text)!);
     this.getUser.setAge(getAge);
     if(_selectedGenre == ''){

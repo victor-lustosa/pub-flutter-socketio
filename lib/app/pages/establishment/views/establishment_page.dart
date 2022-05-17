@@ -25,7 +25,7 @@ class EstablishmentPage extends StatefulWidget {
 }
 
 class _EstablishmentPageState extends State<EstablishmentPage> with SingleTickerProviderStateMixin {
-
+  late final ScrollController _scrollViewController;
   late final RoomBloc _bloc;
   late TabController _tabController;
   late final RoomViewModel _roomViewModel;
@@ -33,12 +33,11 @@ class _EstablishmentPageState extends State<EstablishmentPage> with SingleTicker
   @override
   void initState() {
     super.initState();
-    this._roomViewModel = RoomViewModel(scrollViewController: ScrollController(initialScrollOffset: 0.0),
-                                        user: this.widget.user,
+    _scrollViewController = ScrollController(initialScrollOffset: 0.0);
+    this._roomViewModel = RoomViewModel(user: this.widget.user,
                                         room: Room.withoutParameters());
 
-    this._participantViewModel = ParticipantViewModel(scroll: this._roomViewModel.scrollViewController,
-                                                      user: this._roomViewModel.getUser,
+    this._participantViewModel = ParticipantViewModel(user: this._roomViewModel.getUser,
                                                       participant: Participant.withoutParameters());
     _bloc = RoomBloc(roomViewModel: _roomViewModel);
     _bloc.add(LoadingRoomsEvent());
@@ -62,7 +61,7 @@ class _EstablishmentPageState extends State<EstablishmentPage> with SingleTicker
   Widget build(BuildContext context) {
     return Scaffold(
       body: NestedScrollView(
-          controller: _roomViewModel.scrollViewController,
+          controller: _scrollViewController,
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverAppBar(

@@ -1,6 +1,8 @@
 
 import 'package:pub/app/pages/participant/models/participant.dart';
 
+import 'data/message_data.dart';
+
 class Room {
   String _idRoom = '';
   String _roomName = '';

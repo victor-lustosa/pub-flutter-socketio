@@ -23,14 +23,13 @@ class RoomPage extends StatefulWidget {
 }
 
 class _RoomPageState extends State<RoomPage> with SingleTickerProviderStateMixin {
-
+  double offset = 0.0;
   late StreamSubscription mSub;
   late TabController _tabController;
 
   @override
   void initState() {
     widget.bloc.add(InitialRoomEvent());
-
     widget.roomViewModel.verifyLocation(context, widget.bloc);
     mSub = widget.bloc.stream.listen((state) {
       if(state is LeavePublicRoomMessageState)
@@ -51,7 +50,7 @@ class _RoomPageState extends State<RoomPage> with SingleTickerProviderStateMixin
 
     return Scaffold(
         body: NestedScrollView(
-            controller:widget.roomViewModel.scrollViewController,
+            controller:ScrollController(),
             headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
                 SliverAppBar(
@@ -61,11 +60,11 @@ class _RoomPageState extends State<RoomPage> with SingleTickerProviderStateMixin
                   automaticallyImplyLeading: false,
                   backgroundColor: AppColors.white,
                   pinned: true,
-                  snap: true,
+                  snap: false,
                   floating: true,
-                  expandedHeight: 85.0,
-                  collapsedHeight: 28,
-                  toolbarHeight: 28,
+                  expandedHeight: 67.0,
+                  collapsedHeight: 67,
+                  toolbarHeight: 67,
                   bottom: RoomTabBarSliverWidget(_tabController),
                 )];},
             body: TabBarView( controller: _tabController, children: <Widget>[

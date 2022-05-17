@@ -13,11 +13,8 @@ abstract class IParticipantViewModel{
 
 class ParticipantViewModel extends ChangeNotifier implements IParticipantViewModel{
 
-  ParticipantViewModel({required ScrollController scroll, required User user, required Participant participant}):
-        _user = user, _participant = participant, _scrollViewController = scroll;
-
-  final ScrollController _scrollViewController;
-
+  ParticipantViewModel({required User user, required Participant participant}):
+        _user = user, _participant = participant;
 
   final focusNode = FocusNode();
   final textController = TextEditingController(text: '');
@@ -57,7 +54,6 @@ class ParticipantViewModel extends ChangeNotifier implements IParticipantViewMod
     super.dispose();
     textController.dispose();
     focusNode.dispose();
-    _scrollViewController.dispose();
   }
 
 
@@ -98,7 +94,6 @@ class ParticipantViewModel extends ChangeNotifier implements IParticipantViewMod
 
   get getUser => _user;
   get getParticipant => _participant;
-  get getScrollViewController => _scrollViewController;
 
   setParticipant(Participant participant) => _participant = participant;
   setUser(User user) => _user = user;

@@ -19,10 +19,11 @@ class ParticipantPage extends StatefulWidget {
 }
 
 class _ParticipantPageState extends State<ParticipantPage> {
-
+  late final ScrollController _scrollViewController;
   @override
   void initState() {
     // widget.bloc.add(EnterPrivateRoomEvent(widget.participantViewModel));
+    _scrollViewController = ScrollController(initialScrollOffset: 0.0);
     super.initState();
   }
   @override
@@ -53,7 +54,7 @@ class _ParticipantPageState extends State<ParticipantPage> {
                             } else {
                               return Expanded(
                                 child: ListView.builder(
-                                    controller: this.widget.participantViewModel.getScrollViewController,
+                                    controller: _scrollViewController,
                                     itemCount:widget.participantViewModel.getParticipant.getMessages.length,
                                     itemBuilder: (context, index) {
                                       return Align(

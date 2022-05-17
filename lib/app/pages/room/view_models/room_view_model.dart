@@ -10,7 +10,7 @@ import '../../../core/configs/app_routes.dart';
 import '../../../core/room_bloc/room_bloc.dart';
 import '../../establishment/models/dto/establishment_dto.dart';
 import '../models/bloc_events.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 import '../models/data/public_room_data.dart';
 import '../models/data/message_data.dart';
 import '../models/room.dart';
@@ -22,12 +22,12 @@ abstract class IRoomViewModel{
 
 class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
 
-  RoomViewModel({required this.scrollViewController, required User user,required Room room}): _user = user, _room = room{
+  RoomViewModel({required User user,required Room room}): _user = user, _room = room{
     getPosition();
   }
 
   late StreamSubscription subscription;
-  final ScrollController scrollViewController;
+
   final Uri _url = Uri.parse('https://flutter.dev');
   final focusNode = FocusNode();
   final textController = TextEditingController(text: '');
@@ -65,7 +65,7 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
           createdAt: DateTime.now().toString(),
           roomName: this.getRoom.getRoomName,
           idMessage: '',
-          textMessage: textMessage,
+          textMessage: textMessage.trimLeft().trimRight(),
           user: this.getUser,
           code: 0,
           type: BlocEventType.send_public_message);
@@ -87,47 +87,12 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
     //     getUser.setLatitude(position.latitude);
     //     developer.log('log longitude: ${position.longitude.toString()}');
     //     getUser.setLongitude(position.longitude);
-        getUser.setLatitude(-10.182642569502747);
-        getUser.setLongitude(-48.36052358794835);
+    getUser.setLatitude(-10.182642569502747);
+    getUser.setLongitude(-48.36052358794835);
     //   }
     // }catch(e){
     //   error = e.toString();
     // }
-  }
-  Alignment alignment(state,index){
-    if(state is SendMessageState || state is ReceivePublicMessageState) {
-      if(_room.getMessages[index].getUser.getNickname != _user.getNickname){
-        return  Alignment.centerLeft;
-      } else{
-        return Alignment.centerRight;
-      }
-    } else{
-      return Alignment.center;
-    }
-  }
-  Color color(state,index){
-    if(state is SendMessageState || state is ReceivePublicMessageState) {
-      if(_room.getMessages[index].getUser.getNickname != _user.getNickname){
-        return  Colors.white;
-      } else{
-        return Color(0xffdcd9d9);
-      }
-    } else {
-      return AppColors.lightBrown;
-    }
-  }
-
-  typeMessage(state, index) {
-    // Timer(Duration(microseconds: 50), (){
-    //   this.scrollViewController.jumpTo(
-    //       this.scrollViewController.position.maxScrollExtent
-    //   );
-    // });
-    if(state is SendMessageState || state is ReceivePublicMessageState) {
-      return Text('${_room.getMessages[index].getUser.getNickname} - ${_room.getMessages[index].getTextMessage}');
-    } else if(state is EnterPublicRoomMessageState){
-      return  Center(child: Text('${state.message.getUser.getNickName} entrou na sala'));
-    }
   }
   verifyParticipants(room, data) {
     for (dynamic participant in room.getParticipants) {
@@ -219,9 +184,6 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
     subscription.cancel();
     textController.dispose();
     focusNode.dispose();
-    scrollViewController.dispose();
     super.dispose();
   }
 }
-
-
