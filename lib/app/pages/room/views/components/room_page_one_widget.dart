@@ -38,120 +38,118 @@ class _RoomPageOneWidgetState extends State<RoomPageOneWidget>{
   }
   boxMessage(state, index, context) {
 
-    if(state is SendMessageState || state is ReceivePublicMessageState) {
-      if(state is ReceivePublicMessageState){
-        if(!isAddPositionNameMessage && widget.instance.getRoom.getMessages[index].getUser.getNickname != widget.instance.getUser.getNickname){
-          widget.instance.getRoom.getMessages[index].setNamePosition(nameMessageCount);
-          userSendMessage = widget.instance.getRoom.getMessages[index].getUser.getNickname;
-          nameMessageCount++;
-          isAddPositionNameMessage = true;
-        }
-      } else if(widget.instance.getRoom.getMessages[index].getUser.getNickname == widget.instance.getUser.getNickname){
-        userSendMessage = widget.instance.getUser.getNickname;
-        nameMessageCount = 0;
+    if(state is ReceivePublicMessageState){
+      if(!isAddPositionNameMessage &&
+         widget.instance.getRoom.getMessages[index].getUser.getNickname != widget.instance.getUser.getNickname &&
+         widget.instance.getRoom.getMessages[index].getType == BlocEventType.receive_public_message){
+        widget.instance.getRoom.getMessages[index].setNamePosition(nameMessageCount);
+        userSendMessage = widget.instance.getRoom.getMessages[index].getUser.getNickname;
+        nameMessageCount++;
+        isAddPositionNameMessage = true;
       }
-      if(widget.instance.getRoom.getMessages[index].getType == BlocEventType.receive_public_message){
-        isAddPositionNameMessage = false;
-        scroll();
-        return Align(
-            alignment: Alignment.centerLeft ,
-            child: Padding(
-                padding: const EdgeInsets.only(bottom: 4),
-                child: Stack(
-                    fit: StackFit.loose,
-                    // alignment: AlignmentDirectional.centerStart,
-                    // width: MediaQuery.of(context).size.width * 0.8,
+    } else if(widget.instance.getRoom.getMessages[index].getUser.getNickname == widget.instance.getUser.getNickname){
+      userSendMessage = widget.instance.getUser.getNickname;
+      nameMessageCount = 0;
+    }
+    if(widget.instance.getRoom.getMessages[index].getType == BlocEventType.receive_public_message){
+      isAddPositionNameMessage = false;
+      scroll();
+      return Align(
+          alignment: Alignment.centerLeft ,
+          child: Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: Stack(
+                  fit: StackFit.loose,
+                  // alignment: AlignmentDirectional.centerStart,
+                  // width: MediaQuery.of(context).size.width * 0.8,
+                  children: [
+                    Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // widget.instance.getRoom.getMessages[index].getNamePosition < 2?
+                          Padding(
+                              padding:
+                              const EdgeInsets.only(bottom: 6, left: 6),
+                              child: Row(
+                                  children: [
+                                    Text('${widget.instance.getRoom.getMessages[index].getUser.getNickname}'),
+                                  ]
+                              )),
+                          Container(
+                            // width: MediaQuery.of(context).size.width,
+                              padding: const EdgeInsets.all(14),
+                              decoration: BoxDecoration(
+                                // color: _room.getMessages[index].getUser.getNickname != _user.getNickname ?
+                                  color: Colors.white,
+                                  // : Color(0xffdcd9d9),
+                                  border:Border.all(color:Color(0xffdcd9d9), width: 1),
+                                  borderRadius: BorderRadius.all(Radius.circular(8))),
+                              child:Text('${widget.instance.getRoom.getMessages[index].getTextMessage}')
+                          )
+                          //     : Padding(
+                          //     padding: const EdgeInsets.only(bottom: 0)
+                          // )
+                        ]
+                    ),
+
+                  ]
+              )
+          )
+      );
+    } else if(widget.instance.getRoom.getMessages[index].getType == BlocEventType.send_public_message){
+      return Align(
+          alignment: Alignment.centerRight,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 4),
+            child: Stack(
+                fit: StackFit.loose,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // widget.instance.getRoom.getMessages[index].getNamePosition < 2?
-                            Padding(
-                                padding:
-                                const EdgeInsets.only(bottom: 6, left: 6),
-                                child: Row(
-                                    children: [
-                                      Text('${widget.instance.getRoom.getMessages[index].getUser.getNickname}'),
-                                    ]
-                                )),
-                            Container(
-                              // width: MediaQuery.of(context).size.width,
-                                padding: const EdgeInsets.all(14),
-                                decoration: BoxDecoration(
-                                  // color: _room.getMessages[index].getUser.getNickname != _user.getNickname ?
-                                    color: Colors.white,
-                                    // : Color(0xffdcd9d9),
-                                    border:Border.all(color:Color(0xffdcd9d9), width: 1),
-                                    borderRadius: BorderRadius.all(Radius.circular(8))),
-                                child:Text('${widget.instance.getRoom.getMessages[index].getTextMessage}')
-                            )
-                            //     : Padding(
-                            //     padding: const EdgeInsets.only(bottom: 0)
-                            // )
-                          ]
-                      ),
-
-                    ]
-                )
-            )
-        );
-      } else {
-        return Align(
-            alignment: Alignment.centerRight,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 4),
-              child: Stack(
-                  fit: StackFit.loose,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Container(
-                          // width: MediaQuery.of(context).size.width * 0.8,
-                          padding: const EdgeInsets.all(14),
+                      Container(
+                        // width: MediaQuery.of(context).size.width * 0.8,
+                        padding: const EdgeInsets.all(14),
+                        decoration: BoxDecoration(
+                            color:  Color(0xffdcd9d9),
+                            borderRadius: BorderRadius.all(Radius.circular(8))),
+                        child:Text('${widget.instance.getRoom.getMessages[index].getTextMessage}'),
+                      )],
+                  ),
+                ] )
+            ,)
+        // ),
+      );
+    } else if((widget.instance.getRoom.getMessages[index].getType == BlocEventType.enter_public_room ||
+        widget.instance.getRoom.getMessages[index].getType == BlocEventType.leave_public_room)) {
+      return Align(
+          alignment: Alignment.center,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 4),
+            child: Stack(
+                fit: StackFit.loose,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        // width: MediaQuery.of(context).size.width * 0.8,
+                          padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                              color:  Color(0xffdcd9d9),
+                              color: Colors.black45,
                               borderRadius: BorderRadius.all(Radius.circular(8))),
-                          child:Text('${widget.instance.getRoom.getMessages[index].getTextMessage}'),
-                        )],
-                    ),
-                  ] )
-              ,)
-          // ),
-        );
-      }
-
-    } else if(state is EnterPublicRoomMessageState || state is LeavePublicRoomMessageState){
-      if((widget.instance.getRoom.getMessages[index].getType == BlocEventType.enter_public_room ||
-          widget.instance.getRoom.getMessages[index].getType == BlocEventType.leave_public_room)) {
-        return Align(
-            alignment: Alignment.center,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 4),
-              child: Stack(
-                  fit: StackFit.loose,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          // width: MediaQuery.of(context).size.width * 0.8,
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                                color: Color(0xffdcd9d9),
-                                borderRadius: BorderRadius.all(Radius.circular(8))),
-                            child: Text(
-                                '${widget.instance.getRoom.getMessages[index].getTextMessage}',
-                                style: GoogleFonts.inter(color: Colors.blue, fontSize: 11))
-                        ),
-                      ],
-                    ),
-                  ]),)
-          // ),
-        );
-      }
+                          child: Text(
+                              '${widget.instance.getRoom.getMessages[index].getTextMessage}',
+                              style: GoogleFonts.inter(color: AppColors.white, fontSize: 10))
+                      ),
+                    ],
+                  ),
+                ]),)
+        // ),
+      );
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return   Container(
