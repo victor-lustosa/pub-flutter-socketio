@@ -46,7 +46,7 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
         locationSettings: LocationSettings(accuracy: LocationAccuracy.best, timeLimit: Duration(minutes: 2))
     ).listen((position) {
       double distance = (Geolocator.distanceBetween(position.latitude, position.longitude, getRoom.getLatitude, getRoom.getLongitude) / 1000);
-      if(distance > 10.2){
+      if(distance > 0.2){
         bloc.add(LeaveRoomEvent());
         Navigator.pushNamed(context, AppRoutes.establishmentRoute, arguments:EstablishmentDTO(getUser));
         subscription.cancel();
@@ -79,20 +79,20 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
     }
   }
   void getPosition() async{
-    // try{
-    //   bool active = await Geolocator.isLocationServiceEnabled();
-    //   if(!active){
-    //     Position position = await Geolocator.getCurrentPosition( desiredAccuracy: LocationAccuracy.best);
-    //     developer.log('log latitude: ${position.latitude.toString()}');
-    //     getUser.setLatitude(position.latitude);
-    //     developer.log('log longitude: ${position.longitude.toString()}');
-    //     getUser.setLongitude(position.longitude);
-    getUser.setLatitude(-10.182642569502747);
-    getUser.setLongitude(-48.36052358794835);
-    //   }
-    // }catch(e){
-    //   error = e.toString();
-    // }
+    try{
+      bool active = await Geolocator.isLocationServiceEnabled();
+      if(!active){
+        Position position = await Geolocator.getCurrentPosition( desiredAccuracy: LocationAccuracy.best);
+        // developer.log('log latitude: ${position.latitude.toString()}');
+        getUser.setLatitude(position.latitude);
+        // developer.log('log longitude: ${position.longitude.toString()}');
+        getUser.setLongitude(position.longitude);
+    // getUser.setLatitude(-10.182642569502747);
+    // getUser.setLongitude(-48.36052358794835);
+      }
+    }catch(e){
+      error = e.toString();
+    }
   }
   verifyParticipants(room, data) {
     for (dynamic participant in room.getParticipants) {
