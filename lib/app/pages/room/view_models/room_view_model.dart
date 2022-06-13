@@ -66,7 +66,7 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
           idMessage: '',
           textMessage: textMessage.trimLeft().trimRight(),
           user: this.getUser,
-          code: 0,
+          code: 460,
           type: BlocEventType.send_public_message);
 
       _room.getMessages.add(mes);

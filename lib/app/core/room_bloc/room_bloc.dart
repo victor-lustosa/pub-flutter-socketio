@@ -76,7 +76,7 @@ class RoomBloc extends Bloc<RoomEvent,RoomState>{
     });
 
     on<DisconnectEvent>((event, emit) async{
-      _socket.emit('disconnect_user', {
+      _socket.emit('disconnect', {
         'roomName': this.roomViewModel.getRoom.getRoomName,
         'idRoom': this.roomViewModel.getRoom.getIdRoom,
         'userNickName': this.roomViewModel.getUser.getNickname

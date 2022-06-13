@@ -10,8 +10,8 @@ import '../../pages/room/models/dto/room_dto.dart';
 import '../../pages/room/views/room_page.dart';
 import '../../pages/user/models/user.dart';
 import '../../pages/user/views/user_register_page.dart';
-const urlServer = 'https://powerful-bayou-46345.herokuapp.com';
-// const urlServer = 'http://localhost:4000';
+// const urlServer = 'https://powerful-bayou-46345.herokuapp.com';
+const urlServer = 'http://localhost:4000';
 class AppRoutes{
   static const String initialRoute = "/";
   static const String homeRoute = "/home";
