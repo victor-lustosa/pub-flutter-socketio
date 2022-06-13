@@ -1,15 +1,15 @@
 import 'dart:async';
-import 'dart:developer' as developer;
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 import 'package:socket_io_client/socket_io_client.dart';
+
 import '../../pages/participant/view_models/participant_view_model.dart';
 import '../../pages/room/models/bloc_events.dart';
-import '../../pages/room/models/bloc_events.dart';
 import '../../pages/room/models/data/data.dart';
-import '../../pages/room/models/data/public_room_data.dart';
 import '../../pages/room/models/data/message_data.dart';
+import '../../pages/room/models/data/public_room_data.dart';
 import '../../pages/room/models/data/rooms_data.dart';
 import '../../pages/room/view_models/room_view_model.dart';
 import '../configs/app_routes.dart';

@@ -50,8 +50,8 @@ class EstablishmentFlexibleSpaceBarWidget extends StatelessWidget {
               padding: EdgeInsets.only(left: 50, top:25, bottom: 0),
               child: IconButton(
                 onPressed: (){
-                  Navigator.pushNamedAndRemoveUntil(context,AppRoutes.EDIT_USER_ROUTE,
-                      ModalRoute.withName(AppRoutes.ESTABLISHMENT_ROUTE),
+                  Navigator.pushNamedAndRemoveUntil(context,AppRoutes.editUserRoute,
+                      ModalRoute.withName(AppRoutes.establishmentRoute),
                       arguments: user);
                 },
                 iconSize: 45,

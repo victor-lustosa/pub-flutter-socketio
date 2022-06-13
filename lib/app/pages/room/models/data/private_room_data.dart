@@ -1,6 +1,5 @@
-import '../../../user/models/user.dart';
-import '../data/data.dart';
 import '../bloc_events.dart';
+import '../data/data.dart';
 
 class PrivateRoomData extends Data{
   String _idPrivateRoom = '';

@@ -13,7 +13,7 @@ import '../../establishment/models/dto/establishment_dto.dart';
 import '../../../core/configs/app_routes.dart';
 
 class UserRegisterPage extends StatefulWidget {
-  User user;
+  final User user;
   UserRegisterPage(this.user);
 
   _UserRegisterPageState createState() => _UserRegisterPageState();
@@ -111,8 +111,8 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                                     if(_ageController.text.isNotEmpty && _nickNameController.text.isNotEmpty) {
                                       if(age >= 18){
                                         _userViewModel.validateUser(_nickNameController, _ageController, _selectedGenre, _genres);
-                                        Navigator.pushNamedAndRemoveUntil(context,AppRoutes.ESTABLISHMENT_ROUTE,
-                                            ModalRoute.withName(AppRoutes.USER_REGISTER_ROUTE),
+                                        Navigator.pushNamedAndRemoveUntil(context,AppRoutes.establishmentRoute,
+                                            ModalRoute.withName(AppRoutes.userRegisterRoute),
                                             arguments:EstablishmentDTO(_userViewModel.getUser));
                                       }
                                     }

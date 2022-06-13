@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'package:pub/app/core/configs/app_colors.dart';
 import 'package:pub/app/pages/room/view_models/room_view_model.dart';
 import 'package:pub/app/pages/user/models/user.dart';
+
 import '../../../core/room_bloc/room_bloc.dart';
 import '../../participant/models/participant.dart';
 import '../../participant/view_models/participant_view_model.dart';
 import '../../room/models/room.dart';
-import 'components/establishment_page_two_widget.dart';
-import 'components/establishment_tab_bar_sliver_widget.dart';
 import 'components/establishment_flexible_space_bar_widget.dart';
 import 'components/establishment_page_one_widget.dart';
-import 'package:geolocator/geolocator.dart';
+import 'components/establishment_page_two_widget.dart';
+import 'components/establishment_tab_bar_sliver_widget.dart';
 class EstablishmentPage extends StatefulWidget {
 
-  EstablishmentPage(this.user,);
+  EstablishmentPage(this.user);
 
   final User user;
-  late LocationPermission permission;
 
   @override
   _EstablishmentPageState createState() => _EstablishmentPageState();
@@ -27,9 +25,10 @@ class EstablishmentPage extends StatefulWidget {
 class _EstablishmentPageState extends State<EstablishmentPage> with SingleTickerProviderStateMixin {
   late final ScrollController _scrollViewController;
   late final RoomBloc _bloc;
-  late TabController _tabController;
+  late  TabController _tabController;
   late final RoomViewModel _roomViewModel;
   late final ParticipantViewModel _participantViewModel;
+
   @override
   void initState() {
     super.initState();

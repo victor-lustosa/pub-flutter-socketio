@@ -26,16 +26,17 @@ class UserViewModel implements IUserViewModel{
     final data = shared.getString('user');
     if (data != null) {
       User user = User.fromMap(jsonDecode(data));
-      Navigator.pushReplacementNamed(context, AppRoutes.ESTABLISHMENT_ROUTE, arguments:EstablishmentDTO(user));
+      Navigator.pushReplacementNamed(context, AppRoutes.establishmentRoute, arguments:EstablishmentDTO(user));
     } else {
-      Navigator.pushReplacementNamed(context, AppRoutes.HOME_ROUTE);
+      Navigator.pushReplacementNamed(context, AppRoutes.homeRoute);
     }
   }
 
   void validateUser(TextEditingController _nickNameController,
-      TextEditingController _ageController,
-      String _selectedGenre,
-      List<String> _genres){
+                    TextEditingController _ageController,
+                    String _selectedGenre,
+                    List<String> _genres){
+
     this.getUser.setNickname(_nickNameController.text.trimLeft().trimRight());
     setAge(int.tryParse(_ageController.text)!);
     this.getUser.setAge(getAge);

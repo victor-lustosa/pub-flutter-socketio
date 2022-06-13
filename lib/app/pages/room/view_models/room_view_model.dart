@@ -1,18 +1,17 @@
 import 'dart:async';
-import 'dart:developer' as developer;
+
 import 'package:flutter/material.dart';
-import 'package:pub/app/core/configs/app_colors.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:pub/app/pages/participant/models/participant.dart';
 import 'package:pub/app/pages/user/models/user.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../../../core/configs/app_routes.dart';
 import '../../../core/room_bloc/room_bloc.dart';
 import '../../establishment/models/dto/establishment_dto.dart';
 import '../models/bloc_events.dart';
-import 'package:google_fonts/google_fonts.dart';
-import '../models/data/public_room_data.dart';
 import '../models/data/message_data.dart';
+import '../models/data/public_room_data.dart';
 import '../models/room.dart';
 
 abstract class IRoomViewModel{
@@ -48,7 +47,7 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
       double distance = (Geolocator.distanceBetween(position.latitude, position.longitude, getRoom.getLatitude, getRoom.getLongitude) / 1000);
       if(distance > 10.2){
         bloc.add(LeaveRoomEvent());
-        Navigator.pushNamed(context, AppRoutes.ESTABLISHMENT_ROUTE, arguments:EstablishmentDTO(getUser));
+        Navigator.pushNamed(context, AppRoutes.establishmentRoute, arguments:EstablishmentDTO(getUser));
         subscription.cancel();
       }
     });

@@ -13,52 +13,52 @@ import '../../pages/user/views/user_register_page.dart';
 const urlServer = 'https://powerful-bayou-46345.herokuapp.com';
 // const urlServer = 'http://localhost:4000';
 class AppRoutes{
-  static const String INICIAL_ROUTE = "/";
-  static const String HOME_ROUTE = "/home";
-  static const String USER_REGISTER_ROUTE = "/user_register";
-  static const String EDIT_USER_ROUTE = "/edit_user";
-  static const String ENTERPRISE_REGISTER_ROUTE = "/enterprise_register";
-  static const String ESTABLISHMENT_ROUTE = "/establishments";
-  static const String PUBLIC_ROOM_ROUTE = "/public_room";
-  static const String PRIVATE_ROOM_ROUTE = "/private_room";
+  static const String initialRoute = "/";
+  static const String homeRoute = "/home";
+  static const String userRegisterRoute = "/user_register";
+  static const String editUserRoute = "/edit_user";
+  static const String enterpriseRegisterRoute = "/enterprise_register";
+  static const String establishmentRoute = "/establishments";
+  static const String publicRoomRoute = "/public_room";
+  static const String privateRoomRoute = "/private_room";
 
   static Route<dynamic>? onGenerateRoute(RouteSettings routeSettings){
     final arguments =  routeSettings.arguments;
 
     switch(routeSettings.name){
 
-      case HOME_ROUTE:
+      case homeRoute:
         return MaterialPageRoute(
             builder: (_) =>  HomePage());
 
-      case INICIAL_ROUTE:
+      case initialRoute:
         return MaterialPageRoute(
             builder: (_) =>  HomePage());
 
-      case ESTABLISHMENT_ROUTE:
+      case establishmentRoute:
         EstablishmentDTO establishmentDTO = arguments as EstablishmentDTO;
         return MaterialPageRoute(
           // builder: (_) => EstablishmentPage(establishmentDTO.getUser, establishmentDTO.getEstablishment));
             builder: (_) => EstablishmentPage(establishmentDTO.getUser));
 
-      case USER_REGISTER_ROUTE:
+      case userRegisterRoute:
         return MaterialPageRoute(
             builder: (_) =>  UserRegisterPage(User.withoutParameters()));
 
     // case ENTERPRISE_REGISTER_ROUTE:
     //   return MaterialPageRoute(
     //       builder: (_) =>  EnterpriseRegisterPage());
-      case EDIT_USER_ROUTE:
+      case editUserRoute:
         User user = arguments as User;
         return MaterialPageRoute(
             builder: (_) =>  UserRegisterPage(user));
 
-      case PUBLIC_ROOM_ROUTE:
+      case publicRoomRoute:
         RoomDTO roomDTO = arguments as RoomDTO;
         return MaterialPageRoute(
             builder: (_) => RoomPage(roomDTO.getBloc, roomDTO.getRoomViewModel, roomDTO.getParticipantViewModel));
 
-      case PRIVATE_ROOM_ROUTE:
+      case privateRoomRoute:
         ParticipantDTO participantDTO = arguments as ParticipantDTO;
         return MaterialPageRoute(
             builder: (_) => ParticipantPage(participantDTO.getBloc, participantDTO.getParticipantViewModel));

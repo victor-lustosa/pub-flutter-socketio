@@ -40,8 +40,8 @@ class _RoomPageOneWidgetState extends State<RoomPageOneWidget>{
 
     if(state is ReceivePublicMessageState){
       if(!isAddPositionNameMessage &&
-         widget.instance.getRoom.getMessages[index].getUser.getNickname != widget.instance.getUser.getNickname &&
-         widget.instance.getRoom.getMessages[index].getType == BlocEventType.receive_public_message){
+          widget.instance.getRoom.getMessages[index].getUser.getNickname != widget.instance.getUser.getNickname &&
+          widget.instance.getRoom.getMessages[index].getType == BlocEventType.receive_public_message){
         widget.instance.getRoom.getMessages[index].setNamePosition(nameMessageCount);
         userSendMessage = widget.instance.getRoom.getMessages[index].getUser.getNickname;
         nameMessageCount++;
@@ -91,7 +91,6 @@ class _RoomPageOneWidgetState extends State<RoomPageOneWidget>{
                           // )
                         ]
                     ),
-
                   ]
               )
           )
@@ -120,8 +119,8 @@ class _RoomPageOneWidgetState extends State<RoomPageOneWidget>{
             ,)
         // ),
       );
-    } else if((widget.instance.getRoom.getMessages[index].getType == BlocEventType.enter_public_room ||
-        widget.instance.getRoom.getMessages[index].getType == BlocEventType.leave_public_room)) {
+    } else if(widget.instance.getRoom.getMessages[index].getType == BlocEventType.enter_public_room ||
+        widget.instance.getRoom.getMessages[index].getType == BlocEventType.leave_public_room) {
       return Align(
           alignment: Alignment.center,
           child: Padding(
@@ -167,6 +166,7 @@ class _RoomPageOneWidgetState extends State<RoomPageOneWidget>{
                     } else {
                       return Expanded(
                           child: ListView.builder(
+                             key: PageStorageKey<String>('MessagesList'),
                               controller: scrollViewController,
                               itemCount: widget.instance.getRoom.getMessages.length,
                               itemBuilder: (context, index) {

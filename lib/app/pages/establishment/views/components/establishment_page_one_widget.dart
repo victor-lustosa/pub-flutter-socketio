@@ -140,7 +140,7 @@ class _EstablishmentPageOneWidgetState extends State<EstablishmentPageOneWidget>
                                               bool isUserExist = widget.roomViewModel.verifyNameUser(this.widget.roomViewModel.getRooms[index]);
                                               if(!isUserExist){
                                                 this.widget.roomViewModel.setRoom(this.widget.roomViewModel.getRooms[index]);
-                                                Navigator.pushNamed(context,AppRoutes.PUBLIC_ROOM_ROUTE, arguments: RoomDTO(bloc: widget.bloc, roomViewModel: this.widget.roomViewModel, participantViewModel: this.widget.participantViewModel));
+                                                Navigator.pushNamed(context,AppRoutes.publicRoomRoute, arguments: RoomDTO(bloc: widget.bloc, roomViewModel: this.widget.roomViewModel, participantViewModel: this.widget.participantViewModel));
                                               } else{
                                                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Seu nickname já existe na sala, altere-o para entrar')));
                                               }

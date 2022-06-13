@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:pub/app/core/configs/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pub/app/core/configs/app_colors.dart';
+
 import '../../../../core/room_bloc/room_bloc.dart';
-import '../../models/room.dart';
 import '../../view_models/room_view_model.dart';
 
 class RoomBarWidget  extends  StatefulWidget {
@@ -12,7 +12,7 @@ class RoomBarWidget  extends  StatefulWidget {
   RoomBarWidget(this.bloc, this.roomViewModel,this.mSub);
 
   final RoomBloc bloc;
-  StreamSubscription mSub;
+  final StreamSubscription mSub;
   final RoomViewModel roomViewModel;
   @override
   State<RoomBarWidget> createState() => _RoomBarWidgetState();
