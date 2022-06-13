@@ -38,7 +38,8 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
   bool isParticipantExist = false;
   bool isUserExist = false;
   int lineNumbers = 1;
-
+  String messageText = '';
+  String userMessageText = '';
   // bool isVisibled = false;
   verifyLocation(BuildContext context,RoomBloc bloc){
     subscription = Geolocator.getPositionStream(
@@ -138,9 +139,12 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
   }
 
   addMessages(message) {
-    // if(boolAdd == true){
-    // boolAdd = false;
-    getRoom.addMessages(message);
+    if(message.getTextMessage != messageText){
+      messageText = message.getTextMessage;
+      userMessageText = message.getUser.getNickname;
+      getRoom.addMessages(message);
+    }
+
   }
   fetchedRooms(message){
     _rooms = [];
