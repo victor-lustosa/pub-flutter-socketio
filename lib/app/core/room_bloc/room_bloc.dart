@@ -44,6 +44,7 @@ class RoomBloc extends Bloc<RoomEvent,RoomState>{
     });
 
     on<LoadingRoomsEvent>((event, emit) async{
+
       _socket.emit('initial_rooms', {
         'latitude': roomViewModel.getUser.getLatitude,
         'longitude': roomViewModel.getUser.getLongitude

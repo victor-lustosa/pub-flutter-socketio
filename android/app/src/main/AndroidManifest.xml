@@ -2,7 +2,7 @@
     package="br.unitins.pub">
 
    <application
-        android:label="pub"
+        android:label="Pub TCC"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

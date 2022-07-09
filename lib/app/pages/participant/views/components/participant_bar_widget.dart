@@ -19,8 +19,8 @@ class _ParticipantBarWidgetState extends State<ParticipantBarWidget> {
           // CircleAvatar(
           //     maxRadius: 20,
           //     backgroundColor: Colors.grey,
-          //     backgroundImage: widget.contato.urlImagem != null
-          //         ? NetworkImage(widget.contato.urlImagem)
+          //     backgroundImage: widget.contact.imageUrl != null
+          //         ? NetworkImage(widget.contact.imageUrl)
           //         : null),
           Padding(
               padding: EdgeInsets.only(top: 0, right: 0),

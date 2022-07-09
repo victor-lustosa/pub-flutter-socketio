@@ -30,7 +30,7 @@ class _RoomPageState extends State<RoomPage> with SingleTickerProviderStateMixin
   @override
   void initState() {
     widget.bloc.add(InitialRoomEvent());
-    widget.roomViewModel.verifyLocation(context, widget.bloc);
+   // widget.roomViewModel.verifyLocation(context, widget.bloc);
     mSub = widget.bloc.stream.listen((state) {
       if(state is LeavePublicRoomMessageState)
          this.mSub.cancel();

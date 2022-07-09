@@ -5,7 +5,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:pub/app/pages/participant/models/participant.dart';
 import 'package:pub/app/pages/user/models/user.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'dart:developer' as developer;
 import '../../../core/configs/app_routes.dart';
 import '../../../core/room_bloc/room_bloc.dart';
 import '../../establishment/models/dto/establishment_dto.dart';
@@ -21,13 +21,11 @@ abstract class IRoomViewModel{
 
 class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
 
-  RoomViewModel({required User user,required Room room}): _user = user, _room = room{
-    getPosition();
-  }
+  RoomViewModel({required User user,required Room room}): _user = user, _room = room;
 
   late StreamSubscription subscription;
 
-  final Uri _url = Uri.parse('https://flutter.dev');
+  final Uri _url = Uri.parse('https://docs.google.com/forms/d/e/1FAIpQLSdpXQ6umKF2-aOZcqpwMrlZkiiPYgVGZYY_WKZS9gB2H7V8HA/viewform?usp=sf_link');
   final focusNode = FocusNode();
   final textController = TextEditingController(text: '');
   // late bool boolAdd;
@@ -39,20 +37,20 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
   bool isUserExist = false;
   int lineNumbers = 1;
   String messageText = '';
-  String userMessageText = '';
+  // String userMessageText = '';
   // bool isVisibled = false;
-  verifyLocation(BuildContext context,RoomBloc bloc){
+  /*verifyLocation(BuildContext context,RoomBloc bloc){
     subscription = Geolocator.getPositionStream(
         locationSettings: LocationSettings(accuracy: LocationAccuracy.best, timeLimit: Duration(minutes: 2))
     ).listen((position) {
       double distance = (Geolocator.distanceBetween(position.latitude, position.longitude, getRoom.getLatitude, getRoom.getLongitude) / 1000);
-      if(distance > 0.2){
+      if(distance > 10.2){
         bloc.add(LeaveRoomEvent());
         Navigator.pushNamed(context, AppRoutes.establishmentRoute, arguments:EstablishmentDTO(getUser));
         subscription.cancel();
       }
     });
-  }
+  }*/
 
   sendMessage(RoomBloc bloc){
 
@@ -78,21 +76,15 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
       focusNode.requestFocus();
     }
   }
-  void getPosition() async{
-    try{
-      bool active = await Geolocator.isLocationServiceEnabled();
-      if(!active){
-        Position position = await Geolocator.getCurrentPosition( desiredAccuracy: LocationAccuracy.best);
-        // developer.log('log latitude: ${position.latitude.toString()}');
-        getUser.setLatitude(position.latitude);
-        // developer.log('log longitude: ${position.longitude.toString()}');
-        getUser.setLongitude(position.longitude);
-    // getUser.setLatitude(-10.182642569502747);
-    // getUser.setLongitude(-48.36052358794835);
-      }
-    }catch(e){
-      error = e.toString();
-    }
+  Future<void> getPosition() async{
+
+    //Position position = await Geolocator.getCurrentPosition( desiredAccuracy: LocationAccuracy.best);
+    // developer.log('log latitude: ${position.latitude.toString()}');
+    //getUser.setLatitude(position.latitude);
+    //  developer.log('log longitude: ${position.longitude.toString()}');
+    //  getUser.setLongitude(position.longitude);
+     getUser.setLatitude(-10.186126159199715);
+     getUser.setLongitude(-48.32988348861608);
   }
   verifyParticipants(room, data) {
     for (dynamic participant in room.getParticipants) {
@@ -141,7 +133,7 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
   addMessages(message) {
     if(message.getTextMessage != messageText){
       messageText = message.getTextMessage;
-      userMessageText = message.getUser.getNickname;
+      // userMessageText = message.getUser.getNickname;
       getRoom.addMessages(message);
     }
 
@@ -157,7 +149,7 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
 
   bool isAcceptedLocation(room) {
     double result = distanceBetweenUserAndEstablishments(getUser,room.getLatitude,room.getLongitude);
-    if(result <= 0.5)
+    if(result <= 0.3)
       return true;
     else
       return false;
@@ -168,7 +160,6 @@ class RoomViewModel extends ChangeNotifier implements IRoomViewModel{
       await launchUrl(_url);
     else
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Não foi possivel abrir a página')));
-    /// Não è possível abrir a URL
   }
 
   void delayForForms(BuildContext context) async{

@@ -28,17 +28,27 @@ class _EstablishmentPageState extends State<EstablishmentPage> with SingleTicker
   late  TabController _tabController;
   late final RoomViewModel _roomViewModel;
   late final ParticipantViewModel _participantViewModel;
+  /*Future<void> getLocation() async{
+    try{
+      await _roomViewModel.getPosition();
+      _bloc.add(LoadingRoomsEvent());
+    }
+    catch (e){
 
+    }
+  }*/
   @override
   void initState() {
     super.initState();
     _scrollViewController = ScrollController(initialScrollOffset: 0.0);
     this._roomViewModel = RoomViewModel(user: this.widget.user,
-                                        room: Room.withoutParameters());
+        room: Room.withoutParameters());
 
     this._participantViewModel = ParticipantViewModel(user: this._roomViewModel.getUser,
-                                                      participant: Participant.withoutParameters());
+        participant: Participant.withoutParameters());
     _bloc = RoomBloc(roomViewModel: _roomViewModel);
+    //getLocation();
+    _roomViewModel.getPosition();
     _bloc.add(LoadingRoomsEvent());
     _tabController = TabController(vsync: this, length: 2);
     _roomViewModel.delayForForms(context);
@@ -81,17 +91,17 @@ class _EstablishmentPageState extends State<EstablishmentPage> with SingleTicker
               controller: _tabController, children: <Widget>[
             EstablishmentPageOneWidget(_roomViewModel, _participantViewModel, _bloc),
             EstablishmentPageTwoWidget()])),
-            // EstablishmentPageTwoWidget(this._roomViewModel, this._participantViewModel, this._bloc)])),
+      // EstablishmentPageTwoWidget(this._roomViewModel, this._participantViewModel, this._bloc)])),
       floatingActionButton: SizedBox(
           height: 30,
           width: 160,
           child: FloatingActionButton.extended( onPressed:(){
-                _roomViewModel.openURL(context);
-              },
-              label: Text("Ajude com sua opinião",
-                  style: GoogleFonts.inter(fontSize: 10.5, color: Colors.white)),
-              backgroundColor: AppColors.lightBrown,
-              // icon: Icon(Icons.map, size: 15, color: Colors.white)
+            _roomViewModel.openURL(context);
+          },
+            label: Text("Ajude com sua opinião",
+                style: GoogleFonts.inter(fontSize: 10.5, color: Colors.white)),
+            backgroundColor: AppColors.lightBrown,
+            // icon: Icon(Icons.map, size: 15, color: Colors.white)
           )),
     );
   }
