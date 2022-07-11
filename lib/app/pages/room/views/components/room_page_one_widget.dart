@@ -22,22 +22,15 @@ class _RoomPageOneWidgetState extends State<RoomPageOneWidget>{
   String userSendMessage = '';
   bool isAddPositionNameMessage = false;
   int nameMessageCount = 0;
-  late ScrollController scrollViewController;
-  double offset = 0.0;
-  @override
-  initState(){
-    super.initState();
-    scrollViewController = ScrollController(initialScrollOffset: 0.0);
-  }
+  late ScrollController scrollViewController = ScrollController(initialScrollOffset: 0.0);
+
   scroll(){
     Timer(Duration(microseconds: 50), (){
-      this.scrollViewController.jumpTo(
-          this.scrollViewController.position.maxScrollExtent
-      );
+      this.scrollViewController.jumpTo(this.scrollViewController.position.maxScrollExtent);
     });
   }
-  boxMessage(state, index, context) {
 
+  boxMessage(state, index, context) {
     if(state is ReceivePublicMessageState){
       if(!isAddPositionNameMessage &&
           widget.instance.getRoom.getMessages[index].getUser.getNickname != widget.instance.getUser.getNickname &&
