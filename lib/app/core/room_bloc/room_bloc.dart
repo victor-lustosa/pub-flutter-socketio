@@ -5,27 +5,26 @@ import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
-import '../../pages/participant/view_models/participant_view_model.dart';
-import '../../pages/room/models/bloc_events.dart';
-import '../../pages/room/models/data/data.dart';
-import '../../pages/room/models/data/message_data.dart';
-import '../../pages/room/models/data/public_room_data.dart';
-import '../../pages/room/models/data/rooms_data.dart';
-import '../../pages/room/view_models/room_view_model.dart';
+import '../../participant/view_models/participant_view_model.dart';
+import '../../room/models/bloc_events.dart';
+import '../../room/models/data/data.dart';
+import '../../room/models/data/message_data.dart';
+import '../../room/models/data/public_room_data.dart';
+import '../../room/models/data/rooms_data.dart';
+import '../../room/view_models/room_view_model.dart';
 import '../configs/app_routes.dart';
 
 part 'room_event.dart';
 part 'room_state.dart';
 
-class RoomBloc extends Bloc<RoomEvent,RoomState>{
-
+class RoomBloc extends Bloc<RoomEvent, RoomState> {
   late final Socket _socket;
   final RoomViewModel roomViewModel;
   late final ParticipantViewModel participantViewModel;
 
   RoomBloc({required this.roomViewModel}) : super(InitialState()) {
-
-    _socket = io(urlServer, OptionBuilder().setTransports(['websocket']).build());
+    _socket =
+        io(urlServer, OptionBuilder().setTransports(['websocket']).build());
     _socket.connect();
     _socket.onConnect((_) {});
     _socket.on('public_message', (data) => add(ReceiveMessageEvent(data)));
@@ -35,7 +34,7 @@ class RoomBloc extends Bloc<RoomEvent,RoomState>{
     _socket.on('initial_rooms', (data) => add(ReceiveMessageEvent(data)));
     _socket.onDisconnect((_) => {});
 
-    on<InitialRoomEvent>((event, emit) async{
+    on<InitialRoomEvent>((event, emit) async {
       _socket.emit('enter_public_room', {
         'roomName': this.roomViewModel.getRoom.getRoomName,
         'idRoom': this.roomViewModel.getRoom.getIdRoom,
@@ -43,21 +42,19 @@ class RoomBloc extends Bloc<RoomEvent,RoomState>{
       });
     });
 
-    on<LoadingRoomsEvent>((event, emit) async{
+    on<LoadingRoomsEvent>((event, emit) async {
       _socket.emit('initial_rooms', {
         'latitude': roomViewModel.getUser.getLatitude,
         'longitude': roomViewModel.getUser.getLongitude
       });
     });
 
-    on<SendMessageEvent>((event, emit) async{
-      _socket.emit('public_message',{
-        'message': event.message
-      });
+    on<SendMessageEvent>((event, emit) async {
+      _socket.emit('public_message', {'message': event.message});
       emit(SendMessageState());
     });
 
-    on<LeaveRoomEvent>((event, emit) async{
+    on<LeaveRoomEvent>((event, emit) async {
       _socket.emit('leave_public_room', {
         'roomName': this.roomViewModel.getRoom.getRoomName,
         'idRoom': this.roomViewModel.getRoom.getIdRoom,
@@ -65,9 +62,8 @@ class RoomBloc extends Bloc<RoomEvent,RoomState>{
       });
     });
 
-
-    on<SendPrivateMessageEvent>((event, emit) async{
-      _socket.emit('private_message',{
+    on<SendPrivateMessageEvent>((event, emit) async {
+      _socket.emit('private_message', {
         'idSender': this.roomViewModel.getUser.getIdUser,
         'idReceiver': this.participantViewModel.getParticipant.getIdUser,
         'message': event.message
@@ -75,7 +71,7 @@ class RoomBloc extends Bloc<RoomEvent,RoomState>{
       emit(SendPrivateMessageState());
     });
 
-    on<DisconnectEvent>((event, emit) async{
+    on<DisconnectEvent>((event, emit) async {
       _socket.emit('disconnect_user', {
         'roomName': this.roomViewModel.getRoom.getRoomName,
         'idRoom': this.roomViewModel.getRoom.getIdRoom,
@@ -84,26 +80,36 @@ class RoomBloc extends Bloc<RoomEvent,RoomState>{
       _socket.disconnect();
     });
 
-    on<ReceiveMessageEvent>((event, emit) async{
-
+    on<ReceiveMessageEvent>((event, emit) async {
       Data data = Data.fromMap(event.message);
 
-      switch(data.type){
+      switch (data.type) {
         case BlocEventType.update_rooms:
-          return emit(SuccessRoomsState(message:RoomsData.fromMap(event.message),roomViewModel: roomViewModel));
+          return emit(SuccessRoomsState(
+              message: RoomsData.fromMap(event.message),
+              roomViewModel: roomViewModel));
         case BlocEventType.enter_public_room:
-          return emit(EnterPublicRoomMessageState(message:PublicRoomData.fromMap(event.message),roomViewModel: roomViewModel));
+          return emit(EnterPublicRoomMessageState(
+              message: PublicRoomData.fromMap(event.message),
+              roomViewModel: roomViewModel));
         case BlocEventType.leave_public_room:
-          return emit(LeavePublicRoomMessageState(message:PublicRoomData.fromMap(event.message),roomViewModel: roomViewModel));
+          return emit(LeavePublicRoomMessageState(
+              message: PublicRoomData.fromMap(event.message),
+              roomViewModel: roomViewModel));
         case BlocEventType.receive_public_message:
-          return emit(ReceivePublicMessageState(message:MessageData.fromMap(event.message),roomViewModel: roomViewModel));
-          case BlocEventType.receive_private_message:
-          return emit(ReceivePrivateMessageState(message:MessageData.fromMap(event.message),participantViewModel: participantViewModel));
+          return emit(ReceivePublicMessageState(
+              message: MessageData.fromMap(event.message),
+              roomViewModel: roomViewModel));
+        case BlocEventType.receive_private_message:
+          return emit(ReceivePrivateMessageState(
+              message: MessageData.fromMap(event.message),
+              participantViewModel: participantViewModel));
         default:
           break;
-      }});
+      }
+    });
 
-    on<DontBuildEvent>((event, emit) async{
+    on<DontBuildEvent>((event, emit) async {
       emit(DontBuildState());
     });
   }
@@ -114,5 +120,3 @@ class RoomBloc extends Bloc<RoomEvent,RoomState>{
     return super.close();
   }
 }
-
-
