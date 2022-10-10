@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:pub/app/core/room_bloc/room_bloc.dart';
+import 'package:pub/app/room/blocs/room_bloc.dart';
 import 'package:pub/app/participant/view_models/participant_view_model.dart';
 import 'package:pub/app/room/views/components/room_page_one_widget.dart';
 import '../../core/configs/app_colors.dart';

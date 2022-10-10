@@ -7,7 +7,7 @@ import 'package:pub/app/user/models/user.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/configs/app_routes.dart';
-import '../../core/room_bloc/room_bloc.dart';
+import '../../room/blocs/room_bloc.dart';
 import '../../establishment/models/dto/establishment_dto.dart';
 import '../models/bloc_events.dart';
 import '../models/data/message_data.dart';

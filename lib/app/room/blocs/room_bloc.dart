@@ -12,7 +12,7 @@ import '../../room/models/data/message_data.dart';
 import '../../room/models/data/public_room_data.dart';
 import '../../room/models/data/rooms_data.dart';
 import '../../room/view_models/room_view_model.dart';
-import '../configs/app_routes.dart';
+import '../../core/configs/app_routes.dart';
 
 part 'room_event.dart';
 part 'room_state.dart';

@@ -1,4 +1,4 @@
-import 'package:pub/app/core/room_bloc/room_bloc.dart';
+import 'package:pub/app/room/blocs/room_bloc.dart';
 import 'package:pub/app/room/view_models/room_view_model.dart';
 
 import '../../../participant/view_models/participant_view_model.dart';

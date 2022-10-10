@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pub/app/room/view_models/room_view_model.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../core/configs/app_colors.dart';
-import '../../../core/room_bloc/room_bloc.dart';
+import '../../../room/blocs/room_bloc.dart';
 import '../../models/bloc_events.dart';
 
 class RoomPageOneWidget extends StatefulWidget {

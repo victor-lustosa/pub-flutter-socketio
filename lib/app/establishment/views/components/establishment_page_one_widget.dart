@@ -7,7 +7,7 @@ import 'package:pub/app/participant/view_models/participant_view_model.dart';
 import '../../../core/configs/app_colors.dart';
 import '../../../core/configs/app_images.dart';
 import '../../../core/configs/app_routes.dart';
-import '../../../core/room_bloc/room_bloc.dart';
+import '../../../room/blocs/room_bloc.dart';
 import '../../../room/models/dto/room_dto.dart';
 import '../../../room/view_models/room_view_model.dart';
 import 'package:google_fonts/google_fonts.dart';

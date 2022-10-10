@@ -4,7 +4,7 @@ import 'package:pub/app/core/configs/app_colors.dart';
 import 'package:pub/app/room/view_models/room_view_model.dart';
 import 'package:pub/app/user/models/user.dart';
 
-import '../../core/room_bloc/room_bloc.dart';
+import '../../room/blocs/room_bloc.dart';
 import '../../participant/models/participant.dart';
 import '../../participant/view_models/participant_view_model.dart';
 import '../../room/models/room.dart';

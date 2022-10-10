@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pub/app/core/configs/app_colors.dart';
 
-import '../../../core/room_bloc/room_bloc.dart';
+import '../../../room/blocs/room_bloc.dart';
 import '../../view_models/room_view_model.dart';
 
 class RoomBarWidget extends StatefulWidget {
