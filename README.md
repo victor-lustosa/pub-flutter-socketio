@@ -1,16 +1,19 @@
 # pub
+Projeto utilizado para validação do caso de uso apresentado no meu TCC (Trabalho de Conclusão de Curso). Se trata de um sistema para criação de salas virtuais baseadas na geolocalização de usuários, permitindo chats públicos e privados de participantes que estão no mesmo ambiente, em um raio delimitado em metros.
 
-A new Flutter project.
+## Documentação do Projeto
+### Pacotes e plugins usados no projeto
 
-## Getting Started
+- Gerências de Estado: Bloc Pattern
+- Injeção de Dependência: Provider
+- Protocolo de comunicação: Socket.io utilizando backend Node.js
+- Armazenamento local: SharedPreferences
+- Biblioteca de Geolocalização: geolocator
 
-This project is a starting point for a Flutter application.
+### Google Drive
 
-A few resources to get you started if this is your first Flutter project:
+- [Documentação - Google Drive]([https://drive.google.com/drive/folders/1Y2QXSlbpG7vM_25PIm0d01idwQ5acI-7?usp=sharing])
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+### Prototipação
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- [Prototipação do Projeto - Figma]([https://www.figma.com/file/rPkutIqD1z7Q24i4FwAyav/pub-0.0.6?type=design&node-id=61194-135&t=3AqfUB7HipM1kn2C-0])
